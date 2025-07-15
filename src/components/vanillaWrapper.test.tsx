@@ -27,13 +27,23 @@ describe("VanillaWrapper", () => {
   it("renders with different variants", () => {
     const mockInitiator = vi.fn();
     const { rerender } = render(
-      <VanillaWrapper variant="code" initiator={mockInitiator} />
+      <VanillaWrapper
+        title="Test Component"
+        variant="code"
+        initiator={mockInitiator}
+      />
     );
 
     let wrapper = screen.getByText("Test Component. Vanilla").closest("div");
     expect(wrapper).toHaveClass("font-mono");
 
-    rerender(<VanillaWrapper variant="demo" initiator={mockInitiator} />);
+    rerender(
+      <VanillaWrapper
+        title="Test Component"
+        variant="demo"
+        initiator={mockInitiator}
+      />
+    );
 
     wrapper = screen.getByText("Test Component. Vanilla").closest("div");
     expect(wrapper).toHaveClass("border-dashed");
