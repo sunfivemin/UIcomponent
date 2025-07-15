@@ -25,14 +25,15 @@
       "@routes": ["./src/routes.ts"],
       "@lib/*": ["./src/lib/*"]
     },
-    "types": ["vitest/globals", "@testing-library/jest-dom"]
+    "types": ["vitest/globals", "@testing-library/jest-dom", "node"]
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "vitest.config.ts"
+    "vitest.config.ts",
+    "src/test/setup.ts"
   ],
   "exclude": ["node_modules"]
 }
