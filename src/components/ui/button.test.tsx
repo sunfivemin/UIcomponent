@@ -1,37 +1,34 @@
+import React from "react";
 import { render, screen } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { Button } from "./button";
 
 describe("Button", () => {
-  it("renders with default props", () => {
+  it("renders without crashing", () => {
     render(<Button>Click me</Button>);
-    const button = screen.getByRole("button", { name: /click me/i });
-    expect(button).toBeInTheDocument();
+    expect(screen.getByText("Click me")).toBeInTheDocument();
   });
 
-  it("renders with different variants", () => {
-    const { rerender } = render(<Button variant="destructive">Delete</Button>);
-    let button = screen.getByRole("button", { name: /delete/i });
-    expect(button).toHaveClass("bg-destructive");
+  it("applies variant classes correctly", () => {
+    const { rerender } = render(<Button variant="default">Default</Button>);
+    expect(screen.getByText("Default")).toHaveClass("bg-primary");
 
-    rerender(<Button variant="outline">Outline</Button>);
-    button = screen.getByRole("button", { name: /outline/i });
-    expect(button).toHaveClass("border");
+    rerender(<Button variant="secondary">Secondary</Button>);
+    expect(screen.getByText("Secondary")).toHaveClass("bg-secondary");
   });
 
-  it("renders with different sizes", () => {
+  it("applies size classes correctly", () => {
     const { rerender } = render(<Button size="sm">Small</Button>);
-    let button = screen.getByRole("button", { name: /small/i });
-    expect(button).toHaveClass("h-9");
+    expect(screen.getByText("Small")).toHaveClass("h-9");
 
     rerender(<Button size="lg">Large</Button>);
-    button = screen.getByRole("button", { name: /large/i });
-    expect(button).toHaveClass("h-11");
+    expect(screen.getByText("Large")).toHaveClass("h-11");
   });
 
-  it("applies custom className", () => {
-    render(<Button className="custom-class">Custom</Button>);
-    const button = screen.getByRole("button", { name: /custom/i });
-    expect(button).toHaveClass("custom-class");
+  it("handles click events", () => {
+    const handleClick = vi.fn();
+    render(<Button onClick={handleClick}>Click me</Button>);
+    screen.getByText("Click me").click();
+    expect(handleClick).toHaveBeenCalledTimes(1);
   });
 });

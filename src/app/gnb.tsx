@@ -1,14 +1,15 @@
 "use client";
 
+import React from "react";
 import {
   ChildRoute,
   ParentRoute,
   ROUTE_PATH,
+  ROUTE,
   gnbRootList,
   isParentRoute,
   routes,
-} from "@/routes";
-import { ROUTE } from "../routes";
+} from "../routes";
 import Link from "next/link";
 import classNames from "classnames";
 import { useParams } from "next/navigation";
@@ -35,6 +36,7 @@ const ParentGnbItem = ({
     </li>
   );
 };
+
 const ChildGnbItem = ({
   route: { name, link, children },
   currentPath,
