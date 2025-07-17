@@ -1,106 +1,134 @@
-'use client';
-import { useState } from 'react';
-import { Tab, Content, Item } from './components';
-import { AccordionProps } from './types';
-import * as styles from './accordion.css';
+"use client";
+import { useState, useMemo, useCallback, memo } from "react";
+import { Tab, Content, Item, ToggleIcon } from "./components";
+import { AccordionProps } from "./types";
+import * as styles from "./accordion.css";
 
-const Accordion = ({
-  items,
-  defaultOpenId = null,
-  multiple = false,
-  searchable = false,
-  animated = true,
-  className = '',
-  onChange,
-}: AccordionProps) => {
-  const [openItems, setOpenItems] = useState<string[]>(
-    defaultOpenId ? [defaultOpenId] : []
-  );
+// 🚀 성능 최적화된 Accordion 컴포넌트
+const Accordion = memo(
+  ({
+    items,
+    defaultOpenId = null,
+    multiple = false,
+    searchable = false,
+    animated = true,
+    className = "",
+    onChange,
+  }: AccordionProps) => {
+    const [openItems, setOpenItems] = useState<string[]>(
+      defaultOpenId ? [defaultOpenId] : []
+    );
 
-  const toggleItem = (id: string) => {
-    const newOpenItems = multiple
-      ? openItems.includes(id)
-        ? openItems.filter(item => item !== id)
-        : [...openItems, id]
-      : openItems.includes(id)
-      ? []
-      : [id];
+    // 🚀 메모이제이션된 토글 함수
+    const toggleItem = useCallback(
+      (id: string) => {
+        setOpenItems((prevOpenItems) => {
+          const newOpenItems = multiple
+            ? prevOpenItems.includes(id)
+              ? prevOpenItems.filter((item) => item !== id)
+              : [...prevOpenItems, id]
+            : prevOpenItems.includes(id)
+            ? []
+            : [id];
 
-    setOpenItems(newOpenItems);
-    onChange?.(newOpenItems);
-  };
+          // 🚀 onChange 콜백 최적화
+          if (onChange) {
+            // 다음 틱에서 실행하여 상태 업데이트 완료 후 호출
+            setTimeout(() => onChange(newOpenItems), 0);
+          }
 
-  const isItemOpen = (id: string) => openItems.includes(id);
+          return newOpenItems;
+        });
+      },
+      [multiple, onChange]
+    );
 
-  const getDisplayType = (id: string) => {
-    if (!animated) {
-      return isItemOpen(id) ? 'visible' : 'hidden';
-    }
-    return isItemOpen(id) ? 'animatedOpen' : 'animated';
-  };
+    // 🚀 메모이제이션된 아이템 열림 상태 체크
+    const isItemOpen = useCallback(
+      (id: string) => {
+        return openItems.includes(id);
+      },
+      [openItems]
+    );
 
-  return (
-    <div className={`${styles.themeClass} ${className}`}>
-      <ul className={styles.container}>
-        {items.map(item => (
-          <Item key={item.id} type={animated ? 'animated' : 'default'}>
-            <Tab
-              isActive={isItemOpen(item.id)}
-              onClick={() => toggleItem(item.id)}
-            >
-              <span>{item.title}</span>
-              <span
-                style={{
-                  fontSize: '14px',
-                  fontWeight: 'bold',
-                  minWidth: '20px',
-                  height: '20px',
-                  borderRadius: '50%',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: isItemOpen(item.id)
-                    ? 'rgba(255, 255, 255, 0.2)'
-                    : '#f1f5f9',
-                  color: isItemOpen(item.id) ? '#ffffff' : '#6b7280',
-                  transition: 'all 0.15s ease-out',
-                  transform: isItemOpen(item.id)
-                    ? 'rotate(180deg)'
-                    : 'rotate(0deg)',
-                }}
-              >
-                {isItemOpen(item.id) ? '−' : '+'}
-              </span>
-            </Tab>
+    // 🚀 메모이제이션된 디스플레이 타입 계산
+    const getDisplayType = useCallback(
+      (id: string) => {
+        if (!animated) {
+          return isItemOpen(id) ? "visible" : "hidden";
+        }
+        return isItemOpen(id) ? "animatedOpen" : "animated";
+      },
+      [animated, isItemOpen]
+    );
 
-            <Content
-              display={getDisplayType(item.id)}
-              isVisible={isItemOpen(item.id)}
-            >
-              {item.description}
-            </Content>
-          </Item>
-        ))}
-      </ul>
-    </div>
-  );
-};
+    // 🚀 메모이제이션된 아이템 렌더링
+    const renderedItems = useMemo(() => {
+      return items.map((item) => (
+        <Item key={item.id} type={animated ? "animated" : "default"}>
+          <Tab
+            isActive={isItemOpen(item.id)}
+            onClick={() => toggleItem(item.id)}
+          >
+            <span>{item.title}</span>
+            <ToggleIcon isActive={isItemOpen(item.id)} />
+          </Tab>
 
-// 🎯 사전 정의된 아코디언 변형들
-export const SimpleAccordion = (
-  props: Omit<AccordionProps, 'multiple' | 'animated'>
-) => <Accordion {...props} multiple={false} animated={false} />;
+          <Content
+            display={getDisplayType(item.id)}
+            isVisible={isItemOpen(item.id)}
+          >
+            {item.description}
+          </Content>
+        </Item>
+      ));
+    }, [items, animated, isItemOpen, toggleItem, getDisplayType]);
 
-export const AnimatedAccordion = (props: Omit<AccordionProps, 'animated'>) => (
-  <Accordion {...props} animated={true} />
+    // 🚀 메모이제이션된 컨테이너 클래스
+    const containerClassName = useMemo(() => {
+      return `${styles.themeClass} ${className}`.trim();
+    }, [className]);
+
+    return (
+      <div className={containerClassName}>
+        <ul className={styles.container}>{renderedItems}</ul>
+      </div>
+    );
+  }
 );
 
-export const MultipleAccordion = (props: Omit<AccordionProps, 'multiple'>) => (
-  <Accordion {...props} multiple={true} />
+// 🚀 디스플레이 네임 설정 (디버깅용)
+Accordion.displayName = "Accordion";
+
+// 🎯 사전 정의된 아코디언 변형들 (메모이제이션)
+export const SimpleAccordion = memo(
+  (props: Omit<AccordionProps, "multiple" | "animated">) => (
+    <Accordion {...props} multiple={false} animated={false} />
+  )
 );
 
-export const SearchableAccordion = (
-  props: Omit<AccordionProps, 'searchable'>
-) => <Accordion {...props} searchable={true} />;
+export const AnimatedAccordion = memo(
+  (props: Omit<AccordionProps, "animated">) => (
+    <Accordion {...props} animated={true} />
+  )
+);
+
+export const MultipleAccordion = memo(
+  (props: Omit<AccordionProps, "multiple">) => (
+    <Accordion {...props} multiple={true} />
+  )
+);
+
+export const SearchableAccordion = memo(
+  (props: Omit<AccordionProps, "searchable">) => (
+    <Accordion {...props} searchable={true} />
+  )
+);
+
+// 🚀 디스플레이 네임 설정
+SimpleAccordion.displayName = "SimpleAccordion";
+AnimatedAccordion.displayName = "AnimatedAccordion";
+MultipleAccordion.displayName = "MultipleAccordion";
+SearchableAccordion.displayName = "SearchableAccordion";
 
 export default Accordion;

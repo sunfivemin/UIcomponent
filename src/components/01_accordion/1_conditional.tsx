@@ -1,41 +1,38 @@
 // src/components/01_accordion/1_conditional.tsx
-'use client';
-import { useState } from 'react';
-import { Tab, Content, Item } from './components';
-import { accordionData } from './data';
-import * as styles from './accordion.css';
+"use client";
+import { memo, useMemo } from "react";
+import Accordion from "./Accordion";
+import { accordionData } from "./data";
+import * as styles from "./accordion.css";
 
-const Accordion1 = () => {
-  const [currentId, setCurrentId] = useState<string | null>(
-    accordionData[0].id
-  );
-
-  const toggleItem = (id: string) => {
-    setCurrentId(prev => (prev === id ? null : id));
-  };
+// 🚀 성능 최적화된 조건부 렌더링 예제
+const ConditionalAccordion = memo(() => {
+  // 🚀 메모이제이션된 데이터
+  const memoizedData = useMemo(() => accordionData, []);
 
   return (
     <div className={styles.section}>
-      <h3 className={styles.sectionTitle}>
-        #1. React + CVA <sub>조건부 렌더링 (DOM 추가/제거)</sub>
-      </h3>
-      <ul className={`${styles.container} ${styles.themeClass}`}>
-        {accordionData.map(item => (
-          <Item key={item.id} type="default">
-            <Tab
-              isActive={currentId === item.id}
-              onClick={() => toggleItem(item.id)}
-            >
-              {item.title}
-            </Tab>
-            <Content display="conditional" isVisible={currentId === item.id}>
-              {item.description}
-            </Content>
-          </Item>
-        ))}
-      </ul>
+      <h2 className={styles.sectionTitle}>
+        🎯 조건부 렌더링 (Conditional Rendering)
+      </h2>
+      <p style={{ marginBottom: "1rem", color: "#64748b" }}>
+        아이템이 열릴 때만 DOM에 렌더링됩니다. 메모리 효율적이지만 애니메이션이
+        제한적입니다.
+      </p>
+
+      <Accordion
+        items={memoizedData}
+        defaultOpenId="item-1"
+        animated={false}
+        onChange={(openItems) => {
+          console.log("열린 아이템:", openItems);
+        }}
+      />
     </div>
   );
-};
+});
 
-export default Accordion1;
+// 🚀 디스플레이 네임 설정
+ConditionalAccordion.displayName = "ConditionalAccordion";
+
+export default ConditionalAccordion;

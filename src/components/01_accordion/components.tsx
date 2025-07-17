@@ -1,62 +1,104 @@
 // src/components/01_accordion/components.tsx
-import React from 'react';
-import { tabVariants, contentVariants, itemVariants, toggleIconVariants } from './variants';
-import { TabProps, ContentProps, ItemProps, ToggleIconProps } from './types';
+import { memo } from "react";
+import * as styles from "./accordion.css";
 
-export const Tab = ({
-  children,
-  onClick,
-  isActive,
-  state,
-  className,
-  ...props
-}: TabProps) => {
-  return (
-    <div
-      className={`${tabVariants({ state: isActive ? 'active' : 'default' })} ${
-        className || ''
-      }`}
-      onClick={onClick}
-      role="button"
-      tabIndex={0}
-      aria-expanded={isActive}
-      onKeyDown={e => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          onClick();
-        }
-      }}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-};
+// 🚀 성능 최적화된 Tab 컴포넌트
+export const Tab = memo(
+  ({
+    children,
+    isActive = false,
+    onClick,
+    className = "",
+  }: {
+    children: React.ReactNode;
+    isActive?: boolean;
+    onClick?: () => void;
+    className?: string;
+  }) => {
+    const tabClassName = `${styles.tabBase} ${
+      styles.tabVariants[isActive ? "active" : "default"]
+    } ${className}`.trim();
 
-export const Content = ({
-  children,
-  display,
-  isVisible = true,
-  className,
-  ...props
-}: ContentProps) => {
-  if (display === 'conditional' && !isVisible) return null;
+    return (
+      <li className={tabClassName} onClick={onClick}>
+        {children}
+      </li>
+    );
+  }
+);
 
-  return (
-    <div
-      className={`${contentVariants({ display })} ${className || ''}`}
-      role="region"
-      {...props}
-    >
-      {children}
-    </div>
-  );
-};
+// 🚀 성능 최적화된 Content 컴포넌트
+export const Content = memo(
+  ({
+    children,
+    display = "conditional",
+    isVisible = false,
+    className = "",
+  }: {
+    children: React.ReactNode;
+    display?:
+      | "conditional"
+      | "hidden"
+      | "visible"
+      | "animated"
+      | "animatedOpen";
+    isVisible?: boolean;
+    className?: string;
+  }) => {
+    // 🚀 조건부 렌더링 최적화
+    if (display === "conditional" && !isVisible) {
+      return null;
+    }
 
-export const Item = ({ children, type, className, ...props }: ItemProps) => {
-  return (
-    <li className={`${itemVariants({ type })} ${className || ''}`} {...props}>
-      {children}
-    </li>
-  );
-};
+    const contentClassName =
+      `${styles.contentBase} ${styles.contentVariants[display]} ${className}`.trim();
+
+    return <div className={contentClassName}>{children}</div>;
+  }
+);
+
+// 🚀 성능 최적화된 Item 컴포넌트
+export const Item = memo(
+  ({
+    children,
+    type = "default",
+    className = "",
+    style,
+  }: {
+    children: React.ReactNode;
+    type?: "default" | "animated";
+    className?: string;
+    style?: React.CSSProperties;
+  }) => {
+    const itemClassName = `${styles.itemVariants[type]} ${className}`.trim();
+
+    return (
+      <li className={itemClassName} style={style}>
+        {children}
+      </li>
+    );
+  }
+);
+
+// 🚀 성능 최적화된 ToggleIcon 컴포넌트
+export const ToggleIcon = memo(
+  ({
+    isActive = false,
+    className = "",
+  }: {
+    isActive?: boolean;
+    className?: string;
+  }) => {
+    const iconClassName = `${styles.toggleIcon} ${
+      styles.toggleIconVariants[isActive ? "active" : "inactive"]
+    } ${className}`.trim();
+
+    return <span className={iconClassName}>{isActive ? "−" : "+"}</span>;
+  }
+);
+
+// 🚀 디스플레이 네임 설정 (디버깅용)
+Tab.displayName = "Tab";
+Content.displayName = "Content";
+Item.displayName = "Item";
+ToggleIcon.displayName = "ToggleIcon";

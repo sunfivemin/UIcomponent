@@ -1,13 +1,6 @@
 import * as React from "react";
 import AccordionCollection from "@/components/01_accordion/index";
-import TabMenu from "@/components/02_tabMenu/TabMenu";
-import Tooltip from "@/components/03_tooltip/Tooltip";
-import TextBox from "@/components/04_textBox/TextBox";
-import LineClamp from "@/components/05_lineClamp/LineClamp";
-import LazyLoading from "@/components/06_lazyLoading/LazyLoading";
-import InfiniteScroll from "@/components/07_infiniteScroll/InfiniteScroll";
 import Placeholder from "@/components/08_scrollBox/Placeholder";
-import Chart from "@/components/10_chart/Chart";
 
 export const routePaths = [
   "/",
@@ -83,37 +76,40 @@ export const routes: Record<ROUTE_PATH, ROUTE> = {
     key: "/tabMenu",
     link: "/tabMenu",
     name: "02. 탭메뉴",
-    children: TabMenu,
+    children: () => React.createElement(Placeholder, { name: "02. 탭메뉴" }),
   },
   "/tooltip": {
     key: "/tooltip",
     link: "/tooltip",
     name: "03. 툴팁",
-    children: Tooltip,
+    children: () => React.createElement(Placeholder, { name: "03. 툴팁" }),
   },
   "/textBox": {
     key: "/textBox",
     link: "/textBox",
     name: "04. 반응형 텍스트박스",
-    children: TextBox,
+    children: () =>
+      React.createElement(Placeholder, { name: "04. 반응형 텍스트박스" }),
   },
   "/lineClamp": {
     key: "/lineClamp",
     link: "/lineClamp",
     name: "05. 여러줄 말줄임",
-    children: LineClamp,
+    children: () =>
+      React.createElement(Placeholder, { name: "05. 여러줄 말줄임" }),
   },
   "/lazyLoading": {
     key: "/lazyLoading",
     link: "/lazyLoading",
     name: "06. 지연 로딩",
-    children: LazyLoading,
+    children: () => React.createElement(Placeholder, { name: "06. 지연 로딩" }),
   },
   "/infiniteScroll": {
     key: "/infiniteScroll",
     link: "/infiniteScroll",
     name: "07. 무한 스크롤",
-    children: InfiniteScroll,
+    children: () =>
+      React.createElement(Placeholder, { name: "07. 무한 스크롤" }),
   },
   "/scrollBox": {
     key: "/scrollBox",
@@ -190,7 +186,7 @@ export const routes: Record<ROUTE_PATH, ROUTE> = {
     key: "/chart",
     link: "/chart",
     name: "19. 차트",
-    children: Chart,
+    children: () => React.createElement(Placeholder, { name: "19. 차트" }),
   },
 };
 

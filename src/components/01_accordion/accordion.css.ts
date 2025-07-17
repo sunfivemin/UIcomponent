@@ -73,7 +73,7 @@ export const [themeClass, vars] = createTheme({
   },
 });
 
-// 📦 기본 컨테이너 스타일
+// 📦 기본 컨테이너 스타일 (성능 최적화)
 export const container = style({
   border: `1px solid ${vars.color.border.light}`,
   borderRadius: vars.radius.lg,
@@ -85,9 +85,13 @@ export const container = style({
   boxShadow: vars.shadow.md,
   backgroundColor: vars.color.background.content,
   backdropFilter: "blur(10px)",
+  // 🚀 성능 최적화
+  willChange: "auto",
+  transform: "translateZ(0)", // GPU 가속 활성화
+  contain: "layout style paint", // 레이아웃 격리
 });
 
-// 🎯 탭 버튼 기본 스타일
+// 🎯 탭 버튼 기본 스타일 (성능 최적화)
 export const tabBase = style({
   padding: `${vars.space.md} ${vars.space.lg}`,
   borderBottom: `1px solid ${vars.color.border.light}`,
@@ -102,15 +106,19 @@ export const tabBase = style({
   fontSize: "1rem",
   fontWeight: "500",
   color: vars.color.text.primary,
+  // 🚀 성능 최적화
+  willChange: "transform, background-color",
+  transform: "translateZ(0)", // GPU 가속 활성화
+  backfaceVisibility: "hidden", // 3D 렌더링 최적화
 
   ":hover": {
     background: vars.color.background.tabHover,
-    transform: "translateY(-1px)",
+    transform: "translate3d(0, -1px, 0)", // GPU 가속 transform
     boxShadow: vars.shadow.sm,
   },
 
   ":active": {
-    transform: "translateY(0)",
+    transform: "translate3d(0, 0, 0)", // GPU 가속 transform
   },
 
   selectors: {
@@ -123,6 +131,7 @@ export const tabBase = style({
       width: "4px",
       background: "transparent",
       transition: `background ${vars.transition.normal}`,
+      willChange: "background-color",
     },
     "&:hover::before": {
       background: vars.color.primary[400],
@@ -146,7 +155,7 @@ export const tabVariants = styleVariants({
 
     ":hover": {
       background: vars.color.background.tabActive,
-      transform: "none",
+      transform: "translate3d(0, 0, 0)", // GPU 가속 transform
       boxShadow: "none",
     },
   },
@@ -157,15 +166,20 @@ export const contentBase = style({
   backgroundColor: vars.color.background.content,
   borderBottom: `1px solid ${vars.color.border.light}`,
   position: "relative",
+  // 🚀 성능 최적화
+  willChange: "auto",
+  transform: "translateZ(0)", // GPU 가속 활성화
 });
 
-// 📝 콘텐츠 표시 방식별 variants
+// 📝 콘텐츠 표시 방식별 variants (성능 최적화)
 export const contentVariants = styleVariants({
   // #1: 조건부 렌더링 (기본)
   conditional: {
     padding: `${vars.space.lg} ${vars.space.xl}`,
     lineHeight: "1.7",
     color: vars.color.text.secondary,
+    // 🚀 성능 최적화
+    contain: "layout style paint",
   },
 
   // #2: CSS display
@@ -181,9 +195,11 @@ export const contentVariants = styleVariants({
     display: "block",
     lineHeight: "1.7",
     color: vars.color.text.secondary,
+    // 🚀 성능 최적화
+    contain: "layout style paint",
   },
 
-  // #3: CSS 애니메이션
+  // #3: CSS 애니메이션 (성능 최적화)
   animated: {
     padding: `0 ${vars.space.xl}`,
     borderBottomWidth: "0",
@@ -191,7 +207,12 @@ export const contentVariants = styleVariants({
     overflow: "hidden",
     transition: `all ${vars.transition.slow}`,
     opacity: "0",
-    transform: "translateY(-10px)",
+    transform: "translate3d(0, -10px, 0)", // GPU 가속 transform
+    willChange: "transform, opacity, max-height, padding",
+    transformOrigin: "top",
+    // 🚀 성능 최적화
+    contain: "layout style paint",
+    backfaceVisibility: "hidden",
   },
 
   animatedOpen: {
@@ -199,31 +220,47 @@ export const contentVariants = styleVariants({
     borderBottomWidth: "1px",
     maxHeight: "500px",
     opacity: "1",
-    transform: "translateY(0)",
+    transform: "translate3d(0, 0, 0)", // GPU 가속 transform
     lineHeight: "1.7",
     color: vars.color.text.secondary,
+    willChange: "transform, opacity, max-height, padding",
+    transformOrigin: "top",
+    // 🚀 성능 최적화
+    contain: "layout style paint",
+    backfaceVisibility: "hidden",
   },
 });
 
-// 🏷️ 리스트 아이템 variants
+// 🏷️ 리스트 아이템 variants (성능 최적화)
 export const itemVariants = styleVariants({
-  default: {},
+  default: {
+    // 🚀 성능 최적화
+    contain: "layout style paint",
+  },
   animated: {
     overflow: "hidden",
+    // 🚀 성능 최적화
+    contain: "layout style paint",
+    willChange: "auto",
   },
 });
 
-// 📊 메인 페이지 스타일
+// 📊 메인 페이지 스타일 (성능 최적화)
 export const pageContainer = style({
   minHeight: "100vh",
   background: vars.color.background.page,
   padding: `${vars.space.xl} ${vars.space.md}`,
+  // 🚀 성능 최적화
+  willChange: "auto",
+  transform: "translateZ(0)", // GPU 가속 활성화
 });
 
 export const pageHeader = style({
   textAlign: "center",
   marginBottom: vars.space["2xl"],
   padding: `${vars.space.xl} 0`,
+  // 🚀 성능 최적화
+  contain: "layout style paint",
 });
 
 export const pageTitle = style({
@@ -235,6 +272,8 @@ export const pageTitle = style({
   WebkitTextFillColor: "transparent",
   marginBottom: vars.space.md,
   letterSpacing: "-0.025em",
+  // 🚀 성능 최적화
+  willChange: "auto",
 });
 
 export const pageSubtitle = style({
@@ -244,6 +283,8 @@ export const pageSubtitle = style({
   maxWidth: "600px",
   margin: "0 auto",
   lineHeight: "1.6",
+  // 🚀 성능 최적화
+  contain: "layout style paint",
 });
 
 export const section = style({
@@ -254,6 +295,10 @@ export const section = style({
   boxShadow: vars.shadow.lg,
   backdropFilter: "blur(10px)",
   border: `1px solid rgba(255, 255, 255, 0.2)`,
+  // 🚀 성능 최적화
+  willChange: "auto",
+  transform: "translateZ(0)", // GPU 가속 활성화
+  contain: "layout style paint",
 });
 
 export const sectionTitle = style({
@@ -264,6 +309,8 @@ export const sectionTitle = style({
   display: "flex",
   alignItems: "center",
   gap: vars.space.sm,
+  // 🚀 성능 최적화
+  contain: "layout style paint",
 
   selectors: {
     "&::before": {
@@ -272,6 +319,7 @@ export const sectionTitle = style({
       height: "24px",
       background: `linear-gradient(135deg, ${vars.color.primary[500]} 0%, ${vars.color.primary[700]} 100%)`,
       borderRadius: vars.radius.sm,
+      willChange: "auto",
     },
   },
 });
@@ -283,6 +331,10 @@ export const summary = style({
   borderRadius: vars.radius.xl,
   border: `1px solid ${vars.color.border.light}`,
   boxShadow: vars.shadow.md,
+  // 🚀 성능 최적화
+  willChange: "auto",
+  transform: "translateZ(0)", // GPU 가속 활성화
+  contain: "layout style paint",
 });
 
 export const summaryTitle = style({
@@ -293,11 +345,14 @@ export const summaryTitle = style({
   display: "flex",
   alignItems: "center",
   gap: vars.space.sm,
+  // 🚀 성능 최적화
+  contain: "layout style paint",
 
   selectors: {
     "&::before": {
       content: "🔍",
       fontSize: "1.25rem",
+      willChange: "auto",
     },
   },
 });
@@ -306,12 +361,16 @@ export const summaryList = style({
   lineHeight: "1.8",
   color: vars.color.text.secondary,
   fontSize: "1rem",
+  // 🚀 성능 최적화
+  contain: "layout style paint",
 });
 
 export const summaryListItem = style({
   marginBottom: vars.space.sm,
   paddingLeft: vars.space.md,
   position: "relative",
+  // 🚀 성능 최적화
+  contain: "layout style paint",
 
   selectors: {
     "&::before": {
@@ -320,21 +379,28 @@ export const summaryListItem = style({
       fontWeight: "bold",
       position: "absolute",
       left: "0",
+      willChange: "auto",
     },
   },
 });
 
-// 🎨 Details 태그 스타일
+// 🎨 Details 태그 스타일 (성능 최적화)
 export const detailsContainer = style({
   border: `1px solid ${vars.color.border.light}`,
   borderRadius: vars.radius.lg,
   overflow: "hidden",
   boxShadow: vars.shadow.md,
   backgroundColor: vars.color.background.content,
+  // 🚀 성능 최적화
+  willChange: "auto",
+  transform: "translateZ(0)", // GPU 가속 활성화
+  contain: "layout style paint",
 });
 
 export const detailsItem = style({
   borderBottom: `1px solid ${vars.color.border.light}`,
+  // 🚀 성능 최적화
+  contain: "layout style paint",
 });
 
 export const detailsSummary = style({
@@ -347,15 +413,21 @@ export const detailsSummary = style({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
+  // 🚀 성능 최적화
+  willChange: "background-color, transform",
+  transform: "translateZ(0)", // GPU 가속 활성화
+  backfaceVisibility: "hidden",
 
   ":hover": {
     background: vars.color.background.tabHover,
+    transform: "translate3d(0, -1px, 0)", // GPU 가속 transform
   },
 
   selectors: {
     "&::marker": {
       color: vars.color.primary[500],
       fontWeight: "bold",
+      willChange: "auto",
     },
   },
 });
@@ -365,9 +437,11 @@ export const detailsContent = style({
   backgroundColor: vars.color.background.content,
   lineHeight: "1.7",
   color: vars.color.text.secondary,
+  // 🚀 성능 최적화
+  contain: "layout style paint",
 });
 
-// 🎯 Radio 스타일
+// 🎯 Radio 스타일 (성능 최적화)
 export const radioInput = style({
   display: "none",
 });
@@ -384,10 +458,14 @@ export const radioLabel = style({
   fontWeight: "500",
   transition: `all ${vars.transition.normal}`,
   position: "relative",
+  // 🚀 성능 최적화
+  willChange: "background-color, transform",
+  transform: "translateZ(0)", // GPU 가속 활성화
+  backfaceVisibility: "hidden",
 
   ":hover": {
     background: vars.color.background.tabHover,
-    transform: "translateY(-1px)",
+    transform: "translate3d(0, -1px, 0)", // GPU 가속 transform
   },
 
   selectors: {
@@ -400,18 +478,20 @@ export const radioLabel = style({
       marginRight: vars.space.md,
       transition: `all ${vars.transition.normal}`,
       position: "relative",
+      willChange: "border-color, background-color",
     },
     "&::after": {
       content: '""',
       position: "absolute",
       left: `${vars.space.lg + 6}px`,
       top: "50%",
-      transform: "translateY(-50%)",
+      transform: "translate3d(0, -50%, 0)", // GPU 가속 transform
       width: "8px",
       height: "8px",
       borderRadius: "50%",
       background: "transparent",
       transition: `all ${vars.transition.normal}`,
+      willChange: "background-color",
     },
   },
 });
@@ -424,10 +504,46 @@ export const radioContent = style({
   transition: `all ${vars.transition.slow}`,
   backgroundColor: vars.color.background.content,
   opacity: "0",
-  transform: "translateY(-10px)",
+  transform: "translate3d(0, -10px, 0)", // GPU 가속 transform
+  // 🚀 성능 최적화
+  willChange: "transform, opacity, max-height, padding",
+  contain: "layout style paint",
+  backfaceVisibility: "hidden",
 });
 
-// 🌐 글로벌 스타일
+// 🎯 토글 아이콘 스타일 (성능 최적화)
+export const toggleIcon = style({
+  fontSize: "14px",
+  fontWeight: "bold",
+  minWidth: "20px",
+  height: "20px",
+  borderRadius: "50%",
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  transition: `all ${vars.transition.fast}`,
+  cursor: "pointer",
+  userSelect: "none",
+  // 🚀 성능 최적화
+  willChange: "transform, background-color, color",
+  transform: "translateZ(0)", // GPU 가속 활성화
+  backfaceVisibility: "hidden",
+});
+
+export const toggleIconVariants = styleVariants({
+  inactive: {
+    backgroundColor: vars.color.gray[100],
+    color: vars.color.gray[500],
+    transform: "rotate3d(0, 0, 1, 0deg)", // GPU 가속 transform
+  },
+  active: {
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    color: "#ffffff",
+    transform: "rotate3d(0, 0, 1, 180deg)", // GPU 가속 transform
+  },
+});
+
+// 🌐 글로벌 스타일 (성능 최적화)
 globalStyle(`${radioInput}:checked + ${radioLabel}::before`, {
   borderColor: vars.color.primary[500],
   background: vars.color.primary[50],
@@ -441,6 +557,7 @@ globalStyle(`${radioInput}:checked + ${radioLabel}`, {
   backgroundColor: vars.color.background.tabActive,
   color: vars.color.primary[700],
   fontWeight: "600",
+  transform: "translate3d(0, 0, 0)", // GPU 가속 transform
 });
 
 globalStyle(`${radioInput}:checked ~ ${radioContent}`, {
@@ -448,7 +565,7 @@ globalStyle(`${radioInput}:checked ~ ${radioContent}`, {
   maxHeight: "500px",
   borderBottomWidth: "1px",
   opacity: "1",
-  transform: "translateY(0)",
+  transform: "translate3d(0, 0, 0)", // GPU 가속 transform
   lineHeight: "1.7",
   color: vars.color.text.secondary,
 });
@@ -458,27 +575,64 @@ globalStyle(`details[open] ${detailsSummary}`, {
   backgroundColor: vars.color.background.tabActive,
   color: vars.color.primary[700],
   fontWeight: "600",
+  transform: "translate3d(0, 0, 0)", // GPU 가속 transform
 });
 
-// 스크롤바 스타일링
+// 스크롤바 스타일링 (성능 최적화)
 globalStyle("*", {
   scrollbarWidth: "thin",
   scrollbarColor: `${vars.color.border.medium} transparent`,
+  // 🚀 성능 최적화
+  boxSizing: "border-box",
 });
 
 globalStyle("*::-webkit-scrollbar", {
   width: "6px",
+  // 🚀 성능 최적화
+  willChange: "auto",
 });
 
 globalStyle("*::-webkit-scrollbar-track", {
   background: "transparent",
+  // 🚀 성능 최적화
+  willChange: "auto",
 });
 
 globalStyle("*::-webkit-scrollbar-thumb", {
   background: vars.color.border.medium,
   borderRadius: "3px",
+  // 🚀 성능 최적화
+  willChange: "background-color",
 });
 
 globalStyle("*::-webkit-scrollbar-thumb:hover", {
   background: vars.color.border.dark,
+});
+
+// 🚀 추가 성능 최적화 글로벌 스타일
+globalStyle("html, body", {
+  // 스크롤 성능 최적화
+  scrollBehavior: "smooth",
+  // GPU 가속 활성화
+  transform: "translateZ(0)",
+  backfaceVisibility: "hidden",
+  perspective: "1000px",
+});
+
+// 리플로우 방지를 위한 최적화
+globalStyle("img, video, canvas", {
+  maxWidth: "100%",
+  height: "auto",
+  // GPU 가속 활성화
+  transform: "translateZ(0)",
+  backfaceVisibility: "hidden",
+});
+
+// 폰트 렌더링 최적화
+globalStyle("body", {
+  textRendering: "optimizeLegibility",
+  WebkitFontSmoothing: "antialiased",
+  MozOsxFontSmoothing: "grayscale",
+  // GPU 가속 활성화
+  transform: "translateZ(0)",
 });

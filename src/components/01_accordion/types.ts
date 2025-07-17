@@ -28,6 +28,12 @@ export interface ItemProps extends VariantProps<typeof itemVariants> {
   className?: string;
 }
 
+// 🎯 토글 아이콘 Props
+export interface ToggleIconProps {
+  isActive: boolean;
+  className?: string;
+}
+
 // 🎯 메인 아코디언 컴포넌트 Props
 export interface AccordionProps {
   items: AccordionItemData[];

@@ -43,3 +43,16 @@ export const itemVariants = cva("", {
     type: "default",
   },
 });
+
+// 🎯 토글 아이콘 variants
+export const toggleIconVariants = cva(styles.toggleIcon, {
+  variants: {
+    state: {
+      inactive: styles.toggleIconVariants.inactive,
+      active: styles.toggleIconVariants.active,
+    },
+  },
+  defaultVariants: {
+    state: "inactive",
+  },
+});
