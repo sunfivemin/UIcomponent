@@ -1,5 +1,5 @@
 import * as React from "react";
-import Accordion from "@/components/01_accordion/Accordion";
+import AccordionCollection from "@/components/01_accordion/index";
 import TabMenu from "@/components/02_tabMenu/TabMenu";
 import Tooltip from "@/components/03_tooltip/Tooltip";
 import TextBox from "@/components/04_textBox/TextBox";
@@ -7,6 +7,7 @@ import LineClamp from "@/components/05_lineClamp/LineClamp";
 import LazyLoading from "@/components/06_lazyLoading/LazyLoading";
 import InfiniteScroll from "@/components/07_infiniteScroll/InfiniteScroll";
 import Placeholder from "@/components/08_scrollBox/Placeholder";
+import Chart from "@/components/10_chart/Chart";
 
 export const routePaths = [
   "/",
@@ -28,6 +29,7 @@ export const routePaths = [
   "/selectBox",
   "/autoComplete",
   "/dnd",
+  "/chart",
 ] as const;
 export type ROUTE_PATH = (typeof routePaths)[number];
 
@@ -68,13 +70,14 @@ export const routes: Record<ROUTE_PATH, ROUTE> = {
       "/selectBox",
       "/autoComplete",
       "/dnd",
+      "/chart",
     ],
   },
   "/accordion": {
     key: "/accordion",
     link: "/accordion",
     name: "01. 아코디언",
-    children: Accordion,
+    children: AccordionCollection,
   },
   "/tabMenu": {
     key: "/tabMenu",
@@ -182,6 +185,12 @@ export const routes: Record<ROUTE_PATH, ROUTE> = {
     name: "18. D&D 리스트",
     children: () =>
       React.createElement(Placeholder, { name: "18. D&D 리스트" }),
+  },
+  "/chart": {
+    key: "/chart",
+    link: "/chart",
+    name: "19. 차트",
+    children: Chart,
   },
 };
 
