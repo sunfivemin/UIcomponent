@@ -1,12 +1,12 @@
 import * as React from "react";
-import Accordion from "@/components/Accordion";
-import TabMenu from "@/components/TabMenu";
-import Tooltip from "@/components/Tooltip";
-import TextBox from "@/components/TextBox";
-import LineClamp from "@/components/LineClamp";
-import LazyLoading from "@/components/LazyLoading";
-import InfiniteScroll from "@/components/InfiniteScroll";
-import Placeholder from "@/components/Placeholder";
+import Accordion from "@/components/01_accordion/Accordion";
+import TabMenu from "@/components/02_tabMenu/TabMenu";
+import Tooltip from "@/components/03_tooltip/Tooltip";
+import TextBox from "@/components/04_textBox/TextBox";
+import LineClamp from "@/components/05_lineClamp/LineClamp";
+import LazyLoading from "@/components/06_lazyLoading/LazyLoading";
+import InfiniteScroll from "@/components/07_infiniteScroll/InfiniteScroll";
+import Placeholder from "@/components/08_scrollBox/Placeholder";
 
 export const routePaths = [
   "/",
