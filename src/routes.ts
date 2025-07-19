@@ -1,7 +1,7 @@
 import * as React from "react";
-import AccordionCollection from "@/components/01_accordion/index";
-import TabMenuCollection from "@/components/02_tabMenu/index";
-import Placeholder from "@/components/08_scrollBox/Placeholder";
+import AccordionCollection from "./components/01_accordion/index";
+import TabMenuCollection from "./components/02_tabMenu/index";
+import Placeholder from "./components/08_scrollBox/Placeholder";
 
 export const routePaths = [
   "/",
