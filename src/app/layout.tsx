@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../styles/tailwind.css";
 import "../styles/global.css";
 import Gnb from "./gnb";
+import ThemeToggle from "../components/ThemeToggle";
 
 export const metadata: Metadata = {
   title: "UI요소모음",
@@ -13,6 +14,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <html lang="ko">
       <body>
         <Gnb />
+        <ThemeToggle />
         <main>{children}</main>
       </body>
     </html>

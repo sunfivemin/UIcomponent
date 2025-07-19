@@ -1,5 +1,11 @@
-import { globalStyle } from "@vanilla-extract/css";
+import { globalStyle, keyframes } from "@vanilla-extract/css";
 import "./tokens.css";
+
+// 로딩 애니메이션 keyframes 정의
+const loadingSpin = keyframes({
+  "0%": { transform: "rotate(0deg)" },
+  "100%": { transform: "rotate(360deg)" },
+});
 
 // Global styles
 globalStyle("html, body", {
@@ -16,7 +22,7 @@ globalStyle("body.no-scroll", {
   overflow: "hidden",
 });
 
-// Aside (Navigation) styles
+// Aside (Navigation) styles - 다크테마 적용
 globalStyle("aside", {
   position: "fixed",
   left: 0,
@@ -25,18 +31,20 @@ globalStyle("aside", {
   margin: 0,
   padding: 0,
   width: "199px",
-  borderRight: "1px solid #222",
-  backgroundColor: "#222",
-  color: "#fff",
+  borderRight: `1px solid var(--sidebar-border)`,
+  backgroundColor: "var(--sidebar-bg)",
+  color: "var(--sidebar-color)",
+  transition:
+    "background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease",
 });
 
-// CSS Variables for aside
+// CSS Variables for aside - 다크테마 변수 사용
 globalStyle("aside", {
-  "--bg-default": "#222",
-  "--bg-list": "#444",
-  "--bg-list-disabled": "#303030",
-  "--bg-list-active": "#58a",
-  "--bg-list-open": "#457",
+  "--bg-default": "var(--sidebar-bg)",
+  "--bg-list": "var(--sidebar-bg)",
+  "--bg-list-disabled": "var(--sidebar-disabled)",
+  "--bg-list-active": "var(--sidebar-active)",
+  "--bg-list-open": "var(--sidebar-open)",
 } as any);
 
 globalStyle("aside a", {
@@ -55,6 +63,7 @@ globalStyle("aside button", {
   textAlign: "left",
   padding: "10px 20px",
   cursor: "pointer",
+  transition: "background-color 0.3s ease",
 });
 
 globalStyle("aside h1", {
@@ -76,7 +85,7 @@ globalStyle("aside ul", {
 });
 
 globalStyle("aside li", {
-  borderTop: "1px solid var(--bg-default)",
+  borderTop: `1px solid var(--bg-default)`,
   transition: "background-color ease 0.3s",
 });
 
@@ -98,7 +107,7 @@ globalStyle("aside li a", {
 globalStyle("aside li.disabled", {
   display: "block",
   padding: "10px 20px 10px 25px",
-  color: "#666",
+  color: "var(--sidebar-disabled)",
   backgroundColor: "var(--bg-list-disabled)",
   cursor: "not-allowed",
 });
@@ -120,7 +129,7 @@ globalStyle("aside .subRoutes a", {
 globalStyle("aside .subRoutes a::before", {
   content: '""',
   display: "inline-block",
-  border: "2px solid #fff",
+  border: "2px solid var(--sidebar-color)",
   borderRadius: "2px",
   marginRight: "8px",
   verticalAlign: "middle",
@@ -131,7 +140,7 @@ globalStyle("aside li.parent > a::before", {
   display: "inline-block",
   verticalAlign: "2px",
   border: "4px solid transparent",
-  borderLeftColor: "#fff",
+  borderLeftColor: "var(--sidebar-color)",
   marginRight: "4px",
   marginLeft: "-12px",
 });
@@ -148,31 +157,35 @@ for (let i = 1; i < 10; i++) {
 }
 
 globalStyle("aside li.open.parent > a::before", {
-  borderTopColor: "#fff",
+  borderTopColor: "var(--sidebar-color)",
   borderLeftColor: "transparent",
   verticalAlign: "0px",
   marginRight: "6px",
   marginLeft: "-14px",
 });
 
-// Main content styles
+// Main content styles - 다크테마 적용
 globalStyle("main", {
   boxSizing: "border-box",
   minHeight: "100%",
   padding: "20px",
+  backgroundColor: "hsl(var(--background))",
+  color: "hsl(var(--foreground))",
+  transition: "background-color 0.3s ease, color 0.3s ease",
 });
 
 globalStyle("main h3 > sub:before", {
   content: '"|"',
   margin: "0 5px 0 10px",
-  color: "#999",
+  color: "hsl(var(--muted-foreground))",
 });
 
-// Markdown styles
+// Markdown styles - 다크테마 적용
 globalStyle(".markdown", {
   maxWidth: "800px",
   margin: "0 auto",
   lineHeight: 1.67,
+  color: "hsl(var(--foreground))",
 });
 
 globalStyle(".markdown ul, .markdown ol", {
@@ -185,7 +198,8 @@ globalStyle(".markdown li", {
 });
 
 globalStyle(".markdown code", {
-  backgroundColor: "#eee",
+  backgroundColor: "hsl(var(--muted))",
+  color: "hsl(var(--foreground))",
   padding: "3px",
   borderRadius: "3px",
   whiteSpace: "pre",
@@ -194,7 +208,8 @@ globalStyle(".markdown code", {
 globalStyle(".markdown pre", {
   padding: "1rem",
   margin: 0,
-  backgroundColor: "#eee",
+  backgroundColor: "hsl(var(--muted))",
+  color: "hsl(var(--foreground))",
   borderRadius: "5px",
 });
 
@@ -203,24 +218,19 @@ globalStyle(".markdown pre code", {
   padding: 0,
   borderRadius: 0,
 });
-// styles/global.css.ts - 기존 코드 아래에 추가 (최종 수정된 버전)
 
-import { keyframes } from "@vanilla-extract/css";
-
-// keyframes는 별도 import로 정의
-const spinAnimation = keyframes({
-  "0%": { transform: "rotate(0deg)" },
-  "100%": { transform: "rotate(360deg)" },
+// 🌙 다크테마 호버 효과 개선
+globalStyle("aside li:hover:not(.disabled)", {
+  backgroundColor: "var(--sidebar-hover)",
 });
 
-// 개선된 사이드바 스타일
-globalStyle("aside", {
-  // 기존 스타일 유지하면서 추가
-  transition: "transform 0.3s ease-in-out",
-  zIndex: 50,
+// 🌙 다크테마 활성 상태 개선
+globalStyle("aside li.has-active", {
+  backgroundColor: "rgba(59, 130, 246, 0.1)",
+  borderLeft: "3px solid var(--sidebar-active)",
 });
 
-// 부드러운 애니메이션을 위한 스타일
+// 🌙 다크테마 부드러운 애니메이션
 globalStyle("aside .subRoutes", {
   height: 0,
   overflow: "hidden",
@@ -235,21 +245,6 @@ globalStyle("aside .subRoutes", {
 globalStyle("aside li.open .subRoutes", {
   opacity: 1,
   transform: "translateY(0)",
-});
-
-// 활성 상태 개선
-globalStyle("aside li.has-active", {
-  backgroundColor: "rgba(85, 136, 170, 0.1)",
-  borderLeft: "3px solid var(--bg-list-active)",
-});
-
-// 호버 효과 개선
-globalStyle("aside li:hover:not(.disabled)", {
-  backgroundColor: "rgba(255, 255, 255, 0.1)",
-});
-
-globalStyle("aside li a:hover", {
-  backgroundColor: "rgba(255, 255, 255, 0.05)",
 });
 
 // 포커스 스타일
@@ -364,7 +359,7 @@ globalStyle(".vanilla-content", {
   minHeight: "inherit",
 });
 
-// 로딩 애니메이션 - keyframes 변수 사용
+// 로딩 애니메이션 - keyframes 사용
 globalStyle(".loading-spinner", {
   display: "inline-block",
   width: "20px",
@@ -372,7 +367,7 @@ globalStyle(".loading-spinner", {
   border: "2px solid rgba(59, 130, 246, 0.3)",
   borderTop: "2px solid #3b82f6",
   borderRadius: "50%",
-  animation: `${spinAnimation} 1s linear infinite`,
+  animation: `${loadingSpin} 1s linear infinite`,
 });
 
 // 에러 상태 스타일

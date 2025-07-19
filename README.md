@@ -8,7 +8,6 @@
 - **실무 수준**의 타입 안전한 컴포넌트 개발
 - **외부 라이브러리 통합** 패턴 학습 (D3.js, Chart.js 등)
 - **접근성과 성능**을 고려한 컴포넌트 설계
-- **성능 최적화** 기법 학습 및 적용
 
 ---
 
@@ -22,7 +21,6 @@
 
 ### 스타일링
 
-- **Vanilla Extract** - 타입 안전한 CSS-in-JS
 - **CVA (Class Variance Authority)** - 컴포넌트 variant 관리
 - **Tailwind CSS** - 유틸리티 우선 CSS 프레임워크
 
@@ -34,35 +32,24 @@
 
 ---
 
-## 📁 프로젝트 구조
+## 📁 프로젝트 구조 (실무 스타일)
 
 ```
 src/
 ├── app/                    # Next.js App Router
 │   ├── layout.tsx         # 전체 레이아웃
-│   ├── page.tsx           # 홈페이지 (README 표시)
+│   ├── page.tsx           # 홈페이지
 │   └── [...item]/         # 동적 라우팅
 │       └── page.tsx       # 각 컴포넌트 페이지
-├── components/            # UI 컴포넌트
+├── components/            # UI 컴포넌트 (간단한 구조)
+│   ├── Accordion.tsx      # 간단한 아코디언 컴포넌트
+│   ├── AccordionExample.tsx # 사용 예제
 │   ├── gnb.tsx           # 전역 네비게이션
-│   ├── vanillaWrapper.tsx # Vanilla JS 통합 래퍼
-│   └── 01_accordion/     # 기능별 컴포넌트 폴더
-│       ├── Accordion.tsx  # 메인 아코디언 컴포넌트
-│       ├── accordion.css.ts # Vanilla Extract 스타일
-│       ├── components.tsx # 하위 컴포넌트들
-│       ├── hooks/         # 커스텀 훅
-│       │   └── useAccordion.ts
-│       ├── utils/         # 성능 최적화 유틸리티
-│       │   └── performance.ts
-│       ├── VirtualizedAccordion.tsx # 가상화 컴포넌트
-│       ├── PERFORMANCE.md # 성능 최적화 가이드
-│       └── 1_conditional.tsx # 예제 컴포넌트
-├── hook/                  # 커스텀 훅
-│   └── vanilla/          # Vanilla JS 유틸리티
-├── service/              # 비즈니스 로직 및 API
-├── context/              # 전역 상태 관리
+│   └── vanillaWrapper.tsx # Vanilla JS 통합 래퍼
+├── lib/                   # 유틸리티
+│   └── utils.ts          # 공통 유틸리티 함수
 ├── styles/               # 전역 스타일
-│   └── global.css.ts    # Vanilla Extract 전역 스타일
+│   └── globals.css       # Tailwind CSS
 └── routes.ts            # 라우팅 설정
 ```
 
@@ -72,57 +59,21 @@ src/
 
 ### ✅ 완성된 컴포넌트
 
-- **01_accordion** - 접을 수 있는 콘텐츠 영역 ([데모](http://localhost:3000/accordion))
-  - 🚀 **성능 최적화 완료**: GPU 가속, 메모이제이션, 가상화 지원
-  - 📱 **접근성**: 키보드 네비게이션, 스크린 리더 지원
-  - 🎨 **다양한 변형**: 조건부 렌더링, CSS 애니메이션, 다중 선택
-  - 🔧 **유연한 API**: TypeScript 타입 안전성, 커스텀 훅 제공
+- **Accordion** - 접을 수 있는 콘텐츠 영역
+  - 🎯 **간단한 버전**: [데모](http://localhost:3001/simple-accordion) - 실무에서 바로 사용 가능
+  - 🚀 **복잡한 버전**: [데모](http://localhost:3001/accordion) - 학습용 (성능 최적화, 다양한 구현 방식)
 
 ### 🔄 개발 예정 컴포넌트
 
-- **02_tabs** - 탭 네비게이션
-- **03_modal** - 모달 다이얼로그
-- **04_tooltip** - 툴팁 및 팝오버
-- **05_dropdown** - 드롭다운 메뉴
-- **06_carousel** - 이미지/콘텐츠 슬라이더
-- **07_toast** - 알림 메시지
-- **08_pagination** - 페이지네이션
-- **09_datepicker** - 날짜 선택기
-- **10_chart** - D3.js/Chart.js 통합 차트
-
----
-
-## 🚀 성능 최적화 하이라이트
-
-### Accordion 컴포넌트 성능 개선
-
-| 항목            | 최적화 전     | 최적화 후       | 개선율 |
-| --------------- | ------------- | --------------- | ------ |
-| 스크롤 성능     | 6/10 (버벅임) | 9/10 (부드러움) | +50%   |
-| 렌더링 성능     | 7/10          | 9/10            | +29%   |
-| 메모리 사용     | 8/10          | 9/10            | +13%   |
-| 애니메이션 성능 | 6/10          | 9/10            | +50%   |
-
-### 주요 최적화 기법
-
-1. **CSS 성능 최적화**
-
-   - GPU 가속 활성화 (`transform: translateZ(0)`)
-   - `will-change` 속성으로 애니메이션 최적화
-   - `contain` 속성으로 레이아웃 격리
-   - `transform3d` 사용으로 GPU 가속 transform
-
-2. **React 성능 최적화**
-
-   - 모든 컴포넌트에 `React.memo` 적용
-   - `useMemo`로 계산 결과 메모이제이션
-   - `useCallback`으로 함수 참조 안정화
-   - 불필요한 리렌더링 방지
-
-3. **스크롤 성능 최적화**
-   - 60fps 쓰로틀링 적용
-   - RAF(RequestAnimationFrame) 쓰로틀링
-   - 가상화 컴포넌트 추가 (대량 데이터용)
+- **Tabs** - 탭 네비게이션
+- **Modal** - 모달 다이얼로그
+- **Tooltip** - 툴팁 및 팝오버
+- **Dropdown** - 드롭다운 메뉴
+- **Carousel** - 이미지/콘텐츠 슬라이더
+- **Toast** - 알림 메시지
+- **Pagination** - 페이지네이션
+- **DatePicker** - 날짜 선택기
+- **Chart** - D3.js/Chart.js 통합 차트
 
 ---
 
@@ -142,7 +93,7 @@ yarn install
 yarn dev
 ```
 
-브라우저에서 [http://localhost:3000](http://localhost:3000) 접속
+브라우저에서 [http://localhost:3001](http://localhost:3001) 접속
 
 ### 3. 테스트 실행
 
@@ -152,194 +103,144 @@ yarn test
 
 # 테스트 커버리지 확인
 yarn test:coverage
-
-# 테스트 Watch 모드
-yarn test:watch
-```
-
-### 4. 빌드 확인
-
-```bash
-# 프로덕션 빌드
-yarn build
-
-# 빌드 결과 확인
-yarn start
 ```
 
 ---
 
-## 📝 컴포넌트 개발 가이드
+## 📝 컴포넌트 개발 가이드 (실무 스타일)
 
 ### 1. 새 컴포넌트 생성
 
 ```bash
-# 1. 컴포넌트 폴더 생성
-mkdir src/components/05_newComponent
-
-# 2. 필수 파일 생성
-touch src/components/05_newComponent/NewComponent.tsx
-touch src/components/05_newComponent/NewComponent.css.ts
-touch src/components/05_newComponent/NewComponent.test.tsx
-touch src/components/05_newComponent/components.tsx
-touch src/components/05_newComponent/hooks/useNewComponent.ts
-touch src/components/05_newComponent/utils/performance.ts
+# 간단하게 하나의 파일로 생성
+touch src/components/Button.tsx
 ```
 
-### 2. 성능 최적화된 컴포넌트 구현 패턴
+### 2. 실무에서 사용하는 컴포넌트 패턴
 
 ```typescript
-// NewComponent.tsx
+// Button.tsx - 실무에서 바로 사용 가능한 간단한 구조
 "use client";
-import { memo, useMemo, useCallback } from "react";
-import { NewComponentProps } from "./types";
-import * as styles from "./NewComponent.css";
+import { memo } from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
 
-const NewComponent = memo(
-  ({ items, className = "", onChange }: NewComponentProps) => {
-    // 🚀 메모이제이션된 데이터
-    const memoizedItems = useMemo(() => items, [items]);
-
-    // 🚀 메모이제이션된 핸들러
-    const handleChange = useCallback(
-      (value: any) => {
-        onChange?.(value);
+const buttonVariants = cva(
+  "inline-flex items-center justify-center rounded-md font-medium transition-colors",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
       },
-      [onChange]
-    );
+      size: {
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-md px-8",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+);
 
-    // 🚀 메모이제이션된 렌더링
-    const renderedItems = useMemo(() => {
-      return memoizedItems.map((item) => <Item key={item.id} {...item} />);
-    }, [memoizedItems]);
+interface ButtonProps extends VariantProps<typeof buttonVariants> {
+  children: React.ReactNode;
+  className?: string;
+  onClick?: () => void;
+}
 
+const Button = memo(
+  ({ variant, size, className, children, onClick, ...props }: ButtonProps) => {
     return (
-      <div className={`${styles.themeClass} ${className}`}>{renderedItems}</div>
+      <button
+        className={cn(buttonVariants({ variant, size }), className)}
+        onClick={onClick}
+        {...props}
+      >
+        {children}
+      </button>
     );
   }
 );
 
-NewComponent.displayName = "NewComponent";
-export default NewComponent;
+Button.displayName = "Button";
+export default Button;
 ```
 
-### 3. 성능 최적화된 스타일링
+### 3. 사용 예제
 
 ```typescript
-// NewComponent.css.ts (Vanilla Extract + 성능 최적화)
-import { style, styleVariants } from "@vanilla-extract/css";
+// ButtonExample.tsx
+import Button from "./Button";
 
-export const container = style({
-  // 🚀 성능 최적화
-  willChange: "auto",
-  transform: "translateZ(0)", // GPU 가속 활성화
-  contain: "layout style paint", // 레이아웃 격리
-});
-
-export const item = style({
-  // 🚀 애니메이션 최적화
-  willChange: "transform, opacity",
-  transform: "translateZ(0)",
-  backfaceVisibility: "hidden",
-  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-});
-
-export const itemVariants = styleVariants({
-  default: {},
-  active: {
-    transform: "translate3d(0, 0, 0)", // GPU 가속 transform
-  },
-});
-```
-
-### 4. 성능 최적화 훅
-
-```typescript
-// hooks/useNewComponent.ts
-import { useState, useCallback, useRef, useEffect } from "react";
-import { throttle } from "../utils/performance";
-
-export const useNewComponent = (options = {}) => {
-  const [state, setState] = useState(initialState);
-
-  // 🚀 쓰로틀링된 콜백
-  const throttledCallback = useRef(
-    throttle((value) => {
-      // 콜백 로직
-    }, 16) // 60fps
+const ButtonExample = () => {
+  return (
+    <div className="space-x-4">
+      <Button>기본 버튼</Button>
+      <Button variant="secondary">보조 버튼</Button>
+      <Button variant="destructive" size="lg">
+        삭제 버튼
+      </Button>
+    </div>
   );
-
-  const handleChange = useCallback((value) => {
-    setState(value);
-    throttledCallback.current(value);
-  }, []);
-
-  return { state, handleChange };
 };
 ```
 
-### 5. 성능 유틸리티 활용
+### 4. 라우트 등록
 
 ```typescript
-// utils/performance.ts
-import { throttle, debounce, rafThrottle } from "./performance";
+// routes.ts
+import ButtonExample from "@/components/ButtonExample";
 
-// 스크롤 이벤트 최적화
-const optimizedScrollHandler = rafThrottle((event) => {
-  // 스크롤 처리 로직
-});
-
-// 검색 입력 최적화
-const optimizedSearchHandler = debounce((query) => {
-  // 검색 로직
-}, 300);
+export const routes = {
+  "/button": {
+    key: "/button",
+    link: "/button",
+    name: "버튼 컴포넌트",
+    children: ButtonExample,
+  },
+};
 ```
 
 ---
 
-## 🎯 성능 최적화 가이드
+## 💡 실무에서의 스타일링 전략
 
-### 1. CSS 최적화 기법
+### 언제 어떤 도구를 사용할까?
 
-```css
-/* GPU 가속 활성화 */
-.element {
-  transform: translateZ(0);
-  will-change: transform, opacity;
-  contain: layout style paint;
-  backface-visibility: hidden;
-}
+| 상황                  | 도구           | 예시                            |
+| --------------------- | -------------- | ------------------------------- |
+| **컴포넌트 variant**  | CVA + Tailwind | 버튼 크기/색상 변형             |
+| **빠른 프로토타이핑** | Tailwind CSS   | `className="flex items-center"` |
+| **복잡한 애니메이션** | CSS Modules    | keyframes, transitions          |
 
-/* 애니메이션 최적화 */
-.animated {
-  transform: translate3d(0, -10px, 0);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-```
+### 실무에서 선호하는 조합
 
-### 2. React 최적화 기법
+```typescript
+// ✅ 실무에서 가장 많이 사용하는 패턴
+import { cva } from "class-variance-authority";
 
-```tsx
-// 메모이제이션된 컴포넌트
-const OptimizedComponent = memo(({ data }) => {
-  const memoizedData = useMemo(() => processData(data), [data]);
-  const handleClick = useCallback(() => {
-    // 클릭 핸들러
-  }, []);
-
-  return <div>{memoizedData}</div>;
-});
-```
-
-### 3. 이벤트 최적화 기법
-
-```tsx
-// 쓰로틀링된 이벤트 핸들러
-const throttledHandler = useCallback(
-  throttle((event) => {
-    // 이벤트 처리
-  }, 16), // 60fps
-  []
+export const buttonVariants = cva(
+  "inline-flex items-center justify-center rounded-md font-medium transition-colors",
+  {
+    variants: {
+      variant: {
+        primary: "bg-blue-600 text-white hover:bg-blue-700",
+        secondary: "bg-gray-200 text-gray-900 hover:bg-gray-300",
+      },
+      size: {
+        sm: "px-3 py-1.5 text-sm",
+        md: "px-4 py-2 text-base",
+        lg: "px-6 py-3 text-lg",
+      },
+    },
+  }
 );
 ```
 
@@ -347,37 +248,31 @@ const throttledHandler = useCallback(
 
 ## 🧪 테스트 가이드
 
-### 성능 테스트 포함
+### 간단한 컴포넌트 테스트
 
 ```typescript
-// NewComponent.test.tsx
+// Button.test.tsx
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import { NewComponent } from "./NewComponent";
+import Button from "./Button";
 
-describe("NewComponent", () => {
+describe("Button", () => {
   it("렌더링이 올바르게 된다", () => {
-    render(<NewComponent items={[]} />);
-    expect(screen.getByRole("list")).toBeInTheDocument();
+    render(<Button>테스트 버튼</Button>);
+    expect(screen.getByText("테스트 버튼")).toBeInTheDocument();
   });
 
-  it("성능 최적화가 적용된다", () => {
-    const { rerender } = render(
-      <NewComponent items={[{ id: "1", title: "Test" }]} />
-    );
+  it("클릭 이벤트가 올바르게 작동한다", () => {
+    const handleClick = vi.fn();
+    render(<Button onClick={handleClick}>클릭</Button>);
 
-    // 메모이제이션 테스트
-    rerender(<NewComponent items={[{ id: "1", title: "Test" }]} />);
-    // 동일한 props로 리렌더링 시 불필요한 계산 방지 확인
+    fireEvent.click(screen.getByText("클릭"));
+    expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
-  it("이벤트 핸들러가 최적화된다", () => {
-    const handleChange = vi.fn();
-    render(<NewComponent items={[]} onChange={handleChange} />);
-
-    // 쓰로틀링 테스트
-    fireEvent.click(screen.getByRole("button"));
-    expect(handleChange).toHaveBeenCalledTimes(1);
+  it("variant가 올바르게 적용된다", () => {
+    render(<Button variant="secondary">버튼</Button>);
+    expect(screen.getByText("버튼")).toHaveClass("bg-secondary");
   });
 });
 ```
@@ -395,11 +290,10 @@ describe("NewComponent", () => {
 
 ### 성능 기준
 
-- **FPS**: 60fps 유지
-- **메모리 사용량**: 안정적 유지
-- **번들 크기**: 최적화된 크기
-- **로딩 시간**: 빠른 초기 로딩
-- **스크롤 성능**: 버벅임 없는 부드러운 스크롤
+- **번들 크기** 최적화
+- **Tree-shaking** 지원
+- **Code Splitting** 적용
+- **로딩 시간** 빠른 초기 로딩
 
 ### 개발 경험
 
@@ -407,7 +301,6 @@ describe("NewComponent", () => {
 - **타입 안전성** 보장
 - **자동 완성** 및 IntelliSense
 - **디버깅** 도구 지원
-- **성능 모니터링** 도구 제공
 
 ---
 
@@ -421,7 +314,7 @@ git checkout -b feature/new-component
 
 # 작업 완료 후 커밋
 git add .
-git commit -m "feat: 새로운 컴포넌트 추가 (성능 최적화 포함)"
+git commit -m "feat: 새로운 컴포넌트 추가"
 
 # 푸시 및 PR 생성
 git push origin feature/new-component
@@ -431,12 +324,11 @@ git push origin feature/new-component
 
 - `feat:` 새로운 기능 추가
 - `fix:` 버그 수정
-- `perf:` 성능 개선
 - `docs:` 문서 수정
-- `style:` 코드 포맷팅, 세미콜론 누락 등
+- `style:` 코드 포맷팅
 - `refactor:` 코드 리팩토링
 - `test:` 테스트 추가
-- `chore:` 빌드 업무 수정, 패키지 매니저 수정
+- `chore:` 빌드 업무 수정
 
 ### PR 체크리스트
 
@@ -444,9 +336,7 @@ git push origin feature/new-component
 - [ ] ESLint 통과
 - [ ] 테스트 작성 및 통과
 - [ ] 접근성 검증
-- [ ] 성능 최적화 적용
 - [ ] 문서 업데이트
-- [ ] 성능 테스트 통과
 
 ---
 
@@ -457,18 +347,21 @@ git push origin feature/new-component
 - [Next.js Documentation](https://nextjs.org/docs)
 - [React Documentation](https://react.dev/)
 - [TypeScript Documentation](https://www.typescriptlang.org/docs/)
-- [Vanilla Extract](https://vanilla-extract.style/)
 - [Class Variance Authority](https://cva.style/)
-
-### 성능 최적화 자료
-
-- [React 성능 최적화 가이드](https://react.dev/learn/render-and-commit)
-- [CSS 성능 최적화](https://web.dev/optimize-css/)
-- [브라우저 렌더링 최적화](https://web.dev/rendering-performance/)
-- [가상화 기법](https://web.dev/virtualize-long-lists-react-window/)
+- [Tailwind CSS](https://tailwindcss.com/)
 
 ### 디자인 참고
 
 - [Radix UI](https://www.radix-ui.com/) - 접근성 우선 컴포넌트
 - [Headless UI](https://headlessui.com/) - 스타일 없는 컴포넌트
-- [Arco Design](https://arco.design/) - 엔터프라이즈급 디자인 시스템
+- [shadcn/ui](https://ui.shadcn.com/) - CVA 기반 컴포넌트 라이브러리
+
+---
+
+<div align="center">
+
+**⭐ 이 프로젝트가 도움이 되셨다면 스타를 눌러주세요! ⭐**
+
+**🎯 실무에서 바로 사용할 수 있는 간단하고 강력한 UI 컴포넌트! 🎯**
+
+</div>

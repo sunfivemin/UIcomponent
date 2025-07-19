@@ -1,9 +1,9 @@
-'use client';
-import { useEffect, useRef, useState } from 'react';
-import { accordionData } from './data';
-import * as styles from './accordion.css';
+"use client";
+import { useEffect, useRef, useState } from "react";
+import { accordionData } from "./data";
+import * as styles from "./accordion.css";
 
-const Accordion8 = () => {
+const DetailsAccordion = () => {
   return (
     <div className={styles.section}>
       <h3 className={styles.sectionTitle}>
@@ -25,7 +25,7 @@ const Accordion8 = () => {
 
               if (detailsRef.current) {
                 detailsRef.current.addEventListener(
-                  'beforematch',
+                  "beforematch",
                   handleBeforeMatch
                 );
               }
@@ -33,7 +33,7 @@ const Accordion8 = () => {
               return () => {
                 if (detailsRef.current) {
                   detailsRef.current.removeEventListener(
-                    'beforematch',
+                    "beforematch",
                     handleBeforeMatch
                   );
                 }
@@ -41,7 +41,7 @@ const Accordion8 = () => {
             }, []);
 
             const handleToggle = () => {
-              setIsOpen(prev => !prev);
+              setIsOpen((prev) => !prev);
             };
 
             return (
@@ -73,4 +73,4 @@ const Accordion8 = () => {
   );
 };
 
-export default Accordion8;
+export default DetailsAccordion;

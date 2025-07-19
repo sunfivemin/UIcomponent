@@ -1,8 +1,8 @@
 // 실제 D3.js & Chart.js 구현 예시
 
-'use client';
-import { useState, useEffect, useRef } from 'react';
-import VanillaWrapper from '@/components/vanillaWrapper';
+"use client";
+import { useState, useEffect, useRef } from "react";
+import VanillaWrapper from "@/components/common/vanillaWrapper";
 
 const ChartExamplesPage = () => {
   // 📊 방법 1: React + D3.js (npm install 방식)
@@ -19,21 +19,21 @@ const ChartExamplesPage = () => {
         const data = [12, 5, 6, 6, 9, 10];
 
         // SVG 초기화
-        svg.innerHTML = '';
-        svg.setAttribute('width', '300');
-        svg.setAttribute('height', '200');
+        svg.innerHTML = "";
+        svg.setAttribute("width", "300");
+        svg.setAttribute("height", "200");
 
         // 바 차트 그리기 (D3 스타일 시뮬레이션)
         data.forEach((value, index) => {
           const rect = document.createElementNS(
-            'http://www.w3.org/2000/svg',
-            'rect'
+            "http://www.w3.org/2000/svg",
+            "rect"
           );
-          rect.setAttribute('x', (index * 40 + 10).toString());
-          rect.setAttribute('y', (200 - value * 10).toString());
-          rect.setAttribute('width', '30');
-          rect.setAttribute('height', (value * 10).toString());
-          rect.setAttribute('fill', '#3b82f6');
+          rect.setAttribute("x", (index * 40 + 10).toString());
+          rect.setAttribute("y", (200 - value * 10).toString());
+          rect.setAttribute("width", "30");
+          rect.setAttribute("height", (value * 10).toString());
+          rect.setAttribute("fill", "#3b82f6");
           svg.appendChild(rect);
         });
       };
@@ -63,9 +63,9 @@ const ChartExamplesPage = () => {
       // 여기서는 Canvas로 시뮬레이션
       const mockChartJSImplementation = () => {
         const canvas = canvasRef.current!;
-        const ctx = canvas.getContext('2d')!;
+        const ctx = canvas.getContext("2d")!;
         const data = [65, 59, 80, 81, 56];
-        const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May'];
+        const labels = ["Jan", "Feb", "Mar", "Apr", "May"];
 
         // Canvas 초기화
         canvas.width = 300;
@@ -73,7 +73,7 @@ const ChartExamplesPage = () => {
         ctx.clearRect(0, 0, 300, 200);
 
         // 라인 차트 그리기 (Chart.js 스타일 시뮬레이션)
-        ctx.strokeStyle = '#10b981';
+        ctx.strokeStyle = "#10b981";
         ctx.lineWidth = 2;
         ctx.beginPath();
 
@@ -88,7 +88,7 @@ const ChartExamplesPage = () => {
           }
 
           // 점 그리기
-          ctx.fillStyle = '#10b981';
+          ctx.fillStyle = "#10b981";
           ctx.beginPath();
           ctx.arc(x, y, 3, 0, Math.PI * 2);
           ctx.fill();
@@ -129,23 +129,23 @@ const ChartExamplesPage = () => {
     // const svg = d3.select(element.querySelector('#d3-chart'));
 
     // 시뮬레이션
-    const svg = element.querySelector('#d3-chart') as SVGElement;
+    const svg = element.querySelector("#d3-chart") as SVGElement;
     const data = [8, 12, 7, 14, 10];
 
     data.forEach((value, index) => {
       const circle = document.createElementNS(
-        'http://www.w3.org/2000/svg',
-        'circle'
+        "http://www.w3.org/2000/svg",
+        "circle"
       );
-      circle.setAttribute('cx', (index * 50 + 30).toString());
-      circle.setAttribute('cy', (200 - value * 10).toString());
-      circle.setAttribute('r', value.toString());
-      circle.setAttribute('fill', '#8b5cf6');
+      circle.setAttribute("cx", (index * 50 + 30).toString());
+      circle.setAttribute("cy", (200 - value * 10).toString());
+      circle.setAttribute("r", value.toString());
+      circle.setAttribute("fill", "#8b5cf6");
       svg.appendChild(circle);
     });
 
     return () => {
-      svg.innerHTML = '';
+      svg.innerHTML = "";
     };
   };
 
@@ -163,7 +163,7 @@ const ChartExamplesPage = () => {
 
     // CDN 스크립트 동적 로드 시뮬레이션
     const loadLibrarySimulation = () => {
-      const chartDiv = element.querySelector('#cdn-chart') as HTMLDivElement;
+      const chartDiv = element.querySelector("#cdn-chart") as HTMLDivElement;
 
       // 실제로는 이렇게:
       // const script = document.createElement('script');
@@ -223,19 +223,19 @@ const ChartExamplesPage = () => {
               </div>
             `
               )
-              .join('')}
+              .join("")}
           </div>
         `;
       },
     };
 
     const chartContainer = element.querySelector(
-      '#legacy-chart'
+      "#legacy-chart"
     ) as HTMLElement;
     legacyChartLib.create(chartContainer, [30, 80, 45, 60, 90]);
 
     return () => {
-      chartContainer.innerHTML = '';
+      chartContainer.innerHTML = "";
     };
   };
 
@@ -332,7 +332,6 @@ const ChartJSComponent = ({ data }) => {
           <div className="bg-white p-4 rounded-lg">
             <VanillaWrapper
               title="VanillaWrapper + npm install"
-              variant="demo"
               initiator={vanillaD3WithNPM}
             />
             <div className="mt-4 bg-blue-50 p-3 rounded text-sm">
@@ -346,7 +345,6 @@ const ChartJSComponent = ({ data }) => {
           <div className="bg-white p-4 rounded-lg">
             <VanillaWrapper
               title="VanillaWrapper + CDN"
-              variant="demo"
               initiator={vanillaWithCDN}
             />
             <div className="mt-4 bg-blue-50 p-3 rounded text-sm">
@@ -360,7 +358,6 @@ const ChartJSComponent = ({ data }) => {
           <div className="bg-white p-4 rounded-lg">
             <VanillaWrapper
               title="레거시 JS 라이브러리 통합"
-              variant="demo"
               initiator={legacyVanillaIntegration}
             />
             <div className="mt-4 bg-blue-50 p-3 rounded text-sm">
