@@ -1,16 +1,15 @@
-'use client';
-import { useState } from 'react';
-import { Tab, Content, Item } from './components';
-import { accordionData } from './data';
-import * as styles from './accordion.css';
+"use client";
+import { useState } from "react";
+import { accordionData } from "./data";
+import * as styles from "./accordion.css";
 
-const Accordion2 = () => {
+const DisplayAccordion = () => {
   const [currentId, setCurrentId] = useState<string | null>(
     accordionData[0].id
   );
 
   const toggleItem = (id: string) => {
-    setCurrentId(prev => (prev === id ? null : id));
+    setCurrentId((prev) => (prev === id ? null : id));
   };
 
   return (
@@ -19,22 +18,30 @@ const Accordion2 = () => {
         #2. React + CVA <sub>CSS display 제어 (숨김/보임)</sub>
       </h3>
       <ul className={`${styles.container} ${styles.themeClass}`}>
-        {accordionData.map(item => (
-          <Item key={item.id} type="default">
-            <Tab
-              isActive={currentId === item.id}
+        {accordionData.map((item) => (
+          <li key={item.id} className={styles.itemVariants.default}>
+            <div
+              className={`${styles.tabBase} ${
+                styles.tabVariants[currentId === item.id ? "active" : "default"]
+              }`}
               onClick={() => toggleItem(item.id)}
             >
               {item.title}
-            </Tab>
-            <Content display={currentId === item.id ? 'visible' : 'hidden'}>
+            </div>
+            <div
+              className={`${styles.contentBase} ${
+                styles.contentVariants[
+                  currentId === item.id ? "visible" : "hidden"
+                ]
+              }`}
+            >
               {item.description}
-            </Content>
-          </Item>
+            </div>
+          </li>
         ))}
       </ul>
     </div>
   );
 };
 
-export default Accordion2;
+export default DisplayAccordion;

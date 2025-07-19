@@ -1,77 +1,57 @@
-'use client';
-import { useState, useEffect, useRef } from 'react';
-import { Tab, Item } from './components';
-import { contentVariants } from './variants';
-import { accordionData } from './data';
-import * as styles from './accordion.css';
+"use client";
+import { useState } from "react";
+import { accordionData } from "./data";
+import { contentVariants } from "./variants";
+import * as styles from "./accordion.css";
 
-const Accordion7 = () => {
+const MultipleAccordion = () => {
+  const [openItems, setOpenItems] = useState<string[]>([accordionData[0].id]);
+
+  const toggleItem = (id: string) => {
+    setOpenItems((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
   return (
     <div className={styles.section}>
       <h3 className={styles.sectionTitle}>
-        #7. React + CVA <sub>다중 선택 + Ctrl+F 검색 가능</sub>
+        #7. React + CVA <sub>다중 선택 + 검색 가능</sub>
       </h3>
       <ul className={`${styles.container} ${styles.themeClass}`}>
-        {accordionData.map(item => {
-          const MultiItemComponent = () => {
-            const [isOpen, setIsOpen] = useState(false);
-            const descRef = useRef<HTMLDivElement>(null);
+        {accordionData.map((item) => {
+          const isOpen = openItems.includes(item.id);
 
-            const toggle = () => setIsOpen(prev => !prev);
-
-            useEffect(() => {
-              const handleBeforeMatch = () => {
-                if (!isOpen) {
-                  setIsOpen(true);
-                }
-              };
-
-              if (descRef.current) {
-                descRef.current.addEventListener(
-                  'beforematch',
-                  handleBeforeMatch
-                );
-              }
-
-              return () => {
-                if (descRef.current) {
-                  descRef.current.removeEventListener(
-                    'beforematch',
-                    handleBeforeMatch
-                  );
-                }
-              };
-            }, [isOpen]);
-
-            return (
-              <Item key={item.id} type="animated">
-                <Tab isActive={isOpen} onClick={toggle}>
-                  {item.title}
-                </Tab>
-                <div
-                  ref={descRef}
-                  hidden={isOpen ? undefined : ('until-found' as any)}
-                  className={contentVariants({
-                    display: isOpen ? 'animatedOpen' : 'animated',
-                  })}
-                >
-                  {item.description}
-                </div>
-              </Item>
-            );
-          };
-
-          return <MultiItemComponent key={item.id} />;
+          return (
+            <li key={item.id} className={styles.itemVariants.animated}>
+              <div
+                className={`${styles.tabBase} ${
+                  styles.tabVariants[isOpen ? "active" : "default"]
+                }`}
+                onClick={() => toggleItem(item.id)}
+              >
+                {item.title}
+              </div>
+              <div
+                hidden={isOpen ? undefined : ("until-found" as any)}
+                className={contentVariants({
+                  display: isOpen ? "animatedOpen" : "animated",
+                })}
+              >
+                {item.description}
+              </div>
+            </li>
+          );
         })}
       </ul>
       <div className={styles.summary}>
         <p>
-          <strong>💡 특징:</strong> 여러 항목을 동시에 열 수 있고, Ctrl+F 검색도
-          지원합니다!
+          <strong>💡 특징:</strong> 여러 항목을 동시에 열 수 있고, Ctrl+F로
+          검색도 가능합니다.
         </p>
       </div>
     </div>
   );
 };
 
-export default Accordion7;
+export default MultipleAccordion;

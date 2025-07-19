@@ -1,5 +1,6 @@
 import * as React from "react";
 import AccordionCollection from "@/components/01_accordion/index";
+import TabMenuCollection from "@/components/02_tabMenu/index";
 import Placeholder from "@/components/08_scrollBox/Placeholder";
 
 export const routePaths = [
@@ -72,11 +73,12 @@ export const routes: Record<ROUTE_PATH, ROUTE> = {
     name: "01. 아코디언",
     children: AccordionCollection,
   },
+
   "/tabMenu": {
     key: "/tabMenu",
     link: "/tabMenu",
     name: "02. 탭메뉴",
-    children: () => React.createElement(Placeholder, { name: "02. 탭메뉴" }),
+    children: TabMenuCollection,
   },
   "/tooltip": {
     key: "/tooltip",

@@ -1,17 +1,16 @@
-'use client';
-import { useState, useEffect, useRef } from 'react';
-import { Tab, Item } from './components';
-import { contentVariants } from './variants';
-import { accordionData } from './data';
-import * as styles from './accordion.css';
+"use client";
+import { useState, useEffect, useRef } from "react";
+import { accordionData } from "./data";
+import { contentVariants } from "./variants";
+import * as styles from "./accordion.css";
 
-const Accordion6 = () => {
+const SearchableAccordion = () => {
   const [currentId, setCurrentId] = useState<string | null>(
     accordionData[0].id
   );
 
   const toggleItem = (id: string) => {
-    setCurrentId(prev => (prev === id ? null : id));
+    setCurrentId((prev) => (prev === id ? null : id));
   };
 
   return (
@@ -20,7 +19,7 @@ const Accordion6 = () => {
         #6. React + CVA <sub>Ctrl+F 검색 가능 (hidden="until-found")</sub>
       </h3>
       <ul className={`${styles.container} ${styles.themeClass}`}>
-        {accordionData.map(item => {
+        {accordionData.map((item) => {
           const ItemComponent = () => {
             const descRef = useRef<HTMLDivElement>(null);
 
@@ -33,7 +32,7 @@ const Accordion6 = () => {
 
               if (descRef.current) {
                 descRef.current.addEventListener(
-                  'beforematch',
+                  "beforematch",
                   handleBeforeMatch
                 );
               }
@@ -41,7 +40,7 @@ const Accordion6 = () => {
               return () => {
                 if (descRef.current) {
                   descRef.current.removeEventListener(
-                    'beforematch',
+                    "beforematch",
                     handleBeforeMatch
                   );
                 }
@@ -49,26 +48,30 @@ const Accordion6 = () => {
             }, []);
 
             return (
-              <Item key={item.id} type="animated">
-                <Tab
-                  isActive={currentId === item.id}
+              <li key={item.id} className={styles.itemVariants.animated}>
+                <div
+                  className={`${styles.tabBase} ${
+                    styles.tabVariants[
+                      currentId === item.id ? "active" : "default"
+                    ]
+                  }`}
                   onClick={() => toggleItem(item.id)}
                 >
                   {item.title}
-                </Tab>
+                </div>
                 <div
                   ref={descRef}
                   hidden={
-                    currentId === item.id ? undefined : ('until-found' as any)
+                    currentId === item.id ? undefined : ("until-found" as any)
                   }
                   className={contentVariants({
                     display:
-                      currentId === item.id ? 'animatedOpen' : 'animated',
+                      currentId === item.id ? "animatedOpen" : "animated",
                   })}
                 >
                   {item.description}
                 </div>
-              </Item>
+              </li>
             );
           };
 
@@ -85,4 +88,4 @@ const Accordion6 = () => {
   );
 };
 
-export default Accordion6;
+export default SearchableAccordion;

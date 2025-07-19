@@ -22,8 +22,7 @@ const ConditionalAccordion = memo(() => {
 
       <Accordion
         items={memoizedData}
-        defaultOpenId="item-1"
-        animated={false}
+        defaultOpenId="1"
         onChange={(openItems) => {
           console.log("열린 아이템:", openItems);
         }}

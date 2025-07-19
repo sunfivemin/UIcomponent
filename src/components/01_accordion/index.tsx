@@ -1,13 +1,13 @@
 // src/components/01_accordion/index.tsx
 "use client";
-import Accordion1 from "./1_conditional";
-import Accordion2 from "./2_display";
-import Accordion3 from "./3_animated";
-import Accordion4V from "./4_vanilla";
-import Accordion5 from "./5_radio";
-import Accordion6 from "./6_searchable";
-import Accordion7 from "./7_multiple";
-import Accordion8 from "./8_details";
+import ConditionalAccordion from "./1_conditional";
+import DisplayAccordion from "./2_display";
+import AnimatedAccordion from "./3_animated";
+import VanillaAccordion from "./4_vanilla";
+import RadioAccordion from "./5_radio";
+import SearchableAccordion from "./6_searchable";
+import MultipleAccordion from "./7_multiple";
+import DetailsAccordion from "./8_details";
 import * as styles from "./accordion.css";
 
 const AccordionCollection = () => {
@@ -20,14 +20,14 @@ const AccordionCollection = () => {
         </p>
       </div>
 
-      <Accordion1 />
-      <Accordion2 />
-      <Accordion3 />
-      <Accordion4V />
-      <Accordion5 />
-      <Accordion6 />
-      <Accordion7 />
-      <Accordion8 />
+      <ConditionalAccordion />
+      <DisplayAccordion />
+      <AnimatedAccordion />
+      <VanillaAccordion />
+      <RadioAccordion />
+      <SearchableAccordion />
+      <MultipleAccordion />
+      <DetailsAccordion />
 
       {/* 구현 방식 요약 */}
       <div className={styles.summary}>
