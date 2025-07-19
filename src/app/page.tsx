@@ -23,7 +23,6 @@ yarn dev
 \`\`\`
 
 브라우저에서 [http://localhost:3000](http://localhost:3000)에 접속하여 결과를 확인합니다.`;
-
 const MainPage = () => (
   <div className="markdown">
     <Markdown>{README_CONTENT}</Markdown>

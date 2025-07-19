@@ -1,62 +1,145 @@
-# UI요소 만들기 강의 코드 - 보일러플레이트
+# UI 컴포넌트 스터디 프로젝트
 
-## 🎨 스타일링 시스템
+> React와 VanillaWrapper 구현 방식을 비교하며 학습하는 UI 컴포넌트 라이브러리
 
-이 프로젝트는 **Vanilla Extract**와 **CVA (Class Variance Authority)**를 사용하여 현대적이고 타입 안전한 스타일링 시스템을 구축했습니다.
+## 🎯 프로젝트 목표
 
-### 사용된 기술
+- **React vs VanillaWrapper** 구현 방식 비교 학습
+- **실무 수준**의 타입 안전한 컴포넌트 개발
+- **외부 라이브러리 통합** 패턴 학습 (D3.js, Chart.js 등)
+- **접근성과 성능**을 고려한 컴포넌트 설계
 
-- **Vanilla Extract**: CSS-in-JS의 장점과 타입 안전성을 모두 제공
-- **CVA**: 컴포넌트의 다양한 상태(variants)를 체계적으로 관리
-- **Tailwind CSS**: 유틸리티 클래스 기반의 빠른 스타일링
-- **clsx + tailwind-merge**: 조건부 클래스와 클래스 충돌 해결
+---
 
-### 디렉토리 구조
+## 🛠️ 기술 스택
+
+### 핵심 프레임워크
+
+- **Next.js 14** (App Router) - 최신 React 메타 프레임워크
+- **React 18** - 함수형 컴포넌트와 Hooks 기반
+- **TypeScript** - 타입 안전성과 개발자 경험 향상
+
+### 스타일링
+
+- **CVA (Class Variance Authority)** - 컴포넌트 variant 관리
+- **Tailwind CSS** - 유틸리티 우선 CSS 프레임워크
+
+### 개발 도구
+
+- **Vitest + Testing Library** - 컴포넌트 테스트
+- **ESLint + Prettier** - 코드 품질 및 포맷팅
+- **TypeScript Strict Mode** - 엄격한 타입 검사
+
+---
+
+## 📁 프로젝트 구조 (실무 스타일)
 
 ```
 src/
-├── styles/
-│   ├── global.css.ts      # Vanilla Extract 전역 스타일
-│   ├── tokens.css.ts      # CSS 변수 및 디자인 토큰
-│   └── tailwind.css       # Tailwind CSS import
-├── lib/
-│   └── utils.ts           # CVA 유틸리티 함수
-├── components/
-│   ├── ui/                # 재사용 가능한 UI 컴포넌트
-│   │   └── button.tsx     # CVA를 사용한 Button 컴포넌트
-│   ├── examples/          # 예시 컴포넌트들
-│   │   └── accordion.tsx  # 아코디언 예시
-│   └── vanillaWrapper.tsx # Vanilla JS 래퍼 컴포넌트
-└── app/                   # Next.js App Router
-    ├── [...item]/         # 동적 라우팅
-    ├── layout.tsx         # 레이아웃
-    ├── page.tsx           # 메인 페이지
-    └── gnb.tsx            # 네비게이션
+├── app/                    # Next.js App Router
+│   ├── layout.tsx         # 전체 레이아웃
+│   ├── page.tsx           # 홈페이지
+│   └── [...item]/         # 동적 라우팅
+│       └── page.tsx       # 각 컴포넌트 페이지
+├── components/            # UI 컴포넌트 (간단한 구조)
+│   ├── Accordion.tsx      # 간단한 아코디언 컴포넌트
+│   ├── AccordionExample.tsx # 사용 예제
+│   ├── gnb.tsx           # 전역 네비게이션
+│   └── vanillaWrapper.tsx # Vanilla JS 통합 래퍼
+├── lib/                   # 유틸리티
+│   └── utils.ts          # 공통 유틸리티 함수
+├── styles/               # 전역 스타일
+│   └── globals.css       # Tailwind CSS
+└── routes.ts            # 라우팅 설정
 ```
 
-### 컴포넌트 스타일링 예시
+---
 
-#### CVA를 사용한 Button 컴포넌트
+## 🧩 컴포넌트 목록
 
-```tsx
+### ✅ 완성된 컴포넌트
+
+- **Accordion** - 접을 수 있는 콘텐츠 영역
+  - 🎯 **간단한 버전**: [데모](http://localhost:3001/simple-accordion) - 실무에서 바로 사용 가능
+  - 🚀 **복잡한 버전**: [데모](http://localhost:3001/accordion) - 학습용 (성능 최적화, 다양한 구현 방식)
+
+### 🔄 개발 예정 컴포넌트
+
+- **Tabs** - 탭 네비게이션
+- **Modal** - 모달 다이얼로그
+- **Tooltip** - 툴팁 및 팝오버
+- **Dropdown** - 드롭다운 메뉴
+- **Carousel** - 이미지/콘텐츠 슬라이더
+- **Toast** - 알림 메시지
+- **Pagination** - 페이지네이션
+- **DatePicker** - 날짜 선택기
+- **Chart** - D3.js/Chart.js 통합 차트
+
+---
+
+## 🏃‍♂️ 시작하기
+
+### 1. 저장소 클론 및 패키지 설치
+
+```bash
+git clone <repository-url>
+cd ui-component-study
+yarn install
+```
+
+### 2. 개발 서버 실행
+
+```bash
+yarn dev
+```
+
+브라우저에서 [http://localhost:3001](http://localhost:3001) 접속
+
+### 3. 테스트 실행
+
+```bash
+# 단위 테스트 실행
+yarn test
+
+# 테스트 커버리지 확인
+yarn test:coverage
+```
+
+---
+
+## 📝 컴포넌트 개발 가이드 (실무 스타일)
+
+### 1. 새 컴포넌트 생성
+
+```bash
+# 간단하게 하나의 파일로 생성
+touch src/components/Button.tsx
+```
+
+### 2. 실무에서 사용하는 컴포넌트 패턴
+
+```typescript
+// Button.tsx - 실무에서 바로 사용 가능한 간단한 구조
+"use client";
+import { memo } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors",
+  "inline-flex items-center justify-center rounded-md font-medium transition-colors",
   {
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "border border-input hover:bg-accent hover:text-accent-foreground",
       },
       size: {
-        default: "h-10 py-2 px-4",
-        sm: "h-9 px-3 rounded-md",
-        lg: "h-11 px-8 rounded-md",
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-md px-8",
       },
     },
     defaultVariants: {
@@ -67,86 +150,218 @@ const buttonVariants = cva(
 );
 
 interface ButtonProps extends VariantProps<typeof buttonVariants> {
-  // ... props
+  children: React.ReactNode;
+  className?: string;
+  onClick?: () => void;
 }
 
-const Button = ({ className, variant, size, ...props }: ButtonProps) => {
+const Button = memo(
+  ({ variant, size, className, children, onClick, ...props }: ButtonProps) => {
+    return (
+      <button
+        className={cn(buttonVariants({ variant, size }), className)}
+        onClick={onClick}
+        {...props}
+      >
+        {children}
+      </button>
+    );
+  }
+);
+
+Button.displayName = "Button";
+export default Button;
+```
+
+### 3. 사용 예제
+
+```typescript
+// ButtonExample.tsx
+import Button from "./Button";
+
+const ButtonExample = () => {
   return (
-    <button
-      className={cn(buttonVariants({ variant, size, className }))}
-      {...props}
-    />
+    <div className="space-x-4">
+      <Button>기본 버튼</Button>
+      <Button variant="secondary">보조 버튼</Button>
+      <Button variant="destructive" size="lg">
+        삭제 버튼
+      </Button>
+    </div>
   );
 };
 ```
 
-#### Vanilla Extract를 사용한 전역 스타일
+### 4. 라우트 등록
 
-```tsx
-import { globalStyle } from "@vanilla-extract/css";
+```typescript
+// routes.ts
+import ButtonExample from "@/components/ButtonExample";
 
-globalStyle("body", {
-  backgroundColor: "hsl(var(--background))",
-  color: "hsl(var(--foreground))",
-});
+export const routes = {
+  "/button": {
+    key: "/button",
+    link: "/button",
+    name: "버튼 컴포넌트",
+    children: ButtonExample,
+  },
+};
+```
 
-globalStyle("aside", {
-  position: "fixed",
-  left: 0,
-  top: 0,
-  bottom: 0,
-  width: "199px",
-  backgroundColor: "#222",
-  color: "#fff",
+---
+
+## 💡 실무에서의 스타일링 전략
+
+### 언제 어떤 도구를 사용할까?
+
+| 상황                  | 도구           | 예시                            |
+| --------------------- | -------------- | ------------------------------- |
+| **컴포넌트 variant**  | CVA + Tailwind | 버튼 크기/색상 변형             |
+| **빠른 프로토타이핑** | Tailwind CSS   | `className="flex items-center"` |
+| **복잡한 애니메이션** | CSS Modules    | keyframes, transitions          |
+
+### 실무에서 선호하는 조합
+
+```typescript
+// ✅ 실무에서 가장 많이 사용하는 패턴
+import { cva } from "class-variance-authority";
+
+export const buttonVariants = cva(
+  "inline-flex items-center justify-center rounded-md font-medium transition-colors",
+  {
+    variants: {
+      variant: {
+        primary: "bg-blue-600 text-white hover:bg-blue-700",
+        secondary: "bg-gray-200 text-gray-900 hover:bg-gray-300",
+      },
+      size: {
+        sm: "px-3 py-1.5 text-sm",
+        md: "px-4 py-2 text-base",
+        lg: "px-6 py-3 text-lg",
+      },
+    },
+  }
+);
+```
+
+---
+
+## 🧪 테스트 가이드
+
+### 간단한 컴포넌트 테스트
+
+```typescript
+// Button.test.tsx
+import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, it, expect, vi } from "vitest";
+import Button from "./Button";
+
+describe("Button", () => {
+  it("렌더링이 올바르게 된다", () => {
+    render(<Button>테스트 버튼</Button>);
+    expect(screen.getByText("테스트 버튼")).toBeInTheDocument();
+  });
+
+  it("클릭 이벤트가 올바르게 작동한다", () => {
+    const handleClick = vi.fn();
+    render(<Button onClick={handleClick}>클릭</Button>);
+
+    fireEvent.click(screen.getByText("클릭"));
+    expect(handleClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("variant가 올바르게 적용된다", () => {
+    render(<Button variant="secondary">버튼</Button>);
+    expect(screen.getByText("버튼")).toHaveClass("bg-secondary");
+  });
 });
 ```
 
-### 장점
+---
 
-1. **타입 안전성**: TypeScript와 완벽한 통합
-2. **성능**: 런타임에 CSS가 생성되어 번들 크기 최적화
-3. **유지보수성**: 컴포넌트별 스타일 관리
-4. **확장성**: 새로운 variant 쉽게 추가 가능
-5. **개발자 경험**: 자동완성과 타입 체크
+## 🎯 실무 수준의 품질 기준
 
-## Getting Started
+### 코드 품질
 
-### 설치
+- **TypeScript Strict Mode** 준수
+- **ESLint 규칙** 100% 통과
+- **테스트 커버리지** 80% 이상
+- **접근성** WCAG 2.1 AA 수준
+
+### 성능 기준
+
+- **번들 크기** 최적화
+- **Tree-shaking** 지원
+- **Code Splitting** 적용
+- **로딩 시간** 빠른 초기 로딩
+
+### 개발 경험
+
+- **Hot Reload** 지원
+- **타입 안전성** 보장
+- **자동 완성** 및 IntelliSense
+- **디버깅** 도구 지원
+
+---
+
+## 🤝 컨트리뷰션 가이드
+
+### 브랜치 전략
 
 ```bash
-cd uiComponents
-yarn install
+# feature 브랜치 생성
+git checkout -b feature/new-component
+
+# 작업 완료 후 커밋
+git add .
+git commit -m "feat: 새로운 컴포넌트 추가"
+
+# 푸시 및 PR 생성
+git push origin feature/new-component
 ```
 
-### 개발 서버 실행
+### 커밋 메시지 규칙
 
-```bash
-yarn dev
-```
+- `feat:` 새로운 기능 추가
+- `fix:` 버그 수정
+- `docs:` 문서 수정
+- `style:` 코드 포맷팅
+- `refactor:` 코드 리팩토링
+- `test:` 테스트 추가
+- `chore:` 빌드 업무 수정
 
-브라우저에서 [http://localhost:3000](http://localhost:3000)에 접속하여 결과를 확인합니다.
+### PR 체크리스트
 
-### 새로운 컴포넌트 추가하기
+- [ ] 타입 에러 없음
+- [ ] ESLint 통과
+- [ ] 테스트 작성 및 통과
+- [ ] 접근성 검증
+- [ ] 문서 업데이트
 
-1. `src/components/examples/` 디렉토리에 새 컴포넌트 생성
-2. CVA를 사용하여 variant 정의
-3. `src/routes.ts`에 라우트 추가
-4. Vanilla JS 버전도 함께 구현
+---
 
-### 스타일 가이드
+## 📚 참고 자료
 
-- **Vanilla Extract**: 전역 스타일, CSS 변수, 복잡한 스타일 로직
-- **CVA**: 컴포넌트 variant, 조건부 스타일링
-- **Tailwind CSS**: 유틸리티 클래스, 빠른 프로토타이핑
-- **CSS Variables**: 디자인 토큰, 테마 관리
+### 공식 문서
 
-## 라우트 구성
+- [Next.js Documentation](https://nextjs.org/docs)
+- [React Documentation](https://react.dev/)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
+- [Class Variance Authority](https://cva.style/)
+- [Tailwind CSS](https://tailwindcss.com/)
 
-- `app`: app 전반에 대한 기본 view 제공
-  - `[...item]/page.tsx`: `/[...item]` route의 page view. `routes`의 `key`에 매칭된 컴포넌트를 렌더링.
-  - `layout.tsx`: 기본적인 html 구성
-  - `page.tsx`: `/` route의 page view. `/README.md`를 보여줍니다.
-  - `gnb.tsx`: 좌측 메뉴 컴포넌트
-- `components`
-  - `vanillaWrapper.tsx`: 독립적인 VanillaJS 환경의 wrapper 컴포넌트
-- `routes.ts`: route 구성
+### 디자인 참고
+
+- [Radix UI](https://www.radix-ui.com/) - 접근성 우선 컴포넌트
+- [Headless UI](https://headlessui.com/) - 스타일 없는 컴포넌트
+- [shadcn/ui](https://ui.shadcn.com/) - CVA 기반 컴포넌트 라이브러리
+
+---
+
+<div align="center">
+
+**⭐ 이 프로젝트가 도움이 되셨다면 스타를 눌러주세요! ⭐**
+
+**🎯 실무에서 바로 사용할 수 있는 간단하고 강력한 UI 컴포넌트! 🎯**
+
+</div>

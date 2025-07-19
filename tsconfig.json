@@ -13,7 +13,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "jsxImportSource": "react",
     "incremental": true,
+    "types": ["vitest/globals", "@testing-library/jest-dom", "node"],
     "plugins": [
       {
         "name": "next"
@@ -24,8 +26,7 @@
       "@/*": ["./src/*"],
       "@routes": ["./src/routes.ts"],
       "@lib/*": ["./src/lib/*"]
-    },
-    "types": ["vitest/globals", "@testing-library/jest-dom", "node"]
+    }
   },
   "include": [
     "next-env.d.ts",
@@ -33,7 +34,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "vitest.config.ts",
-    "src/test/setup.ts"
+    "src/test/setup.ts",
+    "types/**/*.d.ts"
   ],
   "exclude": ["node_modules"]
 }
