@@ -161,7 +161,7 @@ describe('AccordionCollection', () => {
     render(<AccordionCollection />);
     expect(screen.getByText('아코디언 컴포넌트 모음')).toBeInTheDocument();
     expect(
-      screen.getByText('vanilla-extract + CVA로 구현한 8가지 아코디언 예시들')
+      screen.getByText('8가지 다른 방식으로 구현한 아코디언 예시들입니다.')
     ).toBeInTheDocument();
   });
 
@@ -173,9 +173,9 @@ describe('AccordionCollection', () => {
       screen.getByText('🎯 조건부 렌더링 (Conditional Rendering)')
     ).toBeInTheDocument();
     expect(
-      screen.getByText('📚 vanilla-extract + CVA 장점')
+      screen.getByText('vanilla-extract + CVA를 사용하는 이유')
     ).toBeInTheDocument();
-    expect(screen.getByText('🔍 8가지 구현 방식 비교')).toBeInTheDocument();
+    expect(screen.getByText('8가지 구현 방식 비교')).toBeInTheDocument();
   });
 
   it('displays implementation summary', () => {
@@ -184,7 +184,7 @@ describe('AccordionCollection', () => {
     // Check for key benefits
     expect(screen.getByText('타입 안전성:')).toBeInTheDocument();
     expect(screen.getByText('성능:')).toBeInTheDocument();
-    expect(screen.getByText('유지보수성:')).toBeInTheDocument();
+    expect(screen.getByText('유지보수:')).toBeInTheDocument();
   });
 
   it('displays implementation comparison', () => {

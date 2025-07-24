@@ -50,7 +50,6 @@ const TabMenuAnimated = () => {
   const [isInitialized, setIsInitialized] = useState(false);
 
   // 초기 활성 탭 확인
-  console.log('Initial activeId:', activeId);
 
   const isActive = (id: string) => id === activeId;
 
@@ -73,26 +72,21 @@ const TabMenuAnimated = () => {
     const timeoutId = setTimeout(() => {
       // 현재 활성 탭의 인덱스 찾기
       const activeIndex = tabData.findIndex(tab => tab.id === activeId);
-      console.log('Active index:', activeIndex, 'Active ID:', activeId);
 
       if (activeIndex === -1) {
-        console.log('Active tab not found in data:', activeId);
         return;
       }
 
       // 모든 탭 요소 가져오기
       const allTabs = document.querySelectorAll('[data-tab-id]');
-      console.log('Found tabs:', allTabs.length);
 
       if (allTabs.length === 0) {
-        console.log('No tabs found with data-tab-id');
         return;
       }
 
       const activeTab = allTabs[activeIndex] as HTMLElement;
 
       if (!activeTab) {
-        console.log('Active tab element not found at index:', activeIndex);
         return;
       }
 
@@ -103,13 +97,6 @@ const TabMenuAnimated = () => {
       if (containerRect) {
         const left = tabRect.left - containerRect.left;
         const width = tabRect.width;
-
-        console.log('Indicator position:', {
-          left,
-          width,
-          activeId,
-          activeIndex,
-        });
 
         indicator.style.transform = `translateX(${left}px)`;
         indicator.style.width = `${width}px`;
