@@ -23,7 +23,7 @@ const TabMenuCollection = () => {
       {/* 기본 탭메뉴 컴포넌트 */}
       <div className={styles.section}>
         <h3 className={styles.sectionTitle}>기본 탭메뉴 컴포넌트</h3>
-        <TabMenu data={tabData} onTabChange={id => {}} />
+        <TabMenu data={tabData} />
       </div>
 
       {/* 다양한 구현 방식들 */}
