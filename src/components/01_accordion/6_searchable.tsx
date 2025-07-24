@@ -1,8 +1,8 @@
-"use client";
-import { useState, useEffect, useRef } from "react";
-import { accordionData } from "./data";
-import { contentVariants } from "./variants";
-import * as styles from "./accordion.css";
+'use client';
+import { useState, useEffect, useRef } from 'react';
+import { accordionData } from './data';
+import { contentVariants } from './variants';
+import * as styles from './accordion.css';
 
 const SearchableAccordion = () => {
   const [currentId, setCurrentId] = useState<string | null>(
@@ -10,7 +10,7 @@ const SearchableAccordion = () => {
   );
 
   const toggleItem = (id: string) => {
-    setCurrentId((prev) => (prev === id ? null : id));
+    setCurrentId(prev => (prev === id ? null : id));
   };
 
   return (
@@ -19,7 +19,7 @@ const SearchableAccordion = () => {
         #6. React + CVA <sub>Ctrl+F 검색 가능 (hidden="until-found")</sub>
       </h3>
       <ul className={`${styles.container} ${styles.themeClass}`}>
-        {accordionData.map((item) => {
+        {accordionData.map(item => {
           const ItemComponent = () => {
             const descRef = useRef<HTMLDivElement>(null);
 
@@ -32,7 +32,7 @@ const SearchableAccordion = () => {
 
               if (descRef.current) {
                 descRef.current.addEventListener(
-                  "beforematch",
+                  'beforematch',
                   handleBeforeMatch
                 );
               }
@@ -40,7 +40,7 @@ const SearchableAccordion = () => {
               return () => {
                 if (descRef.current) {
                   descRef.current.removeEventListener(
-                    "beforematch",
+                    'beforematch',
                     handleBeforeMatch
                   );
                 }
@@ -52,7 +52,7 @@ const SearchableAccordion = () => {
                 <div
                   className={`${styles.tabBase} ${
                     styles.tabVariants[
-                      currentId === item.id ? "active" : "default"
+                      currentId === item.id ? 'active' : 'default'
                     ]
                   }`}
                   onClick={() => toggleItem(item.id)}
@@ -62,11 +62,11 @@ const SearchableAccordion = () => {
                 <div
                   ref={descRef}
                   hidden={
-                    currentId === item.id ? undefined : ("until-found" as any)
+                    currentId === item.id ? undefined : ('until-found' as any)
                   }
                   className={contentVariants({
                     display:
-                      currentId === item.id ? "animatedOpen" : "animated",
+                      currentId === item.id ? 'animatedOpen' : 'animated',
                   })}
                 >
                   {item.description}

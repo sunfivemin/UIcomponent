@@ -7,6 +7,7 @@
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
@@ -14,14 +15,17 @@
     "jsx": "preserve",
     "jsxImportSource": "react",
     "incremental": true,
-    "types": ["vitest", "react", "react-dom"],
+    "types": ["vitest/globals", "@testing-library/jest-dom", "node"],
     "plugins": [
       {
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@routes": ["./src/routes.ts"],
+      "@lib/*": ["./src/lib/*"]
     }
   },
   "include": [
@@ -29,6 +33,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
+    "vitest.config.ts",
+    "src/test/setup.ts",
     "types/**/*.d.ts"
   ],
   "exclude": ["node_modules"]

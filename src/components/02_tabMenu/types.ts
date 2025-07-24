@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 export interface TabData {
   id: string;
@@ -9,7 +9,7 @@ export interface TabData {
 export interface TabMenuProps {
   data: TabData[];
   defaultActiveId?: string;
-  variant?: "default" | "dark" | "colorful";
+  variant?: 'default' | 'dark' | 'colorful';
   className?: string;
   onTabChange?: (activeId: string) => void;
 }
@@ -27,9 +27,4 @@ export interface TabContentProps {
   content: string;
   isActive: boolean;
   children?: ReactNode;
-}
-
-export interface TabMenuState {
-  activeId: string;
-  setActiveId: (id: string) => void;
 }
