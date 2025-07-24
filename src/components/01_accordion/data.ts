@@ -1,35 +1,35 @@
 // src/components/01_accordion/data.ts
-import { AccordionItemData } from './types';
+import { AccordionItemData } from "./types";
 
 export const accordionData: AccordionItemData[] = [
   {
-    id: '1',
-    title: 'vanilla-extract + CVA란?',
+    id: "1",
+    title: "조건부 렌더링 방식",
     description:
-      'vanilla-extract는 타입 안전한 CSS-in-JS 라이브러리이고, CVA는 컴포넌트 variant를 관리하는 도구입니다. 둘을 조합하면 강력한 스타일링 시스템을 구축할 수 있습니다.',
+      "React의 조건부 렌더링을 사용하여 열린 아이템만 DOM에 존재시킵니다. 메모리 효율적이지만 애니메이션이 제한적입니다. {isOpen && <Content />} 형태로 구현합니다.",
   },
   {
-    id: '2',
-    title: '타입 안전한 스타일링',
+    id: "2",
+    title: "CSS Display 방식",
     description:
-      'vanilla-extract는 컴파일 타임에 CSS를 생성하고 타입 체크를 수행합니다. 이를 통해 런타임 오류를 방지하고 개발자 경험을 향상시킵니다.',
+      "CSS의 display 속성을 사용하여 콘텐츠를 숨기거나 보여줍니다. 모든 아이템이 DOM에 존재하지만 display: none/block으로 제어합니다. 간단하고 빠르지만 애니메이션은 어렵습니다.",
   },
   {
-    id: '3',
-    title: 'CVA로 variant 관리',
+    id: "3",
+    title: "CSS 애니메이션 방식",
     description:
-      'Class Variance Authority(CVA)를 사용하면 컴포넌트의 다양한 상태와 변형을 체계적으로 관리할 수 있습니다. 조건부 클래스명 적용이 간편해집니다.',
+      "CSS transition과 transform을 사용하여 부드러운 애니메이션을 구현합니다. max-height, opacity, transform 등을 조합하여 자연스러운 전환 효과를 만듭니다.",
   },
   {
-    id: '4',
-    title: '성능 최적화',
+    id: "4",
+    title: "순수 JavaScript 방식",
     description:
-      '빌드 타임에 CSS가 생성되어 런타임 오버헤드가 없습니다. 사용되지 않는 스타일은 자동으로 제거되어 번들 크기가 최적화됩니다.',
+      "React 없이 순수 JavaScript로 DOM을 직접 조작합니다. 외부 라이브러리와의 통합이 쉽고, React의 가상 DOM 오버헤드가 없어 성능이 우수합니다.",
   },
   {
-    id: '5',
-    title: '개발자 경험',
+    id: "5",
+    title: "HTML Radio 방식",
     description:
-      'TypeScript 지원으로 자동 완성, 타입 체크, Go to Definition 등 뛰어난 개발자 경험을 제공합니다. 스타일 코드의 유지보수성이 크게 향상됩니다.',
+      "HTML의 radio input을 사용하여 CSS만으로 상태를 관리합니다. JavaScript 없이도 동작하며, 브라우저의 기본 기능을 활용하여 접근성이 우수합니다.",
   },
 ];

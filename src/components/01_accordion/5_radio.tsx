@@ -1,13 +1,13 @@
 // src/components/01_accordion/5_radio.tsx
-"use client";
-import { accordionData } from "./data";
-import * as styles from "./accordion.css";
+'use client';
+import { accordionData } from './data';
+import * as styles from './accordion.css';
 
 const RadioAccordion = () => {
   return (
     <div className={styles.section}>
       <h3 className={styles.sectionTitle}>
-        #5. React + vanilla-extract{" "}
+        #5. React + vanilla-extract
         <sub>HTML radio input (JavaScript 없음)</sub>
       </h3>
       <ul className={`${styles.container} ${styles.themeClass}`}>
