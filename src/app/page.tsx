@@ -5,13 +5,11 @@ const README_CONTENT = `# 🎨 UI 컴포넌트 모음
 
 **다양한 방식으로 구현한 React 컴포넌트들**
 
-안녕하세요! 이 프로젝트는 정재남 강사님의 인프런 강의를 따라하면서 만든 UI 컴포넌트 모음입니다. 같은 기능을 여러 가지 다른 방법으로 구현해보면서 각각의 장단점을 직접 체험해볼 수 있어요.
+[정재남 강사님의 인프런 강의](https://www.inflearn.com/course/react-vanillajs-ui%EC%9A%94%EC%86%8C%EB%A7%8C%EB%93%A4%EA%B8%B0-part1/dashboard) [React / VanillaJS] UI 요소 만들기 [Part 1](https://www.inflearn.com/course/react-vanillajs-ui%EC%9A%94%EC%86%8C%EB%A7%8C%EB%93%A4%EA%B8%B0-part1/dashboard)과 [Part 2](https://www.inflearn.com/course/react-vanillajs-ui%EC%9A%94%EC%86%8C-%EC%A7%81%EC%A0%91%EB%A7%8C%EB%93%A4%EA%B8%B0-part2/dashboard) 강의를 보면서 만든 프로젝트입니다.
+ 같은 기능을 여러 가지 다른 방법으로 구현해보면서 각각의 장단점을 직접 체험해볼 수 있어요.
 
-## 📚 이 프로젝트의 시작
 
-[정재남 강사님의 인프런 강의](https://www.inflearn.com/course/react-vanillajs-ui%EC%9A%94%EC%86%8C%EB%A7%8C%EB%93%A4%EA%B8%B0-part1/dashboard) "[React / VanillaJS] UI 요소 만들기 Part 1"과 [Part 2](https://www.inflearn.com/course/react-vanillajs-ui%EC%9A%94%EC%86%8C-%EC%A7%81%EC%A0%91%EB%A7%8C%EB%93%A4%EA%B8%B0-part2/dashboard)를 보면서 만든 프로젝트예요.
-
-### 🎯 강의에서 배운 것들
+### 🎯 배운 것들
 - React와 순수 JavaScript로 같은 UI를 다르게 만들어보기
 - 실제로 써볼 수 있는 코드들
 - 기초부터 차근차근 배우기
@@ -21,6 +19,7 @@ const README_CONTENT = `# 🎨 UI 컴포넌트 모음
 ### 📖 강의 내용
 
 #### **Part 1** - 기본 UI 요소들 (9개)
+
 1. **아코디언** - 6가지 방법으로 만들어보기
 2. **탭메뉴** - 4가지 방법으로 만들어보기
 3. **툴팁** - 6가지 방법으로 만들어보기
@@ -32,6 +31,7 @@ const README_CONTENT = `# 🎨 UI 컴포넌트 모음
 9. **스크롤 스파이** - 4가지 방법으로 만들어보기
 
 #### **Part 2** - 조금 더 복잡한 UI 요소들 (9개)
+
 1. **스낵바** - Context, Portal, 순수 JavaScript로
 2. **모달** - Context, Portal, HTML Dialog로
 3. **팝오버** - Content, Portal, HTML Dialog로
@@ -74,33 +74,6 @@ React.memo로 불필요한 리렌더링 막고, CSS-in-JS로 번들 크기도 �
 
 #### **clsx + tailwind-merge** 🔧
 조건부 클래스와 클래스 충돌을 해결해줘요. 타입 안전성도 있고, 중복 클래스도 제거해줘요.
-
-## 📚 컴포넌트들
-
-### 지금 구현된 것들
-
-1. **아코디언** - 8가지 방법으로 구현
-2. **탭메뉴** - 7가지 방법으로 구현
-3. **툴팁** - 다양한 위치와 스타일
-4. **반응형 텍스트박스** - 적응형 입력 필드
-5. **여러줄 말줄임** - 텍스트 오버플로우 처리
-6. **지연 로딩** - 성능 최적화
-7. **무한 스크롤** - 대용량 데이터 처리
-8. **횡 스크롤 박스** - 가로 스크롤
-9. **스크롤 스파이** - 스크롤 기반 네비게이션
-10. **차트** - 데이터 시각화
-
-### 앞으로 만들 예정 (Part 2 기반)
-
-- **스낵바** - Context, Portal, 순수 JavaScript로
-- **모달** - Context, Portal, HTML Dialog로
-- **팝오버** - Content, Portal, HTML Dialog로
-- **이미지 슬라이드** - 순수 JavaScript, React, CSS Scroll로
-- **캐러셀** - 순수 JavaScript, React, 3D 버전
-- **갤러리** - 캐러셀 재사용해서, 이미지 뷰어
-- **셀렉트 박스** - Headless, Compound 패턴
-- **자동 완성** - 셀렉트 박스 재사용해서, 비동기 처리
-- **D&D 리스트** - Draggable 속성으로 드래그 앤 드롭
 
 ## 🚀 시작하기
 
@@ -175,7 +148,7 @@ MIT 라이선스로 배포됩니다.
 
 ## 🙏 감사합니다
 
-- **[정재남 강사님](https://www.inflearn.com/course/react-vanillajs-ui%EC%9A%94%EC%86%8C%EB%A7%8C%EB%93%A4%EA%B8%B0-part1/dashboard)** - 정말 좋은 강의 만들어주셔서 감사합니다!
+- **[정재남 강사님](https://www.inflearn.com/course/react-vanillajs-ui%EC%9A%94%EC%86%8C%EB%A7%8C%EB%93%A4%EA%B8%B0-part1/dashboard)** - 좋은 강의 만들어주셔서 감사합니다!
 - **Vanilla Extract** 팀
 - **CVA** 개발자들
 - **Tailwind CSS** 커뮤니티

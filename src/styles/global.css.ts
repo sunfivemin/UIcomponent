@@ -527,8 +527,93 @@ globalStyle('aside .toggle-arrow', {
   display: 'inline-block',
 });
 
-globalStyle('aside li.open .toggle-arrow', {
-  transform: 'rotate(90deg)',
+// Part 1과 Part 2 구분 스타일
+globalStyle('.markdown .part1-section', {
+  position: 'relative',
+  marginTop: '2rem',
+  padding: '1.5rem',
+  backgroundColor: 'hsl(var(--card))',
+  border: '2px solid hsl(var(--primary))',
+  borderRadius: '12px',
+  boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+  transition: 'all 0.3s ease',
+});
+
+globalStyle('.markdown .part1-section::before', {
+  content: '"🎯"',
+  position: 'absolute',
+  top: '-12px',
+  left: '20px',
+  backgroundColor: 'hsl(var(--background))',
+  padding: '0 8px',
+  fontSize: '1.2rem',
+  fontWeight: 'bold',
+});
+
+globalStyle('.markdown .part2-section', {
+  position: 'relative',
+  marginTop: '2rem',
+  padding: '1.5rem',
+  backgroundColor: 'hsl(var(--card))',
+  border: '2px solid hsl(var(--secondary))',
+  borderRadius: '12px',
+  boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+  transition: 'all 0.3s ease',
+});
+
+globalStyle('.markdown .part2-section::before', {
+  content: '"🚀"',
+  position: 'absolute',
+  top: '-12px',
+  left: '20px',
+  backgroundColor: 'hsl(var(--background))',
+  padding: '0 8px',
+  fontSize: '1.2rem',
+  fontWeight: 'bold',
+});
+
+// Part 1과 Part 2 호버 효과
+globalStyle('.markdown .part1-section:hover', {
+  transform: 'translateY(-2px)',
+  boxShadow:
+    '0 8px 25px -5px rgb(0 0 0 / 0.1), 0 4px 10px -2px rgb(0 0 0 / 0.1)',
+});
+
+globalStyle('.markdown .part2-section:hover', {
+  transform: 'translateY(-2px)',
+  boxShadow:
+    '0 8px 25px -5px rgb(0 0 0 / 0.1), 0 4px 10px -2px rgb(0 0 0 / 0.1)',
+});
+
+// Part 1과 Part 2 제목 스타일
+globalStyle('.markdown .part1-section h4', {
+  color: 'hsl(var(--primary))',
+  fontSize: '1.3rem',
+  fontWeight: '700',
+  marginBottom: '1rem',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.5rem',
+});
+
+globalStyle('.markdown .part2-section h4', {
+  color: 'hsl(var(--secondary))',
+  fontSize: '1.3rem',
+  fontWeight: '700',
+  marginBottom: '1rem',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.5rem',
+});
+
+// 반응형 디자인
+globalStyle('.markdown .part1-section, .markdown .part2-section', {
+  '@media': {
+    '(max-width: 768px)': {
+      padding: '1rem',
+      marginTop: '1.5rem',
+    },
+  },
 });
 
 // 뱃지 스타일

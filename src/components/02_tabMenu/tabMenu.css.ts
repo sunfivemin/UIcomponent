@@ -236,14 +236,6 @@ export const animatedTabList = style({
   width: '100%',
 });
 
-// 라디오 탭메뉴용 스타일
-export const radioTabList = style({
-  position: 'relative',
-  width: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-});
-
 export const radioInput = style({
   display: 'none',
 });
@@ -279,12 +271,41 @@ export const radioLabel = style({
 export const radioContent = style({
   display: 'none',
   padding: '24px',
+  backgroundColor: 'hsl(var(--card))',
+  color: 'hsl(var(--foreground))',
+  borderTop: '1px solid hsl(var(--border))',
+  transition: 'background-color 0.3s, color 0.3s',
+  boxSizing: 'border-box',
+});
+
+export const radioContentActive = style({
+  display: 'block',
+});
+
+// TabContent 컴포넌트용 스타일 추가
+export const tabContent = style({
+  display: 'block',
+  padding: '24px',
   minHeight: '120px',
   width: '100%',
   backgroundColor: 'hsl(var(--card))',
   color: 'hsl(var(--foreground))',
   transition: 'background-color 0.3s, color 0.3s',
   boxSizing: 'border-box',
+});
+
+export const tabContentHidden = style({
+  display: 'none',
+});
+
+// 인디케이터 스타일 추가
+export const indicator = style({
+  position: 'absolute',
+  bottom: 0,
+  height: '3px',
+  backgroundColor: 'hsl(var(--primary))',
+  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+  zIndex: 1,
 });
 
 // 컨테이너 레시피
