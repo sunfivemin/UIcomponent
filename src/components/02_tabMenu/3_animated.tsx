@@ -21,19 +21,11 @@ const TabItem = memo<TabItemProps>(({ id, title, isActive, onClick }) => (
 
 TabItem.displayName = 'TabItem';
 
-const TabContent = memo<TabContentProps>(({ id, content, isActive }) => (
+const TabContent = memo(({ id, content, isActive }: TabContentProps) => (
   <div
-    className={styles.content}
-    style={{
-      display: isActive ? 'block' : 'none',
-      padding: '24px',
-      minHeight: '120px',
-      width: '100%',
-      backgroundColor: 'hsl(var(--card))',
-      color: 'hsl(var(--foreground))',
-      transition: 'background-color 0.3s, color 0.3s',
-      boxSizing: 'border-box',
-    }}
+    className={`${styles.tabContent} ${
+      isActive ? '' : styles.tabContentHidden
+    }`}
     role="tabpanel"
     aria-labelledby={`tab-${id}`}
     id={`panel-${id}`}
@@ -124,17 +116,7 @@ const TabMenuAnimated = () => {
               onClick={() => handleTabClick(tab.id)}
             />
           ))}
-          <div
-            ref={indicatorRef}
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              height: '3px',
-              backgroundColor: '#374151', // 짙은 회색
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              zIndex: 1,
-            }}
-          />
+          <div ref={indicatorRef} className={styles.indicator} />
         </ul>
         <div className={styles.content}>
           {tabData.map(tab => (
