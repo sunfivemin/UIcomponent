@@ -1,8 +1,8 @@
-import React, { memo, useEffect, useState } from "react";
-import { tabData } from "./data";
-import { TabItemProps, TabContentProps } from "./types";
-import { useMultiTabMenu } from "@/hooks/useTabMenu";
-import * as styles from "./tabMenu.css";
+import React, { memo, useEffect, useState } from 'react';
+import { tabData } from './data';
+import { TabItemProps, TabContentProps } from './types';
+import { useMultiTabMenu } from '@/hooks/useTabMenu';
+import * as styles from './tabMenu.css';
 
 const TabItem = memo<{
   id: string;
@@ -12,7 +12,7 @@ const TabItem = memo<{
 }>(({ id, title, isActive, onClick }) => (
   <li className={styles.tabItem}>
     <button
-      className={styles.tabButtonVariants[isActive ? "active" : "inactive"]}
+      className={styles.tabButtonVariants[isActive ? 'active' : 'inactive']}
       onClick={onClick}
       aria-selected={isActive}
       role="tab"
@@ -24,7 +24,7 @@ const TabItem = memo<{
   </li>
 ));
 
-TabItem.displayName = "TabItem";
+TabItem.displayName = 'TabItem';
 
 const TabContent = memo<TabContentProps>(({ id, content, isActive }) => (
   <div
@@ -38,7 +38,7 @@ const TabContent = memo<TabContentProps>(({ id, content, isActive }) => (
   </div>
 ));
 
-TabContent.displayName = "TabContent";
+TabContent.displayName = 'TabContent';
 
 const TabMenuMultiple = () => {
   const { activeIds, toggleTab, isActive, selectAll, deselectAll } =
@@ -50,8 +50,8 @@ const TabMenuMultiple = () => {
   useEffect(() => {
     // 다크테마 감지
     const checkTheme = () => {
-      const theme = document.documentElement.getAttribute("data-theme");
-      setIsDarkTheme(theme === "dark");
+      const theme = document.documentElement.getAttribute('data-theme');
+      setIsDarkTheme(theme === 'dark');
     };
 
     checkTheme();
@@ -60,7 +60,7 @@ const TabMenuMultiple = () => {
     const observer = new MutationObserver(checkTheme);
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ["data-theme"],
+      attributeFilter: ['data-theme'],
     });
 
     return () => observer.disconnect();
@@ -71,7 +71,7 @@ const TabMenuMultiple = () => {
   };
 
   const handleSelectAll = () => {
-    selectAll(tabData.map((tab) => tab.id));
+    selectAll(tabData.map(tab => tab.id));
   };
 
   const handleDeselectAll = () => {
@@ -79,29 +79,29 @@ const TabMenuMultiple = () => {
   };
 
   return (
-    <>
-      <h3>#7. 다중 선택 탭메뉴</h3>
+    <div className={styles.section}>
+      <h3 className={styles.sectionTitle}>#7. 다중 선택 탭메뉴</h3>
       <div className={styles.tabMenu()}>
         {/* 컨트롤 버튼들 */}
         <div
           style={{
-            padding: "12px 16px",
-            borderBottom: "1px solid hsl(var(--border))",
-            display: "flex",
-            gap: "8px",
-            backgroundColor: "hsl(var(--muted))",
+            padding: '12px 16px',
+            borderBottom: '1px solid hsl(var(--border))',
+            display: 'flex',
+            gap: '8px',
+            backgroundColor: 'hsl(var(--muted))',
           }}
         >
           <button
             onClick={handleSelectAll}
             style={{
-              padding: "4px 8px",
-              fontSize: "12px",
-              border: "1px solid hsl(var(--border))",
-              borderRadius: "4px",
-              backgroundColor: "hsl(var(--accent))",
-              color: "hsl(var(--accent-foreground))",
-              cursor: "pointer",
+              padding: '4px 8px',
+              fontSize: '12px',
+              border: '1px solid hsl(var(--border))',
+              borderRadius: '4px',
+              backgroundColor: 'hsl(var(--accent))',
+              color: 'hsl(var(--accent-foreground))',
+              cursor: 'pointer',
             }}
           >
             모두 선택
@@ -109,22 +109,22 @@ const TabMenuMultiple = () => {
           <button
             onClick={handleDeselectAll}
             style={{
-              padding: "4px 8px",
-              fontSize: "12px",
-              border: "1px solid hsl(var(--border))",
-              borderRadius: "4px",
-              backgroundColor: "hsl(var(--accent))",
-              color: "hsl(var(--accent-foreground))",
-              cursor: "pointer",
+              padding: '4px 8px',
+              fontSize: '12px',
+              border: '1px solid hsl(var(--border))',
+              borderRadius: '4px',
+              backgroundColor: 'hsl(var(--accent))',
+              color: 'hsl(var(--accent-foreground))',
+              cursor: 'pointer',
             }}
           >
             모두 해제
           </button>
           <span
             style={{
-              fontSize: "12px",
-              color: "hsl(var(--muted-foreground))",
-              marginLeft: "auto",
+              fontSize: '12px',
+              color: 'hsl(var(--muted-foreground))',
+              marginLeft: 'auto',
             }}
           >
             선택된 탭: {activeIds.length}개
@@ -132,7 +132,7 @@ const TabMenuMultiple = () => {
         </div>
 
         <ul className={styles.tabList} role="tablist">
-          {tabData.map((tab) => (
+          {tabData.map(tab => (
             <TabItem
               key={tab.id}
               id={tab.id}
@@ -143,7 +143,7 @@ const TabMenuMultiple = () => {
           ))}
         </ul>
         <div className={styles.content}>
-          {tabData.map((tab) => (
+          {tabData.map(tab => (
             <TabContent
               key={tab.id}
               id={tab.id}
@@ -153,7 +153,7 @@ const TabMenuMultiple = () => {
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

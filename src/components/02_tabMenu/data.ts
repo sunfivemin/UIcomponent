@@ -1,32 +1,28 @@
-export interface TabData {
-  id: string;
-  title: string;
-  description: string;
-}
+import { TabData } from './types';
 
 export const tabData: TabData[] = [
   {
-    id: "tab1",
-    title: "첫 번째 탭",
+    id: 'tab1',
+    title: '조건부 렌더링',
     description:
-      "첫 번째 탭의 내용입니다. 여기에 상세한 설명이나 컴포넌트가 들어갈 수 있습니다. React와 TypeScript를 사용한 모던한 웹 개발에 대한 내용을 다룹니다.",
+      'React의 조건부 렌더링을 사용하여 활성 탭만 DOM에 존재시킵니다. 메모리 효율적이지만 애니메이션이 제한적입니다. {isActive && <TabContent />} 형태로 구현하며, 탭 전환 시 컴포넌트가 완전히 새로 마운트됩니다.',
   },
   {
-    id: "tab2",
-    title: "두 번째 탭",
+    id: 'tab2',
+    title: 'CSS Display',
     description:
-      "두 번째 탭의 내용입니다. Vanilla Extract와 CVA를 활용한 스타일링 방법에 대해 알아봅니다. CSS-in-JS의 장점과 실무에서의 활용 사례를 살펴봅니다.",
+      'CSS의 display 속성을 사용하여 모든 탭 콘텐츠를 렌더링하고 CSS로 숨기거나 보여줍니다. 모든 탭이 DOM에 존재하지만 display: none/block으로 제어합니다. 간단하고 빠르지만 부드러운 애니메이션은 어렵습니다.',
   },
   {
-    id: "tab3",
-    title: "세 번째 탭",
+    id: 'tab3',
+    title: 'CSS 애니메이션',
     description:
-      "세 번째 탭의 내용입니다. 성능 최적화와 접근성에 대한 내용을 다룹니다. React.memo, useMemo, useCallback 등의 활용법과 웹 접근성 가이드라인을 알아봅니다.",
+      'CSS transition과 transform을 사용하여 부드러운 탭 전환 애니메이션을 구현합니다. opacity, transform, position 등을 조합하여 자연스러운 슬라이드 효과와 페이드 효과를 만듭니다. GPU 가속을 활용하여 성능도 우수합니다.',
   },
   {
-    id: "tab4",
-    title: "네 번째 탭",
+    id: 'tab4',
+    title: 'Vanilla JavaScript',
     description:
-      "네 번째 탭의 내용입니다. 컴포넌트 설계 패턴과 아키텍처에 대해 알아봅니다. 재사용 가능한 컴포넌트 설계, 커스텀 훅 활용, 그리고 프로젝트 구조화 방법을 다룹니다.",
+      'React 없이 순수 JavaScript로 DOM을 직접 조작하여 탭메뉴를 구현합니다. 외부 라이브러리와의 통합이 쉽고, React의 가상 DOM 오버헤드가 없어 성능이 우수합니다. createElement, addEventListener 등을 활용합니다.',
   },
 ];

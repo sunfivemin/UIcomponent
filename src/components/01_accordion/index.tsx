@@ -15,8 +15,7 @@ const AccordionCollection = () => {
       <div className={styles.pageHeader}>
         <h1 className={styles.pageTitle}>아코디언 컴포넌트 모음</h1>
         <p className={styles.pageSubtitle}>
-          8가지 다른 방식으로 구현한 아코디언 예시들입니다. 각각의 장단점과
-          사용법을 비교해보세요.
+          8가지 다른 방식으로 구현한 아코디언 예시들입니다.
         </p>
       </div>
 

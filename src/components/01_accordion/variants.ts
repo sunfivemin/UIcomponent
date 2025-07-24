@@ -1,7 +1,7 @@
-import { cva } from "class-variance-authority";
-import * as styles from "./accordion.css";
+import { cva } from 'class-variance-authority';
+import * as styles from './accordion.css';
 
-// 🎯 CVA Variants 정의 (실제 사용됨)
+// 🎯 CVA Variants 정의
 export const contentVariants = cva(styles.contentBase, {
   variants: {
     display: {
@@ -16,6 +16,6 @@ export const contentVariants = cva(styles.contentBase, {
     },
   },
   defaultVariants: {
-    display: "conditional",
+    display: 'conditional',
   },
 });

@@ -1,13 +1,13 @@
-import React, { memo } from "react";
-import { tabData } from "./data";
-import { TabItemProps, TabContentProps } from "./types";
-import { useTabMenu } from "@/hooks/useTabMenu";
-import * as styles from "./tabMenu.css";
+import React, { memo } from 'react';
+import { tabData } from './data';
+import { TabItemProps, TabContentProps } from './types';
+import { useTabMenu } from '@/hooks/useTabMenu';
+import * as styles from './tabMenu.css';
 
 const TabItem = memo<TabItemProps>(({ id, title, isActive, onClick }) => (
   <li className={styles.tabItem}>
     <button
-      className={styles.tabButtonVariants[isActive ? "active" : "inactive"]}
+      className={styles.tabButtonVariants[isActive ? 'active' : 'inactive']}
       onClick={onClick}
       aria-selected={isActive}
       role="tab"
@@ -19,7 +19,7 @@ const TabItem = memo<TabItemProps>(({ id, title, isActive, onClick }) => (
   </li>
 ));
 
-TabItem.displayName = "TabItem";
+TabItem.displayName = 'TabItem';
 
 const TabContent = memo<TabContentProps>(({ id, content, isActive }) => (
   <div
@@ -33,7 +33,7 @@ const TabContent = memo<TabContentProps>(({ id, content, isActive }) => (
   </div>
 ));
 
-TabContent.displayName = "TabContent";
+TabContent.displayName = 'TabContent';
 
 const TabMenuDisplay = () => {
   const { activeId, setActiveTab, isActive } = useTabMenu({
@@ -45,11 +45,11 @@ const TabMenuDisplay = () => {
   };
 
   return (
-    <>
-      <h3>#2. CSS Display 방식</h3>
+    <div className={styles.section}>
+      <h3 className={styles.sectionTitle}>#2. CSS Display 방식</h3>
       <div className={styles.tabMenu()}>
         <ul className={styles.tabList} role="tablist">
-          {tabData.map((tab) => (
+          {tabData.map(tab => (
             <TabItem
               key={tab.id}
               id={tab.id}
@@ -60,7 +60,7 @@ const TabMenuDisplay = () => {
           ))}
         </ul>
         <div className={styles.content}>
-          {tabData.map((tab) => (
+          {tabData.map(tab => (
             <TabContent
               key={tab.id}
               id={tab.id}
@@ -70,7 +70,7 @@ const TabMenuDisplay = () => {
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
