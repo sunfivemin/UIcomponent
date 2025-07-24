@@ -1,8 +1,8 @@
-"use client";
-import VanillaWrapper from "@/components/common/vanillaWrapper";
-import { accordionData } from "./data";
-import * as styles from "./accordion.css";
-import { AccordionItemData } from "./types";
+'use client';
+import VanillaWrapper from '@/components/common/vanillaWrapper';
+import { accordionData } from './data';
+import * as styles from './accordion.css';
+import { AccordionItemData } from './types';
 
 const VanillaAccordion = () => {
   const initiator = (wrapper: HTMLDivElement) => {
@@ -16,27 +16,27 @@ const VanillaAccordion = () => {
     const contentOpenClass = `${styles.contentBase} ${styles.contentVariants.animated} ${styles.contentVariants.animatedOpen}`;
 
     const createAccordionItem = (item: AccordionItemData) => {
-      const li = document.createElement("li");
+      const li = document.createElement('li');
       li.className = styles.itemVariants.animated;
 
-      const tab = document.createElement("div");
+      const tab = document.createElement('div');
       tab.className = tabClass;
       tab.textContent = item.title;
       tab.dataset.id = item.id;
-      tab.setAttribute("role", "button");
-      tab.setAttribute("tabindex", "0");
-      tab.setAttribute("aria-expanded", "false");
+      tab.setAttribute('role', 'button');
+      tab.setAttribute('tabindex', '0');
+      tab.setAttribute('aria-expanded', 'false');
 
-      const description = document.createElement("div");
+      const description = document.createElement('div');
       description.className = contentClass;
       description.textContent = item.description;
-      description.setAttribute("role", "region");
+      description.setAttribute('role', 'region');
 
       li.append(tab, description);
       return { li, tab, description };
     };
 
-    const ul = document.createElement("ul");
+    const ul = document.createElement('ul');
     ul.className = containerClass;
 
     const items = accordionData.map(createAccordionItem);
@@ -47,7 +47,7 @@ const VanillaAccordion = () => {
         const isOpen = currentId === accordionData[index].id;
 
         tab.className = isOpen ? tabActiveClass : tabClass;
-        tab.setAttribute("aria-expanded", isOpen.toString());
+        tab.setAttribute('aria-expanded', isOpen.toString());
         description.className = isOpen ? contentOpenClass : contentClass;
       });
     };
@@ -62,14 +62,14 @@ const VanillaAccordion = () => {
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Enter" || e.key === " ") {
+      if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         handleClick(e);
       }
     };
 
-    ul.addEventListener("click", handleClick);
-    ul.addEventListener("keydown", handleKeyDown);
+    ul.addEventListener('click', handleClick);
+    ul.addEventListener('keydown', handleKeyDown);
 
     // 첫 번째 항목 기본 열림
     currentId = accordionData[0].id;
@@ -79,8 +79,8 @@ const VanillaAccordion = () => {
 
     // cleanup 함수
     return () => {
-      ul.removeEventListener("click", handleClick);
-      ul.removeEventListener("keydown", handleKeyDown);
+      ul.removeEventListener('click', handleClick);
+      ul.removeEventListener('keydown', handleKeyDown);
     };
   };
 

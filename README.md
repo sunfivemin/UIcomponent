@@ -133,15 +133,15 @@ src/
 **React와 Vanilla JavaScript를 통합하는 래퍼 컴포넌트**
 
 ```typescript
-import VanillaWrapper from "@/components/vanillaWrapper";
+import VanillaWrapper from '@/components/vanillaWrapper';
 
 const MyComponent = () => {
   return (
     <VanillaWrapper
-      initiator={(el) => {
+      initiator={el => {
         // Vanilla JavaScript 로직
-        el.addEventListener("click", () => {
-          console.log("Element clicked");
+        el.addEventListener('click', () => {
+          console.log('Element clicked');
         });
       }}
     >
@@ -157,26 +157,26 @@ const MyComponent = () => {
 
 ```typescript
 // variants.ts
-import { cva } from "class-variance-authority";
+import { cva } from 'class-variance-authority';
 
 export const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md font-medium transition-colors",
+  'inline-flex items-center justify-center rounded-md font-medium transition-colors',
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: 'bg-primary text-primary-foreground hover:bg-primary/90',
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+          'bg-secondary text-secondary-foreground hover:bg-secondary/80',
       },
       size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
+        default: 'h-10 px-4 py-2',
+        sm: 'h-9 rounded-md px-3',
+        lg: 'h-11 rounded-md px-8',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: 'default',
+      size: 'default',
     },
   }
 );
@@ -223,12 +223,12 @@ npm start
 ### 컴포넌트 테스트 예제
 
 ```typescript
-import { render, screen, fireEvent } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
-import Accordion from "./Accordion";
+import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+import Accordion from './Accordion';
 
-describe("Accordion Component", () => {
-  it("renders correctly with provided content", () => {
+describe('Accordion Component', () => {
+  it('renders correctly with provided content', () => {
     render(
       <Accordion>
         <Accordion.Item>
@@ -238,11 +238,11 @@ describe("Accordion Component", () => {
       </Accordion>
     );
 
-    expect(screen.getByText("Title")).toBeInTheDocument();
-    expect(screen.getByText("Content")).toBeInTheDocument();
+    expect(screen.getByText('Title')).toBeInTheDocument();
+    expect(screen.getByText('Content')).toBeInTheDocument();
   });
 
-  it("toggles content visibility on trigger click", () => {
+  it('toggles content visibility on trigger click', () => {
     render(
       <Accordion>
         <Accordion.Item>
@@ -252,10 +252,10 @@ describe("Accordion Component", () => {
       </Accordion>
     );
 
-    const trigger = screen.getByText("Title");
+    const trigger = screen.getByText('Title');
     fireEvent.click(trigger);
 
-    expect(screen.getByText("Content")).toBeVisible();
+    expect(screen.getByText('Content')).toBeVisible();
   });
 });
 ```
@@ -272,7 +272,7 @@ describe("Accordion Component", () => {
   --foreground: 222.2 84% 4.9%;
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   --background: 222.2 84% 4.9%;
   --foreground: 210 40% 98%;
 }

@@ -1,3 +1,8 @@
+# Important
+
+All developers on this project are Korean.  
+Therefore, **please ensure all code reviews and comments are written in Korean** so that they are easily understood by the team.
+
 ## 📝 변경사항
 
 <!-- 이 PR에서 변경된 내용을 간단히 설명해주세요 -->
