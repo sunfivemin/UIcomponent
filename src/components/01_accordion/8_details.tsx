@@ -2,8 +2,15 @@
 import { useEffect, useRef } from 'react';
 import { accordionData } from './data';
 import * as styles from './accordion.css';
+import { AccordionItemData } from './types';
 
-const DetailsItem = ({ item, index }: { item: any; index: number }) => {
+const DetailsItem = ({
+  item,
+  index,
+}: {
+  item: AccordionItemData;
+  index: number;
+}) => {
   const detailsRef = useRef<HTMLDetailsElement>(null);
 
   useEffect(() => {

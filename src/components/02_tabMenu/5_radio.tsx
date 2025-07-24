@@ -54,10 +54,9 @@ const TabMenuRadio = () => {
           {tabData.map((tab, index) => (
             <div
               key={tab.id}
-              className={styles.radioContent}
-              style={{
-                display: tab.id === activeId ? 'block' : 'none',
-              }}
+              className={`${styles.radioContent} ${
+                tab.id === activeId ? styles.radioContentActive : ''
+              }`}
               role="tabpanel"
               aria-labelledby={tab.id}
               id={`panel-${tab.id}`}

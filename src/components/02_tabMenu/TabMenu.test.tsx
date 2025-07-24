@@ -14,7 +14,8 @@ import { tabData } from './data';
 
 // CSS 모듈 모킹 (완전한 모킹)
 vi.mock('./tabMenu.css', () => ({
-  // 기본 탭메뉴
+  section: 'section',
+  sectionTitle: 'section-title',
   tabMenu: () => 'tab-menu',
   tabMenuContainer: 'tab-menu-container',
   tabList: 'tab-list',
@@ -29,29 +30,20 @@ vi.mock('./tabMenu.css', () => ({
   content: 'content',
   contentPanel: 'content-panel',
   contentPanelActive: 'content-panel-active',
-
-  // 애니메이션 탭메뉴
   animatedTabList: 'animated-tab-list',
-
-  // 라디오 탭메뉴
-  radioTabList: 'radio-tab-list',
   radioInput: 'radio-input',
   radioLabel: 'radio-label',
   radioContent: 'radio-content',
-
-  // 페이지 스타일
-  pageContainer: 'page-container',
-  themeClass: 'theme-class',
-  pageHeader: 'page-header',
-  pageTitle: 'page-title',
-  pageSubtitle: 'page-subtitle',
-  section: 'section',
-  sectionTitle: 'section-title',
+  radioContentActive: 'radio-content-active',
+  tabContent: 'tab-content',
+  tabContentHidden: 'tab-content-hidden',
+  indicator: 'indicator',
   summary: 'summary',
   summaryTitle: 'summary-title',
   summaryList: 'summary-list',
-
-  // 기타 스타일
+  summaryItem: 'summary-item',
+  summaryItemTitle: 'summary-item-title',
+  summaryItemDescription: 'summary-item-description',
   detailsPanel: 'details-panel',
 }));
 
@@ -306,10 +298,8 @@ describe('TabMenuAnimated (애니메이션)', () => {
     const user = userEvent.setup();
     render(<TabMenuAnimated />);
 
-    // 인디케이터 요소가 존재하는지 확인 (ref로 접근)
-    const indicator = document.querySelector(
-      'div[style*="position: absolute"]'
-    );
+    // 인디케이터 요소가 존재하는지 확인 (CSS 클래스로 접근)
+    const indicator = document.querySelector('.indicator');
     expect(indicator).toBeInTheDocument();
 
     // 탭 클릭 후 인디케이터 위치 변경 확인
