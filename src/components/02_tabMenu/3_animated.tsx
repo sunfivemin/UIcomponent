@@ -1,23 +1,34 @@
-import React, { memo, useState, useRef, useEffect } from 'react';
+import { memo, useState, useRef, useEffect } from 'react';
 import { tabData } from './data';
-import { TabItemProps, TabContentProps } from './types';
+import { TabContentProps } from './types';
 import * as styles from './tabMenu.css';
-import { useTabMenu } from '@/hooks/useTabMenu';
 
-const TabItem = memo<TabItemProps>(({ id, title, isActive, onClick }) => (
-  <li className={styles.tabItem} data-tab-id={id}>
-    <button
-      className={styles.tabButtonVariants[isActive ? 'active' : 'inactive']}
-      onClick={onClick}
-      aria-selected={isActive}
-      role="tab"
-      aria-controls={`panel-${id}`}
-      id={`tab-${id}`}
-    >
-      {title}
-    </button>
-  </li>
-));
+const TabItem = memo(
+  ({
+    id,
+    title,
+    isActive,
+    onClick,
+  }: {
+    id: string;
+    title: string;
+    isActive: boolean;
+    onClick: () => void;
+  }) => (
+    <li className={styles.tabItem} data-tab-id={id}>
+      <button
+        className={styles.tabButtonVariants[isActive ? 'active' : 'inactive']}
+        onClick={onClick}
+        aria-selected={isActive}
+        role="tab"
+        aria-controls={`panel-${id}`}
+        id={`tab-${id}`}
+      >
+        {title}
+      </button>
+    </li>
+  )
+);
 
 TabItem.displayName = 'TabItem';
 

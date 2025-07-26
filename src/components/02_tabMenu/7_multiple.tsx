@@ -1,6 +1,6 @@
-import React, { memo, useEffect, useState } from 'react';
+import { memo } from 'react';
 import { tabData } from './data';
-import { TabItemProps, TabContentProps } from './types';
+import { TabContentProps } from './types';
 import { useMultiTabMenu } from '@/hooks/useTabMenu';
 import * as styles from './tabMenu.css';
 
@@ -45,26 +45,6 @@ const TabMenuMultiple = () => {
     useMultiTabMenu({
       defaultActiveIds: [tabData[0].id],
     });
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
-
-  useEffect(() => {
-    // 다크테마 감지
-    const checkTheme = () => {
-      const theme = document.documentElement.getAttribute('data-theme');
-      setIsDarkTheme(theme === 'dark');
-    };
-
-    checkTheme();
-
-    // 테마 변경 감지
-    const observer = new MutationObserver(checkTheme);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['data-theme'],
-    });
-
-    return () => observer.disconnect();
-  }, []);
 
   const handleTabClick = (id: string) => {
     toggleTab(id);
@@ -143,14 +123,59 @@ const TabMenuMultiple = () => {
           ))}
         </ul>
         <div className={styles.content}>
-          {tabData.map(tab => (
-            <TabContent
-              key={tab.id}
-              id={tab.id}
-              content={tab.description}
-              isActive={isActive(tab.id)}
-            />
-          ))}
+          {/* 선택된 탭들의 컨텐츠를 동시에 표시 */}
+          {activeIds.length > 0 ? (
+            <div
+              style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
+            >
+              {activeIds.map(activeId => {
+                const tab = tabData.find(t => t.id === activeId);
+                if (!tab) return null;
+
+                return (
+                  <div
+                    key={activeId}
+                    style={{
+                      padding: '16px',
+                      border: '1px solid hsl(var(--border))',
+                      borderRadius: '8px',
+                      backgroundColor: 'hsl(var(--card))',
+                    }}
+                  >
+                    <h4
+                      style={{
+                        margin: '0 0 12px 0',
+                        fontSize: '16px',
+                        fontWeight: '600',
+                        color: 'hsl(var(--foreground))',
+                      }}
+                    >
+                      {tab.title}
+                    </h4>
+                    <div
+                      style={{
+                        color: 'hsl(var(--muted-foreground))',
+                        fontSize: '14px',
+                        lineHeight: '1.5',
+                      }}
+                    >
+                      {tab.description}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div
+              style={{
+                padding: '24px',
+                textAlign: 'center',
+                color: 'hsl(var(--muted-foreground))',
+              }}
+            >
+              선택된 탭이 없습니다. 탭을 선택해보세요!
+            </div>
+          )}
         </div>
       </div>
     </div>

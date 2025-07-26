@@ -1,10 +1,182 @@
 // 실제 D3.js & Chart.js 구현 예시
 
-"use client";
-import { useState, useEffect, useRef } from "react";
-import VanillaWrapper from "@/components/common/vanillaWrapper";
+'use client';
+import { useState, useEffect, useRef } from 'react';
+import VanillaWrapper from '@/components/common/vanillaWrapper';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+} from 'chart.js';
+import { Line, Bar, Doughnut } from 'react-chartjs-2';
+
+// Chart.js 등록
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement
+);
 
 const ChartExamplesPage = () => {
+  // 📊 실제 Chart.js 데이터
+  const lineChartData = {
+    labels: ['1월', '2월', '3월', '4월', '5월', '6월'],
+    datasets: [
+      {
+        label: '매출',
+        data: [12, 19, 3, 5, 2, 3],
+        borderColor: 'rgb(75, 192, 192)',
+        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+        tension: 0.1,
+      },
+      {
+        label: '비용',
+        data: [8, 15, 2, 4, 1, 2],
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        tension: 0.1,
+      },
+    ],
+  };
+
+  const barChartData = {
+    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    datasets: [
+      {
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  // 🎨 다양한 색상 옵션들
+  const gradientBarData = {
+    labels: ['1월', '2월', '3월', '4월', '5월', '6월'],
+    datasets: [
+      {
+        label: '그라데이션 바',
+        data: [65, 59, 80, 81, 56, 55],
+        backgroundColor: 'rgba(75, 192, 192, 0.8)', // 단일 색상
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 2,
+      },
+    ],
+  };
+
+  const rainbowBarData = {
+    labels: ['A', 'B', 'C', 'D', 'E', 'F'],
+    datasets: [
+      {
+        label: '무지개 색상',
+        data: [30, 45, 60, 35, 50, 25],
+        backgroundColor: [
+          '#FF6B6B', // 빨강
+          '#4ECDC4', // 청록
+          '#45B7D1', // 하늘색
+          '#96CEB4', // 연두
+          '#FFEAA7', // 연노랑
+          '#DDA0DD', // 연보라
+        ],
+        borderColor: [
+          '#FF5252',
+          '#26A69A',
+          '#29B6F6',
+          '#66BB6A',
+          '#FFD54F',
+          '#AB47BC',
+        ],
+        borderWidth: 2,
+      },
+    ],
+  };
+
+  const pastelBarData = {
+    labels: ['봄', '여름', '가을', '겨울'],
+    datasets: [
+      {
+        label: '파스텔 톤',
+        data: [40, 70, 55, 30],
+        backgroundColor: [
+          'rgba(255, 182, 193, 0.7)', // 파스텔 핑크
+          'rgba(173, 216, 230, 0.7)', // 파스텔 블루
+          'rgba(255, 218, 185, 0.7)', // 파스텔 오렌지
+          'rgba(221, 160, 221, 0.7)', // 파스텔 보라
+        ],
+        borderColor: [
+          'rgba(255, 182, 193, 1)',
+          'rgba(173, 216, 230, 1)',
+          'rgba(255, 218, 185, 1)',
+          'rgba(221, 160, 221, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const doughnutChartData = {
+    labels: ['Red', 'Blue', 'Yellow'],
+    datasets: [
+      {
+        label: '# of Votes',
+        data: [12, 19, 3],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Chart.js 차트 예시',
+      },
+    },
+  };
+
   // 📊 방법 1: React + D3.js (npm install 방식)
   const ReactD3Chart = () => {
     const svgRef = useRef<SVGSVGElement>(null);
@@ -19,28 +191,30 @@ const ChartExamplesPage = () => {
         const data = [12, 5, 6, 6, 9, 10];
 
         // SVG 초기화
-        svg.innerHTML = "";
-        svg.setAttribute("width", "300");
-        svg.setAttribute("height", "200");
+        svg.innerHTML = '';
+        svg.setAttribute('width', '300');
+        svg.setAttribute('height', '200');
 
         // 바 차트 그리기 (D3 스타일 시뮬레이션)
         data.forEach((value, index) => {
           const rect = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "rect"
+            'http://www.w3.org/2000/svg',
+            'rect'
           );
-          rect.setAttribute("x", (index * 40 + 10).toString());
-          rect.setAttribute("y", (200 - value * 10).toString());
-          rect.setAttribute("width", "30");
-          rect.setAttribute("height", (value * 10).toString());
-          rect.setAttribute("fill", "#3b82f6");
+          rect.setAttribute('x', (index * 40 + 10).toString());
+          rect.setAttribute('y', (200 - value * 10).toString());
+          rect.setAttribute('width', '30');
+          rect.setAttribute('height', (value * 10).toString());
+          rect.setAttribute('fill', '#3b82f6');
           svg.appendChild(rect);
         });
       };
 
       mockD3Implementation();
     }, []);
-
+    // D3.js는 element.appendChild(), element.setAttribute() 같은 DOM API를 직접 사용
+    // React는 Virtual DOM을 통해 DOM을 관리하므로 충돌 발생
+    // React가 모르는 사이에 DOM이 변경되면 예상치 못한 버그 발생
     return (
       <div>
         <h4 className="font-bold mb-2">React + D3.js (npm install)</h4>
@@ -52,63 +226,46 @@ const ChartExamplesPage = () => {
     );
   };
 
-  // 📈 방법 2: React + Chart.js (npm install 방식)
+  // 📈 방법 2: React + Chart.js (실제 라이브러리 사용)
   const ReactChartJS = () => {
-    const canvasRef = useRef<HTMLCanvasElement>(null);
-
-    useEffect(() => {
-      if (!canvasRef.current) return;
-
-      // 실제 환경에서는 import { Chart } from 'chart.js';
-      // 여기서는 Canvas로 시뮬레이션
-      const mockChartJSImplementation = () => {
-        const canvas = canvasRef.current!;
-        const ctx = canvas.getContext("2d")!;
-        const data = [65, 59, 80, 81, 56];
-        const labels = ["Jan", "Feb", "Mar", "Apr", "May"];
-
-        // Canvas 초기화
-        canvas.width = 300;
-        canvas.height = 200;
-        ctx.clearRect(0, 0, 300, 200);
-
-        // 라인 차트 그리기 (Chart.js 스타일 시뮬레이션)
-        ctx.strokeStyle = "#10b981";
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-
-        data.forEach((value, index) => {
-          const x = index * 60 + 30;
-          const y = 180 - value * 2;
-
-          if (index === 0) {
-            ctx.moveTo(x, y);
-          } else {
-            ctx.lineTo(x, y);
-          }
-
-          // 점 그리기
-          ctx.fillStyle = "#10b981";
-          ctx.beginPath();
-          ctx.arc(x, y, 3, 0, Math.PI * 2);
-          ctx.fill();
-        });
-
-        ctx.stroke();
-      };
-
-      mockChartJSImplementation();
-    }, []);
-
     return (
       <div>
-        <h4 className="font-bold mb-2">React + Chart.js (npm install)</h4>
-        <canvas
-          ref={canvasRef}
-          className="border border-gray-300 rounded"
-        ></canvas>
+        <h4 className="font-bold mb-2">React + Chart.js (실제 라이브러리)</h4>
+        <div className="space-y-6">
+          <div>
+            <h5 className="text-sm font-semibold mb-2">라인 차트</h5>
+            <Line data={lineChartData} options={chartOptions} />
+          </div>
+
+          <div>
+            <h5 className="text-sm font-semibold mb-2">
+              기본 바 차트 (개별 색상)
+            </h5>
+            <Bar data={barChartData} options={chartOptions} />
+          </div>
+
+          <div>
+            <h5 className="text-sm font-semibold mb-2">단일 색상 바 차트</h5>
+            <Bar data={gradientBarData} options={chartOptions} />
+          </div>
+
+          <div>
+            <h5 className="text-sm font-semibold mb-2">무지개 색상 바 차트</h5>
+            <Bar data={rainbowBarData} options={chartOptions} />
+          </div>
+
+          <div>
+            <h5 className="text-sm font-semibold mb-2">파스텔 톤 바 차트</h5>
+            <Bar data={pastelBarData} options={chartOptions} />
+          </div>
+
+          <div>
+            <h5 className="text-sm font-semibold mb-2">도넛 차트</h5>
+            <Doughnut data={doughnutChartData} options={chartOptions} />
+          </div>
+        </div>
         <p className="text-xs text-gray-600 mt-2">
-          실제: npm install chart.js react-chartjs-2 필요
+          실제 Chart.js 라이브러리 사용 중
         </p>
       </div>
     );
@@ -129,23 +286,23 @@ const ChartExamplesPage = () => {
     // const svg = d3.select(element.querySelector('#d3-chart'));
 
     // 시뮬레이션
-    const svg = element.querySelector("#d3-chart") as SVGElement;
+    const svg = element.querySelector('#d3-chart') as SVGElement;
     const data = [8, 12, 7, 14, 10];
 
     data.forEach((value, index) => {
       const circle = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "circle"
+        'http://www.w3.org/2000/svg',
+        'circle'
       );
-      circle.setAttribute("cx", (index * 50 + 30).toString());
-      circle.setAttribute("cy", (200 - value * 10).toString());
-      circle.setAttribute("r", value.toString());
-      circle.setAttribute("fill", "#8b5cf6");
+      circle.setAttribute('cx', (index * 50 + 30).toString());
+      circle.setAttribute('cy', (200 - value * 10).toString());
+      circle.setAttribute('r', value.toString());
+      circle.setAttribute('fill', '#8b5cf6');
       svg.appendChild(circle);
     });
 
     return () => {
-      svg.innerHTML = "";
+      svg.innerHTML = '';
     };
   };
 
@@ -163,7 +320,7 @@ const ChartExamplesPage = () => {
 
     // CDN 스크립트 동적 로드 시뮬레이션
     const loadLibrarySimulation = () => {
-      const chartDiv = element.querySelector("#cdn-chart") as HTMLDivElement;
+      const chartDiv = element.querySelector('#cdn-chart') as HTMLDivElement;
 
       // 실제로는 이렇게:
       // const script = document.createElement('script');
@@ -223,19 +380,19 @@ const ChartExamplesPage = () => {
               </div>
             `
               )
-              .join("")}
+              .join('')}
           </div>
         `;
       },
     };
 
     const chartContainer = element.querySelector(
-      "#legacy-chart"
+      '#legacy-chart'
     ) as HTMLElement;
     legacyChartLib.create(chartContainer, [30, 80, 45, 60, 90]);
 
     return () => {
-      chartContainer.innerHTML = "";
+      chartContainer.innerHTML = '';
     };
   };
 
