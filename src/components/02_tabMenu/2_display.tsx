@@ -27,7 +27,6 @@ const TabContent = memo<TabContentProps>(({ id, content, isActive }) => (
     role="tabpanel"
     aria-labelledby={`tab-${id}`}
     id={`panel-${id}`}
-    hidden={!isActive}
   >
     {content}
   </div>
@@ -36,7 +35,7 @@ const TabContent = memo<TabContentProps>(({ id, content, isActive }) => (
 TabContent.displayName = 'TabContent';
 
 const TabMenuDisplay = () => {
-  const { activeId, setActiveTab, isActive } = useTabMenu({
+  const { setActiveTab, isActive } = useTabMenu({
     defaultActiveId: tabData[0].id,
   });
 

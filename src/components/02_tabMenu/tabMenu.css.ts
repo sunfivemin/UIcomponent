@@ -193,23 +193,11 @@ export const content = style({
 });
 
 export const contentPanel = style({
-  opacity: 0,
-  transform: 'translateY(10px)',
-  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  right: 0,
-  width: '100%',
-  pointerEvents: 'none',
+  display: 'none',
 });
 
 export const contentPanelActive = style({
-  opacity: 1,
-  transform: 'translateY(0)',
-  position: 'relative',
-  width: '100%',
-  pointerEvents: 'auto',
+  display: 'block',
 });
 
 // details 방식 패널도 동일하게 적용
@@ -303,7 +291,7 @@ export const indicator = style({
   position: 'absolute',
   bottom: 0,
   height: '3px',
-  backgroundColor: 'hsl(var(--primary))',
+  backgroundColor: 'hsl(var(--border))',
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   zIndex: 1,
 });

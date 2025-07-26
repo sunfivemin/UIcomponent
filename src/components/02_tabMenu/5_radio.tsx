@@ -1,13 +1,12 @@
-import React, { memo, useState } from 'react';
+import { memo, useState } from 'react';
 import { tabData } from './data';
 import * as styles from './tabMenu.css';
 
 const TabItem = memo<{
   tab: (typeof tabData)[0];
-  index: number;
   activeId: string;
   onTabChange: (id: string) => void;
-}>(({ tab, index, activeId, onTabChange }) => (
+}>(({ tab, activeId, onTabChange }) => (
   <li className={styles.tabItem}>
     <input
       type="radio"
@@ -39,11 +38,10 @@ const TabMenuRadio = () => {
       <h3 className={styles.sectionTitle}>#5. 라디오 버튼 방식</h3>
       <div className={styles.tabMenu()}>
         <ul className={styles.tabList} role="tablist">
-          {tabData.map((tab, index) => (
+          {tabData.map(tab => (
             <TabItem
               key={tab.id}
               tab={tab}
-              index={index}
               activeId={activeId}
               onTabChange={setActiveId}
             />
@@ -51,7 +49,7 @@ const TabMenuRadio = () => {
         </ul>
         {/* 콘텐츠 영역을 별도로 분리 */}
         <div className={styles.content}>
-          {tabData.map((tab, index) => (
+          {tabData.map(tab => (
             <div
               key={tab.id}
               className={`${styles.radioContent} ${
