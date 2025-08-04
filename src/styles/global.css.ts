@@ -168,6 +168,7 @@ globalStyle('aside li.open.parent > a::before', {
 globalStyle('main', {
   boxSizing: 'border-box',
   minHeight: '100%',
+  width: '100%',
   padding: '20px',
   backgroundColor: 'hsl(var(--background))',
   color: 'hsl(var(--foreground))',
