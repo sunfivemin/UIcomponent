@@ -1,98 +1,112 @@
 'use client';
-import VanillaWrapper from '@/components/common/vanillaWrapper';
+
+import { useRef, useEffect } from 'react';
 import { accordionData } from './data';
 import * as styles from './accordion.css';
-import { AccordionItemData } from './types';
 
 const VanillaAccordion = () => {
-  const initiator = (wrapper: HTMLDivElement) => {
-    let currentId: string | null = null;
+  const accordionRef = useRef<HTMLUListElement>(null);
 
-    // vanilla-extract 클래스명 가져오기
-    const containerClass = `${styles.container} ${styles.themeClass}`;
-    const tabClass = styles.tabBase;
-    const tabActiveClass = `${styles.tabBase} ${styles.tabVariants.active}`;
-    const contentClass = `${styles.contentBase} ${styles.contentVariants.animated}`;
-    const contentOpenClass = `${styles.contentBase} ${styles.contentVariants.animated} ${styles.contentVariants.animatedOpen}`;
-
-    const createAccordionItem = (item: AccordionItemData) => {
-      const li = document.createElement('li');
-      li.className = styles.itemVariants.animated;
-
-      const tab = document.createElement('div');
-      tab.className = tabClass;
-      tab.textContent = item.title;
-      tab.dataset.id = item.id;
-      tab.setAttribute('role', 'button');
-      tab.setAttribute('tabindex', '0');
-      tab.setAttribute('aria-expanded', 'false');
-
-      const description = document.createElement('div');
-      description.className = contentClass;
-      description.textContent = item.description;
-      description.setAttribute('role', 'region');
-
-      li.append(tab, description);
-      return { li, tab, description };
-    };
-
-    const ul = document.createElement('ul');
-    ul.className = containerClass;
-
-    const items = accordionData.map(createAccordionItem);
-    items.forEach(({ li }) => ul.appendChild(li));
-
-    const updateAccordion = () => {
-      items.forEach(({ tab, description }, index) => {
-        const isOpen = currentId === accordionData[index].id;
-
-        tab.className = isOpen ? tabActiveClass : tabClass;
-        tab.setAttribute('aria-expanded', isOpen.toString());
-        description.className = isOpen ? contentOpenClass : contentClass;
-      });
-    };
+  useEffect(() => {
+    const accordion = accordionRef.current;
+    if (!accordion) return;
 
     const handleClick = (e: Event) => {
       const target = e.target as HTMLElement;
-      const id = target.dataset.id;
-      if (!id) return;
+      const button = target.closest('button');
+      if (!button) return;
 
-      currentId = currentId === id ? null : id;
-      updateAccordion();
-    };
+      const item = button.closest('li');
+      if (!item) return;
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        handleClick(e);
+      const content = item.querySelector(
+        'div[class*="content"]'
+      ) as HTMLElement;
+      if (!content) return;
+
+      const isOpen = button.getAttribute('aria-expanded') === 'true';
+
+      // 🎯 순수 JavaScript 제어의 핵심
+      // 모든 아이템 닫기
+      accordion.querySelectorAll('button').forEach(btn => {
+        btn.setAttribute('aria-expanded', 'false');
+        btn.className = styles.tabBase;
+      });
+      accordion.querySelectorAll('div[class*="content"]').forEach(div => {
+        div.className = styles.contentVariants.hidden;
+      });
+
+      // 클릭된 아이템 토글
+      if (!isOpen) {
+        button.setAttribute('aria-expanded', 'true');
+        button.className = `${styles.tabBase} ${styles.tabVariants.active}`;
+        content.className = styles.contentVariants.conditional;
       }
     };
 
-    ul.addEventListener('click', handleClick);
-    ul.addEventListener('keydown', handleKeyDown);
-
-    // 첫 번째 항목 기본 열림
-    currentId = accordionData[0].id;
-    updateAccordion();
-
-    wrapper.appendChild(ul);
-
-    // cleanup 함수
-    return () => {
-      ul.removeEventListener('click', handleClick);
-      ul.removeEventListener('keydown', handleKeyDown);
-    };
-  };
+    accordion.addEventListener('click', handleClick);
+    return () => accordion.removeEventListener('click', handleClick);
+  }, []);
 
   return (
     <div className={styles.section}>
       <h3 className={styles.sectionTitle}>
-        #4. VanillaWrapper + vanilla-extract <sub>순수 JavaScript DOM 조작</sub>
+        순수 JavaScript 방식 <sub>React 없이 DOM 직접 조작</sub>
       </h3>
-      <VanillaWrapper
-        title="Vanilla JavaScript + vanilla-extract"
-        initiator={initiator}
-      />
+
+      <div className={styles.summary}>
+        <p>
+          <strong>핵심:</strong> <code>addEventListener + DOM 조작</code> -
+          React 상태 없이 순수 JavaScript로 제어
+        </p>
+        <div
+          style={{
+            marginTop: '12px',
+            fontSize: '14px',
+            color: 'hsl(var(--muted-foreground))',
+          }}
+        >
+          <p>
+            <strong>✅ 장점:</strong> 번들 크기 감소, React 의존성 제거,
+            직접적인 DOM 제어
+          </p>
+          <p>
+            <strong>❌ 단점:</strong> 코드 복잡성, 메모리 누수 위험, 디버깅
+            어려움
+          </p>
+          <p>
+            <strong>💡 사용 시나리오:</strong> 경량화가 중요한 경우, React
+            외부에서 사용
+          </p>
+        </div>
+      </div>
+
+      <ul ref={accordionRef} className={styles.container}>
+        {accordionData.map((item, index) => (
+          <li key={item.id} className={styles.itemVariants.default}>
+            <button
+              className={`${styles.tabBase} ${
+                index === 0 ? styles.tabVariants.active : ''
+              }`}
+              aria-expanded={index === 0}
+            >
+              <span>{item.title}</span>
+              <span className={styles.toggleIcon}>
+                {index === 0 ? '−' : '+'}
+              </span>
+            </button>
+            <div
+              className={
+                index === 0
+                  ? styles.contentVariants.conditional
+                  : styles.contentVariants.hidden
+              }
+            >
+              <p>{item.description}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
