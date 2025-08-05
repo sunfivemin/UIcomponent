@@ -1,5 +1,4 @@
-import { useState, useCallback } from "react";
-import { throttle } from "@/lib/performance";
+import { useState, useCallback } from 'react';
 
 // 🚀 탭메뉴 전용 훅
 interface UseTabMenuProps {
@@ -11,22 +10,14 @@ export const useTabMenu = ({
   defaultActiveId,
   onChange,
 }: UseTabMenuProps = {}) => {
-  const [activeId, setActiveId] = useState(defaultActiveId || "");
-
-  // 🚀 쓰로틀링된 onChange 콜백
-  const throttledOnChange = useCallback(
-    throttle((id: string) => {
-      onChange?.(id);
-    }, 16),
-    [onChange]
-  );
+  const [activeId, setActiveId] = useState(defaultActiveId || '');
 
   const setActiveTab = useCallback(
     (id: string) => {
       setActiveId(id);
-      throttledOnChange(id);
+      onChange?.(id);
     },
-    [throttledOnChange]
+    [onChange]
   );
 
   const isActive = useCallback(
@@ -55,51 +46,43 @@ export const useMultiTabMenu = ({
 }: UseMultiTabMenuProps = {}) => {
   const [activeIds, setActiveIds] = useState<string[]>(defaultActiveIds);
 
-  // 🚀 쓰로틀링된 onChange 콜백
-  const throttledOnChange = useCallback(
-    throttle((ids: string[]) => {
-      onChange?.(ids);
-    }, 16),
-    [onChange]
-  );
-
   const toggleTab = useCallback(
     (id: string) => {
-      setActiveIds((prev) => {
+      setActiveIds(prev => {
         const newIds = prev.includes(id)
-          ? prev.filter((item) => item !== id)
+          ? prev.filter(item => item !== id)
           : [...prev, id];
 
-        throttledOnChange(newIds);
+        onChange?.(newIds);
         return newIds;
       });
     },
-    [throttledOnChange]
+    [onChange]
   );
 
   const activateTab = useCallback(
     (id: string) => {
-      setActiveIds((prev) => {
+      setActiveIds(prev => {
         if (!prev.includes(id)) {
           const newIds = [...prev, id];
-          throttledOnChange(newIds);
+          onChange?.(newIds);
           return newIds;
         }
         return prev;
       });
     },
-    [throttledOnChange]
+    [onChange]
   );
 
   const deactivateTab = useCallback(
     (id: string) => {
-      setActiveIds((prev) => {
-        const newIds = prev.filter((item) => item !== id);
-        throttledOnChange(newIds);
+      setActiveIds(prev => {
+        const newIds = prev.filter(item => item !== id);
+        onChange?.(newIds);
         return newIds;
       });
     },
-    [throttledOnChange]
+    [onChange]
   );
 
   const isActive = useCallback(
@@ -112,15 +95,15 @@ export const useMultiTabMenu = ({
   const selectAll = useCallback(
     (allIds: string[]) => {
       setActiveIds(allIds);
-      throttledOnChange(allIds);
+      onChange?.(allIds);
     },
-    [throttledOnChange]
+    [onChange]
   );
 
   const deselectAll = useCallback(() => {
     setActiveIds([]);
-    throttledOnChange([]);
-  }, [throttledOnChange]);
+    onChange?.([]);
+  }, [onChange]);
 
   return {
     activeIds,

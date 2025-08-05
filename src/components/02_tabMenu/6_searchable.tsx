@@ -1,68 +1,12 @@
-import React, { memo, useState, useRef, useEffect } from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import { tabData } from './data';
-import { TabItemProps, TabContentProps } from './types';
 import * as styles from './tabMenu.css';
 
-const TabItem = memo<TabItemProps>(({ id, title, isActive, onClick }) => (
-  <li className={styles.tabItem}>
-    <button
-      className={styles.tabButtonVariants[isActive ? 'active' : 'inactive']}
-      onClick={onClick}
-      aria-selected={isActive}
-      role="tab"
-      aria-controls={`panel-${id}`}
-      id={`tab-${id}`}
-    >
-      {title}
-    </button>
-  </li>
-));
-
-TabItem.displayName = 'TabItem';
-
-const TabContent = memo<TabContentProps>(({ id, content, isActive }) => {
-  const contentRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (contentRef.current) {
-      contentRef.current.addEventListener('beforematch', () => {
-        // 검색 시 해당 탭으로 이동하는 로직
-        const event = new CustomEvent('tabSearch', { detail: { tabId: id } });
-        window.dispatchEvent(event);
-      });
-    }
-
-    return () => {
-      if (contentRef.current) {
-        contentRef.current.removeEventListener('beforematch', () => {});
-      }
-    };
-  }, [id]);
-
-  return (
-    <div
-      ref={contentRef}
-      className={isActive ? styles.contentPanelActive : styles.contentPanel}
-      role="tabpanel"
-      aria-labelledby={`tab-${id}`}
-      id={`panel-${id}`}
-      hidden={!isActive}
-      {...(isActive ? {} : { 'data-hidden': 'until-found' })}
-    >
-      {content}
-    </div>
-  );
-});
-
-TabContent.displayName = 'TabContent';
-
 const TabMenuSearchable = () => {
-  const [activeId, setActiveId] = useState(tabData[0].id);
+  const [activeTab, setActiveTab] = useState(tabData[0].id);
   const [searchTerm, setSearchTerm] = useState('');
-
-  const handleTabClick = (id: string) => {
-    setActiveId(id);
-  };
 
   // 검색어에 따라 탭 필터링
   const filteredTabs = tabData.filter(
@@ -71,59 +15,86 @@ const TabMenuSearchable = () => {
       tab.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // 검색 이벤트 리스너
-  useEffect(() => {
-    const handleTabSearch = (event: CustomEvent) => {
-      setActiveId(event.detail.tabId);
-    };
-
-    window.addEventListener('tabSearch', handleTabSearch as EventListener);
-    return () => {
-      window.removeEventListener('tabSearch', handleTabSearch as EventListener);
-    };
-  }, []);
-
   return (
     <div className={styles.section}>
-      <h3 className={styles.sectionTitle}>#6. 검색 가능한 탭메뉴</h3>
+      <h3 className={styles.sectionTitle}>
+        검색 가능한 탭메뉴 <sub>조건부 렌더링 + 검색 필터링</sub>
+      </h3>
+
+      <div className={styles.summary}>
+        <p>
+          <strong>핵심:</strong>
+          <code>{'useState + filter() + 조건부 렌더링'}</code> - 검색어에 따라
+          탭을 필터링하고 조건부로 렌더링
+        </p>
+        <div className={styles.summaryDetails}>
+          <p>
+            <strong>✅ 장점:</strong> 동적 필터링, 사용자 경험 향상, 실시간 검색
+          </p>
+          <p>
+            <strong>❌ 단점:</strong> 복잡한 상태 관리, 성능 고려 필요
+          </p>
+          <p>
+            <strong>💡 사용 시나리오:</strong> 많은 탭이 있는 경우, 사용자가
+            원하는 내용을 빠르게 찾고 싶을 때
+          </p>
+        </div>
+      </div>
+
       <div className={styles.tabMenu()}>
         {/* 검색 입력창 */}
-        <div style={{ padding: '16px', borderBottom: '1px solid #e5e7eb' }}>
+        <div className={styles.searchContainer}>
           <input
             type="search"
             placeholder="탭 내용 검색..."
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
-            style={{
-              width: '100%',
-              padding: '8px 12px',
-              border: '1px solid #d1d5db',
-              borderRadius: '6px',
-              fontSize: '14px',
-            }}
+            className={styles.searchInput}
           />
         </div>
 
+        {/* 탭 버튼들 - 조건부 렌더링으로 필터링된 탭만 표시 */}
         <ul className={styles.tabList} role="tablist">
-          {filteredTabs.map(tab => (
-            <TabItem
-              key={tab.id}
-              id={tab.id}
-              title={tab.title}
-              isActive={activeId === tab.id}
-              onClick={() => handleTabClick(tab.id)}
-            />
-          ))}
+          {filteredTabs.map(tab => {
+            const isActive = activeTab === tab.id;
+            return (
+              <li key={tab.id} className={styles.tabItem}>
+                <button
+                  className={
+                    styles.tabButtonVariants[isActive ? 'active' : 'inactive']
+                  }
+                  onClick={() => setActiveTab(tab.id)}
+                  aria-selected={isActive}
+                  role="tab"
+                  aria-controls={`panel-${tab.id}`}
+                  id={`tab-${tab.id}`}
+                >
+                  {tab.title}
+                </button>
+              </li>
+            );
+          })}
         </ul>
+
+        {/* 콘텐츠 영역 - 조건부 렌더링으로 활성 탭만 표시 */}
         <div className={styles.content}>
-          {filteredTabs.map(tab => (
-            <TabContent
-              key={tab.id}
-              id={tab.id}
-              content={tab.description}
-              isActive={activeId === tab.id}
-            />
-          ))}
+          {filteredTabs.map(tab => {
+            const isActive = activeTab === tab.id;
+            return (
+              <div
+                key={tab.id}
+                className={
+                  isActive ? styles.contentPanelActive : styles.contentPanel
+                }
+                role="tabpanel"
+                aria-labelledby={`tab-${tab.id}`}
+                id={`panel-${tab.id}`}
+                hidden={!isActive}
+              >
+                {tab.description}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

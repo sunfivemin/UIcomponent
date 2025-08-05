@@ -1,97 +1,147 @@
 'use client';
-import VanillaWrapper from '@/components/common/vanillaWrapper';
+
 import { accordionData } from './data';
+import VanillaWrapper from '@/components/common/vanillaWrapper';
 import * as styles from './accordion.css';
-import { AccordionItemData } from './types';
 
 const VanillaAccordion = () => {
-  const initiator = (wrapper: HTMLDivElement) => {
-    let currentId: string | null = null;
+  const initiator = (container: HTMLDivElement) => {
+    let currentOpenId: string | null = '1'; // 첫 번째 아이템이 열려있음
 
-    // vanilla-extract 클래스명 가져오기
-    const containerClass = `${styles.container} ${styles.themeClass}`;
-    const tabClass = styles.tabBase;
-    const tabActiveClass = `${styles.tabBase} ${styles.tabVariants.active}`;
-    const contentClass = `${styles.contentBase} ${styles.contentVariants.animated}`;
-    const contentOpenClass = `${styles.contentBase} ${styles.contentVariants.animated} ${styles.contentVariants.animatedOpen}`;
+    // 아코디언 컨테이너 생성
+    const accordion = document.createElement('ul');
+    accordion.className = styles.container;
 
-    const createAccordionItem = (item: AccordionItemData) => {
+    // 아코디언 아이템들 생성
+    accordionData.forEach(item => {
       const li = document.createElement('li');
-      li.className = styles.itemVariants.animated;
+      li.className = styles.itemVariants.default;
+      li.setAttribute('data-item-id', item.id);
 
-      const tab = document.createElement('div');
-      tab.className = tabClass;
-      tab.textContent = item.title;
-      tab.dataset.id = item.id;
-      tab.setAttribute('role', 'button');
-      tab.setAttribute('tabindex', '0');
-      tab.setAttribute('aria-expanded', 'false');
+      const button = document.createElement('button');
+      button.className = styles.tabBase;
+      button.setAttribute('aria-expanded', 'false');
 
-      const description = document.createElement('div');
-      description.className = contentClass;
+      const titleSpan = document.createElement('span');
+      titleSpan.textContent = item.title;
+
+      const iconSpan = document.createElement('span');
+      iconSpan.className = styles.toggleIcon;
+      iconSpan.textContent = '+';
+
+      button.appendChild(titleSpan);
+      button.appendChild(iconSpan);
+
+      const content = document.createElement('div');
+      content.className = styles.contentVariants.hidden;
+
+      const description = document.createElement('p');
       description.textContent = item.description;
-      description.setAttribute('role', 'region');
 
-      li.append(tab, description);
-      return { li, tab, description };
-    };
+      content.appendChild(description);
 
-    const ul = document.createElement('ul');
-    ul.className = containerClass;
+      li.appendChild(button);
+      li.appendChild(content);
+      accordion.appendChild(li);
+    });
 
-    const items = accordionData.map(createAccordionItem);
-    items.forEach(({ li }) => ul.appendChild(li));
+    container.appendChild(accordion);
 
-    const updateAccordion = () => {
-      items.forEach(({ tab, description }, index) => {
-        const isOpen = currentId === accordionData[index].id;
-
-        tab.className = isOpen ? tabActiveClass : tabClass;
-        tab.setAttribute('aria-expanded', isOpen.toString());
-        description.className = isOpen ? contentOpenClass : contentClass;
+    // 🎯 바닐라 JS 조건부 렌더링 핵심 함수
+    const renderAccordion = () => {
+      // 모든 아이템을 닫힌 상태로 초기화
+      accordion.querySelectorAll('button').forEach(btn => {
+        btn.setAttribute('aria-expanded', 'false');
+        btn.className = styles.tabBase;
       });
+      accordion.querySelectorAll('div[class*="content"]').forEach(div => {
+        div.className = styles.contentVariants.hidden;
+      });
+
+      // 현재 열린 아이템만 활성화 (조건부 렌더링 패턴)
+      if (currentOpenId) {
+        const activeButton = accordion.querySelector(
+          `[data-item-id="${currentOpenId}"] button`
+        ) as HTMLElement;
+        const activeContent = accordion.querySelector(
+          `[data-item-id="${currentOpenId}"] div[class*="content"]`
+        ) as HTMLElement;
+
+        if (activeButton && activeContent) {
+          activeButton.setAttribute('aria-expanded', 'true');
+          activeButton.className = `${styles.tabBase} ${styles.tabVariants.active}`;
+          activeContent.className = styles.contentVariants.conditional;
+        }
+      }
     };
 
     const handleClick = (e: Event) => {
       const target = e.target as HTMLElement;
-      const id = target.dataset.id;
-      if (!id) return;
+      const button = target.closest('button');
+      if (!button) return;
 
-      currentId = currentId === id ? null : id;
-      updateAccordion();
-    };
+      const item = button.closest('li');
+      if (!item) return;
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        handleClick(e);
+      const itemId = item.getAttribute('data-item-id');
+      if (!itemId) return;
+
+      const isOpen = button.getAttribute('aria-expanded') === 'true';
+
+      // 🎯 조건부 렌더링과 유사한 패턴
+      if (isOpen) {
+        currentOpenId = null; // 닫기
+      } else {
+        currentOpenId = itemId; // 열기
       }
+
+      renderAccordion();
     };
 
-    ul.addEventListener('click', handleClick);
-    ul.addEventListener('keydown', handleKeyDown);
+    // 초기 렌더링
+    renderAccordion();
 
-    // 첫 번째 항목 기본 열림
-    currentId = accordionData[0].id;
-    updateAccordion();
+    // 이벤트 리스너 추가
+    accordion.addEventListener('click', handleClick);
 
-    wrapper.appendChild(ul);
-
-    // cleanup 함수
+    // 클린업 함수 반환
     return () => {
-      ul.removeEventListener('click', handleClick);
-      ul.removeEventListener('keydown', handleKeyDown);
+      accordion.removeEventListener('click', handleClick);
     };
   };
 
   return (
     <div className={styles.section}>
       <h3 className={styles.sectionTitle}>
-        #4. VanillaWrapper + vanilla-extract <sub>순수 JavaScript DOM 조작</sub>
+        순수 JavaScript 방식 <sub>DOM 직접 조작</sub>
       </h3>
+
+      <div className={styles.summary}>
+        <p>
+          <strong>핵심:</strong>
+          <code>{'if (isOpen) { renderContent(); }'}</code> - 순수 JavaScript로
+          DOM을 직접 조작하여 조건부 렌더링 구현
+        </p>
+        <div className={styles.summaryDetails}>
+          <p>
+            <strong>✅ 장점:</strong> React 의존성 없음, 번들 크기 최소화,
+            완전한 DOM 제어
+          </p>
+          <p>
+            <strong>❌ 단점:</strong> 코드 복잡성 높음, 상태 관리 어려움,
+            유지보수 비용 증가
+          </p>
+          <p>
+            <strong>💡 사용 시나리오:</strong> 경량화가 중요한 환경, React
+            외부에서 사용, 순수 JS 학습
+          </p>
+        </div>
+      </div>
+
       <VanillaWrapper
-        title="Vanilla JavaScript + vanilla-extract"
+        title="바닐라 JS 아코디언"
         initiator={initiator}
+        className=""
       />
     </div>
   );

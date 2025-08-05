@@ -99,6 +99,32 @@ globalStyle('aside li.open', {
   fontWeight: 700,
 });
 
+// VanillaWrapper 스타일
+globalStyle('.vanilla-wrapper', {
+  border: '1px solid hsl(var(--border))',
+  borderRadius: '8px',
+  overflow: 'hidden',
+  backgroundColor: 'hsl(var(--background))',
+  // margin 제거 (아코디언 컨테이너에 마진이 있으므로)
+});
+
+globalStyle('.vanilla-wrapper-header', {
+  padding: '16px 20px',
+  borderBottom: '1px solid hsl(var(--border))',
+  backgroundColor: 'hsl(var(--muted))',
+  borderRadius: '8px 8px 0 0',
+  fontSize: '14px',
+  fontWeight: '500',
+  color: 'hsl(var(--muted-foreground))',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+});
+
+globalStyle('.vanilla-wrapper-icon', {
+  fontSize: '16px',
+});
+
 globalStyle('aside li a', {
   display: 'block',
   padding: '10px 20px 10px 25px',
@@ -168,6 +194,7 @@ globalStyle('aside li.open.parent > a::before', {
 globalStyle('main', {
   boxSizing: 'border-box',
   minHeight: '100%',
+  width: '100%',
   padding: '20px',
   backgroundColor: 'hsl(var(--background))',
   color: 'hsl(var(--foreground))',
@@ -682,10 +709,7 @@ globalStyle('.vanilla-wrapper', {
   marginBottom: '20px',
 });
 
-globalStyle('.vanilla-wrapper:hover', {
-  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-  transform: 'translateY(-2px)',
-});
+// hover 애니메이션 제거
 
 globalStyle('.vanilla-content', {
   width: '100%',
