@@ -15,13 +15,7 @@ const DetailsAccordion = () => {
           <strong>핵심:</strong> <code>&lt;details&gt; & &lt;summary&gt;</code>{' '}
           - 브라우저 기본 기능으로 JavaScript 없이 동작
         </p>
-        <div
-          style={{
-            marginTop: '12px',
-            fontSize: '14px',
-            color: 'hsl(var(--muted-foreground))',
-          }}
-        >
+        <div className={styles.summaryDetails}>
           <p>
             <strong>✅ 장점:</strong> JavaScript 없음, 접근성 최고, 브라우저
             기본 지원

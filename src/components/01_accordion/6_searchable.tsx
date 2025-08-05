@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { accordionData } from './data';
-import { contentVariants } from './accordion.css';
 import * as styles from './accordion.css';
 
 const SearchableAccordion = () => {
@@ -23,13 +22,7 @@ const SearchableAccordion = () => {
           <strong>핵심:</strong> <code>hidden="until-found"</code> - 브라우저
           검색으로 숨겨진 콘텐츠도 찾을 수 있음
         </p>
-        <div
-          style={{
-            marginTop: '12px',
-            fontSize: '14px',
-            color: 'hsl(var(--muted-foreground))',
-          }}
-        >
+        <div className={styles.summaryDetails}>
           <p>
             <strong>✅ 장점:</strong> 검색 친화적, 사용자 경험 향상, SEO 최적화
           </p>
@@ -62,7 +55,7 @@ const SearchableAccordion = () => {
 
               {/* 🎯 검색 가능한 콘텐츠의 핵심 */}
               <div
-                className={contentVariants.conditional}
+                className={styles.contentVariants.conditional}
                 hidden={isOpen ? undefined : ('until-found' as any)}
               >
                 <p>{item.description}</p>

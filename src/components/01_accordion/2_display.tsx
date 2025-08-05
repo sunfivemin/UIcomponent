@@ -22,13 +22,7 @@ const DisplayAccordion = () => {
           <strong>핵심:</strong> <code>display: none/block</code> - DOM은 항상
           존재하지만 CSS로 숨김/보임
         </p>
-        <div
-          style={{
-            marginTop: '12px',
-            fontSize: '14px',
-            color: 'hsl(var(--muted-foreground))',
-          }}
-        >
+        <div className={styles.summaryDetails}>
           <p>
             <strong>✅ 장점:</strong> 구현 간단, 빠른 전환, DOM 구조 안정적
           </p>

@@ -24,13 +24,7 @@ const MultipleAccordion = () => {
           <strong>핵심:</strong> <code>openItems.includes(id)</code> - 배열로
           여러 아이템의 열림 상태를 관리
         </p>
-        <div
-          style={{
-            marginTop: '12px',
-            fontSize: '14px',
-            color: 'hsl(var(--muted-foreground))',
-          }}
-        >
+        <div className={styles.summaryDetails}>
           <p>
             <strong>✅ 장점:</strong> 유연한 사용자 경험, 복잡한 상태 관리 가능
           </p>

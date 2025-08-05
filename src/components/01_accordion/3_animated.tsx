@@ -22,13 +22,7 @@ const AnimatedAccordion = () => {
           <strong>핵심:</strong> <code>transition + transform</code> - DOM은
           유지하면서 부드러운 애니메이션
         </p>
-        <div
-          style={{
-            marginTop: '12px',
-            fontSize: '14px',
-            color: 'hsl(var(--muted-foreground))',
-          }}
-        >
+        <div className={styles.summaryDetails}>
           <p>
             <strong>✅ 장점:</strong> 부드러운 UX, GPU 가속, 성능 최적화
           </p>

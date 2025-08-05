@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import ConditionalAccordion from './1_conditional';
 import DisplayAccordion from './2_display';
 import AnimatedAccordion from './3_animated';
@@ -17,7 +16,7 @@ const AccordionCollection = () => {
       <header className={styles.pageHeader}>
         <h1 className={styles.pageTitle}>아코디언</h1>
         <p className={styles.pageSubtitle}>
-          8가지 다른 방식으로 구현된 아코디언 컴포넌트들
+          8가지 다른 방식으로 구현된 아코디언 컴포넌트
         </p>
       </header>
 

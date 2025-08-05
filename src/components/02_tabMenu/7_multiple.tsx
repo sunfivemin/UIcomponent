@@ -1,164 +1,104 @@
-import { memo } from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import { tabData } from './data';
-import { TabContentProps } from './types';
-import { useMultiTabMenu } from '@/hooks/useTabMenu';
 import * as styles from './tabMenu.css';
 
-const TabItem = memo<{
-  id: string;
-  title: string;
-  isActive: boolean;
-  onClick: () => void;
-}>(({ id, title, isActive, onClick }) => (
-  <li className={styles.tabItem}>
-    <button
-      className={styles.tabButtonVariants[isActive ? 'active' : 'inactive']}
-      onClick={onClick}
-      aria-selected={isActive}
-      role="tab"
-      aria-controls={`panel-${id}`}
-      id={`tab-${id}`}
-    >
-      {title}
-    </button>
-  </li>
-));
-
-TabItem.displayName = 'TabItem';
-
-const TabContent = memo<TabContentProps>(({ id, content, isActive }) => (
-  <div
-    className={isActive ? styles.contentPanelActive : styles.contentPanel}
-    role="tabpanel"
-    aria-labelledby={`tab-${id}`}
-    id={`panel-${id}`}
-    hidden={!isActive}
-  >
-    {content}
-  </div>
-));
-
-TabContent.displayName = 'TabContent';
-
 const TabMenuMultiple = () => {
-  const { activeIds, toggleTab, isActive, selectAll, deselectAll } =
-    useMultiTabMenu({
-      defaultActiveIds: [tabData[0].id],
-    });
+  const [activeIds, setActiveIds] = useState<string[]>([tabData[0].id]);
 
-  const handleTabClick = (id: string) => {
-    toggleTab(id);
+  // 탭 토글 함수
+  const toggleTab = (id: string) => {
+    setActiveIds(prev =>
+      prev.includes(id) ? prev.filter(tabId => tabId !== id) : [...prev, id]
+    );
   };
 
-  const handleSelectAll = () => {
-    selectAll(tabData.map(tab => tab.id));
+  // 모든 탭 선택/해제
+  const selectAll = () => {
+    setActiveIds(tabData.map(tab => tab.id));
   };
 
-  const handleDeselectAll = () => {
-    deselectAll();
+  const deselectAll = () => {
+    setActiveIds([]);
   };
 
   return (
     <div className={styles.section}>
-      <h3 className={styles.sectionTitle}>#7. 다중 선택 탭메뉴</h3>
+      <h3 className={styles.sectionTitle}>
+        다중 선택 탭메뉴 <sub>조건부 렌더링 + 배열 상태 관리</sub>
+      </h3>
+
+      <div className={styles.summary}>
+        <p>
+          <strong>핵심:</strong>
+          <code>{'useState(배열) + 조건부 렌더링'}</code> - 여러 탭을 동시에
+          선택하고 해당 콘텐츠들을 조건부로 렌더링
+        </p>
+        <div className={styles.summaryDetails}>
+          <p>
+            <strong>✅ 장점:</strong> 다중 선택 가능, 유연한 상태 관리, 사용자
+            경험 향상
+          </p>
+          <p>
+            <strong>❌ 단점:</strong> 복잡한 상태 로직, 성능 고려 필요
+          </p>
+          <p>
+            <strong>💡 사용 시나리오:</strong> 여러 정보를 동시에 비교하거나
+            보고 싶을 때, 대시보드 형태의 UI
+          </p>
+        </div>
+      </div>
+
       <div className={styles.tabMenu()}>
         {/* 컨트롤 버튼들 */}
-        <div
-          style={{
-            padding: '12px 16px',
-            borderBottom: '1px solid hsl(var(--border))',
-            display: 'flex',
-            gap: '8px',
-            backgroundColor: 'hsl(var(--muted))',
-          }}
-        >
-          <button
-            onClick={handleSelectAll}
-            style={{
-              padding: '4px 8px',
-              fontSize: '12px',
-              border: '1px solid hsl(var(--border))',
-              borderRadius: '4px',
-              backgroundColor: 'hsl(var(--accent))',
-              color: 'hsl(var(--accent-foreground))',
-              cursor: 'pointer',
-            }}
-          >
+        <div className={styles.controlContainer}>
+          <button onClick={selectAll} className={styles.controlButton}>
             모두 선택
           </button>
-          <button
-            onClick={handleDeselectAll}
-            style={{
-              padding: '4px 8px',
-              fontSize: '12px',
-              border: '1px solid hsl(var(--border))',
-              borderRadius: '4px',
-              backgroundColor: 'hsl(var(--accent))',
-              color: 'hsl(var(--accent-foreground))',
-              cursor: 'pointer',
-            }}
-          >
+          <button onClick={deselectAll} className={styles.controlButton}>
             모두 해제
           </button>
-          <span
-            style={{
-              fontSize: '12px',
-              color: 'hsl(var(--muted-foreground))',
-              marginLeft: 'auto',
-            }}
-          >
+          <span className={styles.selectedCount}>
             선택된 탭: {activeIds.length}개
           </span>
         </div>
 
+        {/* 탭 버튼들 - 조건부 렌더링으로 활성 상태 표시 */}
         <ul className={styles.tabList} role="tablist">
-          {tabData.map(tab => (
-            <TabItem
-              key={tab.id}
-              id={tab.id}
-              title={tab.title}
-              isActive={isActive(tab.id)}
-              onClick={() => handleTabClick(tab.id)}
-            />
-          ))}
+          {tabData.map(tab => {
+            const isActive = activeIds.includes(tab.id);
+            return (
+              <li key={tab.id} className={styles.tabItem}>
+                <button
+                  className={
+                    styles.tabButtonVariants[isActive ? 'active' : 'inactive']
+                  }
+                  onClick={() => toggleTab(tab.id)}
+                  aria-selected={isActive}
+                  role="tab"
+                  aria-controls={`panel-${tab.id}`}
+                  id={`tab-${tab.id}`}
+                >
+                  {tab.title}
+                </button>
+              </li>
+            );
+          })}
         </ul>
+
+        {/* 콘텐츠 영역 - 조건부 렌더링으로 선택된 탭들의 콘텐츠 표시 */}
         <div className={styles.content}>
-          {/* 선택된 탭들의 컨텐츠를 동시에 표시 */}
           {activeIds.length > 0 ? (
-            <div
-              style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
-            >
+            <div className={styles.multipleContentContainer}>
               {activeIds.map(activeId => {
                 const tab = tabData.find(t => t.id === activeId);
                 if (!tab) return null;
 
                 return (
-                  <div
-                    key={activeId}
-                    style={{
-                      padding: '16px',
-                      border: '1px solid hsl(var(--border))',
-                      borderRadius: '8px',
-                      backgroundColor: 'hsl(var(--card))',
-                    }}
-                  >
-                    <h4
-                      style={{
-                        margin: '0 0 12px 0',
-                        fontSize: '16px',
-                        fontWeight: '600',
-                        color: 'hsl(var(--foreground))',
-                      }}
-                    >
-                      {tab.title}
-                    </h4>
-                    <div
-                      style={{
-                        color: 'hsl(var(--muted-foreground))',
-                        fontSize: '14px',
-                        lineHeight: '1.5',
-                      }}
-                    >
+                  <div key={activeId} className={styles.multipleContentItem}>
+                    <h4 className={styles.multipleContentTitle}>{tab.title}</h4>
+                    <div className={styles.multipleContentDescription}>
                       {tab.description}
                     </div>
                   </div>
@@ -166,13 +106,7 @@ const TabMenuMultiple = () => {
               })}
             </div>
           ) : (
-            <div
-              style={{
-                padding: '24px',
-                textAlign: 'center',
-                color: 'hsl(var(--muted-foreground))',
-              }}
-            >
+            <div className={styles.emptyState}>
               선택된 탭이 없습니다. 탭을 선택해보세요!
             </div>
           )}

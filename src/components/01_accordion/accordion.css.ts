@@ -8,7 +8,7 @@ export { themeClass } from '../../styles/design-system.css';
 export const container = style({
   border: `1px solid hsl(var(--border))`,
   borderRadius: vars.radius.lg,
-  margin: `${vars.space.xl} 0`,
+  margin: `${vars.space.xl} 0`, // 32px 마진 복원
   padding: '0',
   listStyle: 'none',
   width: '100%',
@@ -307,6 +307,13 @@ export const summaryList = style({
   lineHeight: vars.typography.lineHeight.loose,
   color: 'hsl(var(--muted-foreground))',
   fontSize: vars.typography.fontSize.base,
+  ...componentTokens.performance,
+  ...componentTokens.themeTransition,
+});
+
+// 공통 요약 정보 스타일
+export const summaryDetails = style({
+  ...componentTokens.summaryDetails,
   ...componentTokens.performance,
   ...componentTokens.themeTransition,
 });

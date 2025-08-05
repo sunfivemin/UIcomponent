@@ -22,13 +22,7 @@ const ConditionalAccordion = () => {
           <strong>핵심:</strong> <code>{'{isOpen && <Content />}'}</code> - 열린
           아이템만 DOM에 존재
         </p>
-        <div
-          style={{
-            marginTop: '12px',
-            fontSize: '14px',
-            color: 'hsl(var(--muted-foreground))',
-          }}
-        >
+        <div className={styles.summaryDetails}>
           <p>
             <strong>✅ 장점:</strong> 메모리 효율적, SEO 친화적, 접근성 좋음
           </p>

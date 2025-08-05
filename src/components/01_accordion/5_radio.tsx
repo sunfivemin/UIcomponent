@@ -15,13 +15,7 @@ const RadioAccordion = () => {
           <strong>핵심:</strong> <code>input[type="radio"] + CSS :checked</code>{' '}
           - JavaScript 없이 HTML과 CSS만으로 상태 관리
         </p>
-        <div
-          style={{
-            marginTop: '12px',
-            fontSize: '14px',
-            color: 'hsl(var(--muted-foreground))',
-          }}
-        >
+        <div className={styles.summaryDetails}>
           <p>
             <strong>✅ 장점:</strong> JavaScript 없음, 접근성 우수, 성능 최적화
           </p>

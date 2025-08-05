@@ -1,68 +1,63 @@
-import { memo, useState } from 'react';
+'use client';
+import React from 'react';
 import { tabData } from './data';
 import * as styles from './tabMenu.css';
 
-const TabItem = memo<{
-  tab: (typeof tabData)[0];
-  activeId: string;
-  onTabChange: (id: string) => void;
-}>(({ tab, activeId, onTabChange }) => (
-  <li className={styles.tabItem}>
-    <input
-      type="radio"
-      className={styles.radioInput}
-      name="tabmenu"
-      id={tab.id}
-      checked={tab.id === activeId}
-      onChange={() => onTabChange(tab.id)}
-    />
-    <label
-      className={styles.radioLabel}
-      htmlFor={tab.id}
-      role="tab"
-      aria-selected={tab.id === activeId}
-      aria-controls={`panel-${tab.id}`}
-    >
-      {tab.title}
-    </label>
-  </li>
-));
-
-TabItem.displayName = 'TabItem';
-
 const TabMenuRadio = () => {
-  const [activeId, setActiveId] = useState(tabData[2].id); // CSS 애니메이션 탭을 기본 활성화
-
   return (
     <div className={styles.section}>
-      <h3 className={styles.sectionTitle}>#5. 라디오 버튼 방식</h3>
+      <h3 className={styles.sectionTitle}>
+        라디오 버튼 방식 <sub>HTML + CSS만으로 상태 관리</sub>
+      </h3>
+      <div className={styles.summary}>
+        <p>
+          <strong>핵심:</strong>
+          <code>{'input[type="radio"] + CSS :checked'}</code> - JavaScript 없이
+          HTML과 CSS만으로 상태 관리
+        </p>
+        <div className={styles.summaryDetails}>
+          <p>
+            <strong>✅ 장점:</strong> JavaScript 없음, 접근성 우수, 성능 최적화
+          </p>
+          <p>
+            <strong>❌ 단점:</strong> 복잡한 로직 구현 불가, 상태 관리 제한적
+          </p>
+          <p>
+            <strong>💡 사용 시나리오:</strong> 단순한 토글, JavaScript 비활성화
+            환경, 접근성 중시
+          </p>
+        </div>
+      </div>
+
       <div className={styles.tabMenu()}>
-        <ul className={styles.tabList} role="tablist">
+        {tabData.map(tab => (
+          <input
+            key={tab.id}
+            type="radio"
+            className={styles.radioInput}
+            name="tabmenu-radio"
+            id={tab.id}
+            defaultChecked={tab.id === 'tab1'}
+          />
+        ))}
+
+        <div className={styles.tabButtonContainer}>
           {tabData.map(tab => (
-            <TabItem
-              key={tab.id}
-              tab={tab}
-              activeId={activeId}
-              onTabChange={setActiveId}
-            />
-          ))}
-        </ul>
-        {/* 콘텐츠 영역을 별도로 분리 */}
-        <div className={styles.content}>
-          {tabData.map(tab => (
-            <div
-              key={tab.id}
-              className={`${styles.radioContent} ${
-                tab.id === activeId ? styles.radioContentActive : ''
-              }`}
-              role="tabpanel"
-              aria-labelledby={tab.id}
-              id={`panel-${tab.id}`}
-            >
-              {tab.description}
-            </div>
+            <label key={tab.id} className={styles.radioLabel} htmlFor={tab.id}>
+              {tab.title}
+            </label>
           ))}
         </div>
+
+        {tabData.map(tab => (
+          <div
+            key={tab.id}
+            className={styles.radioContent}
+            id={`panel-${tab.id}`}
+          >
+            {tab.description}
+          </div>
+        ))}
       </div>
     </div>
   );
