@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from 'react';
 
 interface VanillaWrapperProps {
   title: string;
@@ -9,7 +9,7 @@ interface VanillaWrapperProps {
 const VanillaWrapper = ({
   title,
   initiator,
-  className = "",
+  className = '',
 }: VanillaWrapperProps) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -17,7 +17,7 @@ const VanillaWrapper = ({
     const wrapper = wrapperRef.current;
     if (wrapper) {
       // 기존 내용 제거
-      wrapper.innerHTML = "";
+      wrapper.innerHTML = '';
 
       // 초기화 함수 실행
       initiator(wrapper);
@@ -26,7 +26,10 @@ const VanillaWrapper = ({
 
   return (
     <div className={`vanilla-wrapper ${className}`}>
-      <h3>{title}</h3>
+      <div className="vanilla-wrapper-header">
+        <span className="vanilla-wrapper-icon">⚡</span>
+        {title}
+      </div>
       <div ref={wrapperRef} />
     </div>
   );

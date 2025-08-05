@@ -1,23 +1,22 @@
-import React, { useEffect, useRef } from 'react';
+'use client';
+
+import React from 'react';
 import { tabData } from './data';
+import VanillaWrapper from '@/components/common/vanillaWrapper';
 import * as styles from './tabMenu.css';
 
 const TabMenuVanilla = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    // 기존 내용 제거
-    container.innerHTML = '';
-
+  const initiator = (container: HTMLDivElement) => {
     let currentId = tabData[0].id;
 
     // 탭 리스트 생성
     const tabList = document.createElement('ul');
     tabList.className = styles.tabList;
     tabList.setAttribute('role', 'tablist');
+
+    // 콘텐츠 컨테이너 생성
+    const contentContainer = document.createElement('div');
+    contentContainer.className = styles.content;
 
     // 탭 버튼들 생성
     const tabButtons = tabData.map(tab => {
@@ -40,30 +39,32 @@ const TabMenuVanilla = () => {
       return { li, button, tab };
     });
 
-    // 콘텐츠 패널들 생성
-    const contentPanels = tabData.map(tab => {
-      const panel = document.createElement('div');
-      panel.className =
-        tab.id === currentId ? styles.contentPanelActive : styles.contentPanel;
-      panel.setAttribute('role', 'tabpanel');
-      panel.setAttribute('aria-labelledby', `tab-${tab.id}`);
-      panel.id = `panel-${tab.id}`;
-      panel.hidden = tab.id !== currentId;
-      panel.textContent = tab.description;
-
-      return { panel, tab };
-    });
-
-    // 콘텐츠 컨테이너 생성
-    const contentContainer = document.createElement('div');
-    contentContainer.className = styles.content;
-
     // DOM에 추가
     tabButtons.forEach(({ li }) => tabList.appendChild(li));
-    contentPanels.forEach(({ panel }) => contentContainer.appendChild(panel));
-
     container.appendChild(tabList);
     container.appendChild(contentContainer);
+
+    // 🎯 바닐라 JS 조건부 렌더링 핵심 함수
+    const renderContent = () => {
+      // 기존 콘텐츠 제거 (조건부 렌더링과 유사)
+      contentContainer.innerHTML = '';
+
+      // 활성 탭만 렌더링 (조건부 렌더링 패턴)
+      const activeTab = tabData.find(tab => tab.id === currentId);
+      if (activeTab) {
+        const panel = document.createElement('div');
+        panel.className = styles.contentPanelActive;
+        panel.setAttribute('role', 'tabpanel');
+        panel.setAttribute('aria-labelledby', `tab-${activeTab.id}`);
+        panel.id = `panel-${activeTab.id}`;
+        panel.textContent = activeTab.description;
+
+        contentContainer.appendChild(panel);
+      }
+    };
+
+    // 초기 콘텐츠 렌더링
+    renderContent();
 
     // 클릭 이벤트 핸들러
     const handleTabClick = (clickedTab: (typeof tabData)[0]) => {
@@ -77,14 +78,8 @@ const TabMenuVanilla = () => {
         button.setAttribute('aria-selected', isActive ? 'true' : 'false');
       });
 
-      // 콘텐츠 패널 상태 업데이트
-      contentPanels.forEach(({ panel, tab }) => {
-        const isActive = tab.id === currentId;
-        panel.className = isActive
-          ? styles.contentPanelActive
-          : styles.contentPanel;
-        panel.hidden = !isActive;
-      });
+      // 🎯 조건부 렌더링과 유사한 패턴
+      renderContent();
     };
 
     // 이벤트 리스너 추가
@@ -92,18 +87,47 @@ const TabMenuVanilla = () => {
       button.addEventListener('click', () => handleTabClick(tab));
     });
 
-    // 클린업 함수
+    // 클린업 함수 반환
     return () => {
       tabButtons.forEach(({ button, tab }) => {
         button.removeEventListener('click', () => handleTabClick(tab));
       });
     };
-  }, []);
+  };
 
   return (
     <div className={styles.section}>
-      <h3 className={styles.sectionTitle}>#4. Vanilla JS 방식</h3>
-      <div ref={containerRef} className={styles.tabMenu()} />
+      <h3 className={styles.sectionTitle}>
+        바닐라 JS 방식 <sub>DOM 직접 조작</sub>
+      </h3>
+
+      <div className={styles.summary}>
+        <p>
+          <strong>핵심:</strong>
+          <code>{'if (isActive) { renderContent(); }'}</code> - 순수
+          JavaScript로 DOM을 직접 조작하여 조건부 렌더링 구현
+        </p>
+        <div className={styles.summaryDetails}>
+          <p>
+            <strong>✅ 장점:</strong> React 의존성 없음, 번들 크기 최소화,
+            완전한 DOM 제어
+          </p>
+          <p>
+            <strong>❌ 단점:</strong> 코드 복잡성 높음, 상태 관리 어려움,
+            유지보수 비용 증가
+          </p>
+          <p>
+            <strong>💡 사용 시나리오:</strong> 경량화가 중요한 환경, React
+            외부에서 사용, 순수 JS 학습
+          </p>
+        </div>
+      </div>
+
+      <VanillaWrapper
+        title="바닐라 JS 탭메뉴"
+        initiator={initiator}
+        className={styles.tabMenu()}
+      />
     </div>
   );
 };

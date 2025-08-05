@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 import {
   ChildRoute,
   ParentRoute,
@@ -9,14 +9,14 @@ import {
   gnbRootList,
   isParentRoute,
   routes,
-} from "../routes";
-import Link from "next/link";
-import classNames from "classnames";
-import { useParams, usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+} from '../routes';
+import Link from 'next/link';
+import classNames from 'classnames';
+import { useParams, usePathname } from 'next/navigation';
+import { useState, useEffect } from 'react';
 
 // 간단한 아이콘 컴포넌트
-const ChevronRight = ({ className = "" }: { className?: string }) => (
+const ChevronRight = ({ className = '' }: { className?: string }) => (
   <span className={`toggle-arrow ${className}`}>▶</span>
 );
 
@@ -29,17 +29,15 @@ const useGnbState = () => {
     const currentRoute = pathname as ROUTE_PATH;
     const parentRoutes = gnbRootList
       .filter(isParentRoute)
-      .filter((parentRoute) => parentRoute.children.includes(currentRoute));
+      .filter(parentRoute => parentRoute.children.includes(currentRoute));
 
-    const newOpenItems = parentRoutes.map((parentRoute) => parentRoute.link);
-    setOpenItems((prev) => [...new Set([...prev, ...newOpenItems])]);
+    const newOpenItems = parentRoutes.map(parentRoute => parentRoute.link);
+    setOpenItems(prev => [...new Set([...prev, ...newOpenItems])]);
   }, [pathname]);
 
   const toggleItem = (path: ROUTE_PATH) => {
-    setOpenItems((prev) =>
-      prev.includes(path)
-        ? prev.filter((item) => item !== path)
-        : [...prev, path]
+    setOpenItems(prev =>
+      prev.includes(path) ? prev.filter(item => item !== path) : [...prev, path]
     );
   };
 
@@ -62,41 +60,41 @@ const ParentGnbItem = ({
 
   return (
     <li
-      className={classNames("parent", `items-${children.length}`, {
+      className={classNames('parent', `items-${children.length}`, {
         open: isOpen,
-        "has-active": hasActivePage,
+        'has-active': hasActivePage,
       })}
     >
       {/* 기존 스타일 구조 유지하면서 개선 */}
-      <div style={{ position: "relative" }}>
+      <div style={{ position: 'relative' }}>
         <Link href={link}>{name}</Link>
         <button
           className="toggle-button"
-          onClick={(e) => {
+          onClick={e => {
             e.preventDefault();
             e.stopPropagation();
             onToggle();
           }}
           aria-expanded={isOpen}
-          aria-label={`${name} 메뉴 ${isOpen ? "접기" : "펼치기"}`}
+          aria-label={`${name} 메뉴 ${isOpen ? '접기' : '펼치기'}`}
           style={{
-            position: "absolute",
-            right: "10px",
-            top: "50%",
-            transform: "translateY(-50%)",
-            background: "none",
-            border: "none",
-            color: "inherit",
-            cursor: "pointer",
-            padding: "2px",
+            position: 'absolute',
+            right: '10px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            background: 'none',
+            border: 'none',
+            color: 'inherit',
+            cursor: 'pointer',
+            padding: '2px',
           }}
         >
-          <ChevronRight className={isOpen ? "open" : ""} />
+          <ChevronRight className={isOpen ? 'open' : ''} />
         </button>
       </div>
 
       <ul className="subRoutes">
-        {children.map((childPath) => {
+        {children.map(childPath => {
           const childRoute = routes[childPath];
           return (
             <GnbItem
@@ -131,7 +129,7 @@ const ChildGnbItem = ({
       <li className="disabled">
         <span className={`level-${level}`}>
           {name}
-          <span style={{ fontSize: "11px", marginLeft: "8px", opacity: 0.6 }}>
+          <span style={{ fontSize: '11px', marginLeft: '8px', opacity: 0.6 }}>
             (준비중)
           </span>
         </span>
@@ -184,7 +182,7 @@ const GnbItem = ({
 // 메인 Gnb 컴포넌트
 const Gnb = () => {
   const { item = [] } = useParams();
-  const currentPath = ["", ...item].join("/") as ROUTE_PATH;
+  const currentPath = ['', ...item].join('/') as ROUTE_PATH;
   const { openItems, toggleItem } = useGnbState();
 
   return (
@@ -198,9 +196,9 @@ const Gnb = () => {
       </h1>
 
       {/* 네비게이션 - 기존 구조 유지 */}
-      <nav style={{ height: "calc(100vh - 120px)", overflowY: "auto" }}>
+      <nav style={{ height: 'calc(100vh - 120px)', overflowY: 'auto' }}>
         <ul className="mainRoutes">
-          {gnbRootList.map((r) => (
+          {gnbRootList.map(r => (
             <GnbItem
               route={r}
               currentPath={currentPath}
@@ -214,8 +212,8 @@ const Gnb = () => {
 
       {/* 현재 경로 표시 푸터 */}
       <div className="footer">
-        <div style={{ fontSize: "11px", color: "#999" }}>현재 경로:</div>
-        <div className="current-path">{currentPath || "/"}</div>
+        <div style={{ fontSize: '11px', color: '#999' }}>현재 경로:</div>
+        <div className="current-path">{currentPath || '/'}</div>
       </div>
     </aside>
   );

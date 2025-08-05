@@ -1,70 +1,71 @@
 'use client';
-import { memo, useMemo, useState, useCallback } from 'react';
+
+import React, { useState } from 'react';
 import { accordionData } from './data';
 import * as styles from './accordion.css';
 
-// 🚀 통합된 조건부 렌더링 아코디언 컴포넌트
-const ConditionalAccordion = memo(() => {
-  // 🚀 메모이제이션된 데이터
-  const memoizedData = useMemo(() => accordionData, []);
+const ConditionalAccordion = () => {
+  const [openItem, setOpenItem] = useState<string | null>('1');
 
-  // 🚀 상태 관리
-  const [openItems, setOpenItems] = useState<string[]>(['1']); // 첫 번째 아이템 기본 열림
-
-  // 🚀 토글 핸들러
-  const toggleItem = useCallback((id: string) => {
-    setOpenItems(
-      prev => (prev.includes(id) ? prev.filter(item => item !== id) : [id]) // 단일 선택
-    );
-  }, []);
+  const toggleItem = (id: string) => {
+    setOpenItem(openItem === id ? null : id);
+  };
 
   return (
     <div className={styles.section}>
-      <h2 className={styles.sectionTitle}>
-        🎯 조건부 렌더링 (Conditional Rendering)
-      </h2>
-      <p>
-        아이템이 열릴 때만 DOM에 렌더링됩니다. 메모리 효율적이지만 애니메이션이
-        제한적입니다.
-      </p>
+      <h3 className={styles.sectionTitle}>
+        조건부 렌더링 방식 <sub>React의 기본 패턴</sub>
+      </h3>
 
-      <div className={`${styles.themeClass}`}>
-        <ul className={styles.container}>
-          {memoizedData.map(item => {
-            const isOpen = openItems.includes(item.id);
-
-            return (
-              <li key={item.id} className={styles.itemVariants.default}>
-                <div
-                  className={`${styles.tabBase} ${
-                    styles.tabVariants[isOpen ? 'active' : 'default']
-                  }`}
-                  onClick={() => toggleItem(item.id)}
-                >
-                  <span>{item.title}</span>
-                  <span className={styles.toggleIcon}>
-                    {isOpen ? '−' : '+'}
-                  </span>
-                </div>
-
-                {/* 🎯 조건부 렌더링: 열린 아이템만 DOM에 존재 */}
-                {isOpen && (
-                  <div
-                    className={`${styles.contentBase} ${styles.contentVariants.conditional}`}
-                  >
-                    {item.description}
-                  </div>
-                )}
-              </li>
-            );
-          })}
-        </ul>
+      <div className={styles.summary}>
+        <p>
+          <strong>핵심:</strong> <code>{'{isOpen && <Content />}'}</code> - 열린
+          아이템만 DOM에 존재
+        </p>
+        <div className={styles.summaryDetails}>
+          <p>
+            <strong>✅ 장점:</strong> 메모리 효율적, SEO 친화적, 접근성 좋음
+          </p>
+          <p>
+            <strong>❌ 단점:</strong> 애니메이션 구현 어려움, DOM 재생성으로
+            인한 성능 이슈
+          </p>
+          <p>
+            <strong>💡 사용 시나리오:</strong> 간단한 토글, SEO가 중요한 콘텐츠,
+            메모리 제약 환경
+          </p>
+        </div>
       </div>
+
+      <ul className={styles.container}>
+        {accordionData.map(item => {
+          const isOpen = openItem === item.id;
+
+          return (
+            <li key={item.id} className={styles.itemVariants.default}>
+              <button
+                className={`${styles.tabBase} ${
+                  styles.tabVariants[isOpen ? 'active' : 'default']
+                }`}
+                onClick={() => toggleItem(item.id)}
+                aria-expanded={isOpen}
+              >
+                <span>{item.title}</span>
+                <span className={styles.toggleIcon}>{isOpen ? '−' : '+'}</span>
+              </button>
+
+              {/* 🎯 조건부 렌더링의 핵심 */}
+              {isOpen && (
+                <div className={styles.contentVariants.conditional}>
+                  <p>{item.description}</p>
+                </div>
+              )}
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
-});
-
-// 🚀 디스플레이 네임 설정
-ConditionalAccordion.displayName = 'ConditionalAccordion';
+};
 
 export default ConditionalAccordion;

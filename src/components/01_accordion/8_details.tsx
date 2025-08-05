@@ -1,66 +1,49 @@
 'use client';
-import { useEffect, useRef } from 'react';
+
 import { accordionData } from './data';
 import * as styles from './accordion.css';
-import { AccordionItemData } from './types';
-
-const DetailsItem = ({
-  item,
-  index,
-}: {
-  item: AccordionItemData;
-  index: number;
-}) => {
-  const detailsRef = useRef<HTMLDetailsElement>(null);
-
-  useEffect(() => {
-    const handleBeforeMatch = () => {
-      if (detailsRef.current && !detailsRef.current.open) {
-        detailsRef.current.open = true;
-      }
-    };
-
-    const detailsElement = detailsRef.current;
-    if (detailsElement) {
-      detailsElement.addEventListener('beforematch', handleBeforeMatch);
-    }
-
-    return () => {
-      if (detailsElement) {
-        detailsElement.removeEventListener('beforematch', handleBeforeMatch);
-      }
-    };
-  }, []);
-
-  return (
-    <details
-      ref={detailsRef}
-      name="accordion8"
-      open={index === 0}
-      className={styles.detailsItem}
-    >
-      <summary className={styles.detailsSummary}>{item.title}</summary>
-      <div className={styles.detailsContent}>{item.description}</div>
-    </details>
-  );
-};
 
 const DetailsAccordion = () => {
   return (
     <div className={styles.section}>
       <h3 className={styles.sectionTitle}>
-        #8. React + vanilla-extract <sub>HTML details 태그 + 검색 가능</sub>
+        HTML Details 방식 <sub>JavaScript 없이 순수 HTML</sub>
       </h3>
-      <div className={`${styles.detailsContainer} ${styles.themeClass}`}>
-        {accordionData.map((item, index) => (
-          <DetailsItem key={item.id} item={item} index={index} />
-        ))}
-      </div>
+
       <div className={styles.summary}>
         <p>
-          <strong>💡 장점:</strong> 시맨틱 HTML로 접근성이 우수하고, 브라우저
-          기본 기능을 활용합니다!
+          <strong>핵심:</strong> <code>&lt;details&gt; & &lt;summary&gt;</code>{' '}
+          - 브라우저 기본 기능으로 JavaScript 없이 동작
         </p>
+        <div className={styles.summaryDetails}>
+          <p>
+            <strong>✅ 장점:</strong> JavaScript 없음, 접근성 최고, 브라우저
+            기본 지원
+          </p>
+          <p>
+            <strong>❌ 단점:</strong> 스타일링 제한, 복잡한 로직 구현 불가,
+            브라우저별 차이
+          </p>
+          <p>
+            <strong>💡 사용 시나리오:</strong> 단순한 토글, 접근성 우선,
+            JavaScript 비활성화 환경
+          </p>
+        </div>
+      </div>
+
+      <div className={styles.detailsContainer}>
+        {accordionData.map((item, index) => (
+          <details
+            key={item.id}
+            className={styles.detailsItem}
+            open={index === 0}
+          >
+            <summary className={styles.detailsSummary}>{item.title}</summary>
+            <div className={styles.detailsContent}>
+              <p>{item.description}</p>
+            </div>
+          </details>
+        ))}
       </div>
     </div>
   );
