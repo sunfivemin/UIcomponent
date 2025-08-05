@@ -234,6 +234,26 @@ export const contentPanelActive = style({
   display: 'block',
 });
 
+// 애니메이션용 패널 스타일 (3_animated.tsx 전용)
+export const animatedContentPanel = style({
+  opacity: 0,
+  transform: 'translateY(10px)',
+  transition: `opacity ${vars.transition.normal}, transform ${vars.transition.normal}`,
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  pointerEvents: 'none',
+});
+
+export const animatedContentPanelActive = style({
+  opacity: 1,
+  transform: 'translateY(0)',
+  transition: `opacity ${vars.transition.normal}, transform ${vars.transition.normal}`,
+  position: 'relative',
+  pointerEvents: 'auto',
+});
+
 // details 방식 패널도 동일하게 적용
 export const detailsPanel = style({
   backgroundColor: vars.color.background.card,

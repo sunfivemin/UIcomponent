@@ -1,11 +1,17 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { tabData } from './data';
 import * as styles from './tabMenu.css';
 
 const TabMenuMultiple = () => {
   const [activeIds, setActiveIds] = useState<string[]>([tabData[0].id]);
+
+  // 성능 최적화: tabData를 Map으로 변환
+  const tabDataMap = useMemo(
+    () => new Map(tabData.map(tab => [tab.id, tab])),
+    []
+  );
 
   // 탭 토글 함수
   const toggleTab = (id: string) => {
@@ -92,7 +98,7 @@ const TabMenuMultiple = () => {
           {activeIds.length > 0 ? (
             <div className={styles.multipleContentContainer}>
               {activeIds.map(activeId => {
-                const tab = tabData.find(t => t.id === activeId);
+                const tab = tabDataMap.get(activeId);
                 if (!tab) return null;
 
                 return (

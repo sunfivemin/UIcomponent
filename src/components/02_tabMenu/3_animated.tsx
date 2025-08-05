@@ -62,17 +62,20 @@ const TabMenuAnimated = () => {
             const isActive = activeTab === tab.id;
 
             return (
-              isActive && (
-                <div
-                  key={tab.id}
-                  className={styles.contentPanelActive}
-                  role="tabpanel"
-                  aria-labelledby={`tab-${tab.id}`}
-                  id={`panel-${tab.id}`}
-                >
-                  {tab.description}
-                </div>
-              )
+              <div
+                key={tab.id}
+                className={
+                  isActive
+                    ? styles.animatedContentPanelActive
+                    : styles.animatedContentPanel
+                }
+                role="tabpanel"
+                aria-labelledby={`tab-${tab.id}`}
+                id={`panel-${tab.id}`}
+                hidden={!isActive}
+              >
+                {tab.description}
+              </div>
             );
           })}
         </div>
