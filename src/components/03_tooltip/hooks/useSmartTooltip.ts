@@ -1,4 +1,4 @@
-import { RefObject, useCallback, useEffect, useState } from 'react';
+import { RefObject, useCallback, useEffect, useMemo, useState } from 'react';
 
 type Options = {
   minAbovePx?: number;
@@ -73,27 +73,30 @@ export function useSmartTooltip(
     setTimeout(recalc, 0);
   };
 
-  const style: React.CSSProperties = {
-    position: 'absolute',
-    zIndex: 9999,
-    minWidth: 400,
-    maxWidth: 500,
-    top: showAbove ? 'auto' : '100%',
-    bottom: showAbove ? '20px' : 'auto',
-    left: '50%',
-    transform: `translate(-50%, ${showAbove ? '-8px' : '8px'})`,
-    maxHeight: showAbove
-      ? `${Math.max(minAbovePx, maxHeightPx ?? 0)}px`
-      : maxHeightPx !== undefined
-      ? `${maxHeightPx}px`
-      : undefined,
-    minHeight: showAbove ? `${minAbovePx}px` : undefined,
-    overflowY:
-      (showAbove ? Math.max(minAbovePx, maxHeightPx ?? 0) : maxHeightPx) !==
-      undefined
-        ? 'auto'
-        : 'visible',
-  };
+  const style: React.CSSProperties = useMemo(
+    () => ({
+      position: 'absolute',
+      zIndex: 9999,
+      minWidth: 400,
+      maxWidth: 500,
+      top: showAbove ? 'auto' : '100%',
+      bottom: showAbove ? '20px' : 'auto',
+      left: '50%',
+      transform: `translate(-50%, ${showAbove ? '-8px' : '8px'})`,
+      maxHeight: showAbove
+        ? `${Math.max(minAbovePx, maxHeightPx ?? 0)}px`
+        : maxHeightPx !== undefined
+        ? `${maxHeightPx}px`
+        : undefined,
+      minHeight: showAbove ? `${minAbovePx}px` : undefined,
+      overflowY:
+        (showAbove ? Math.max(minAbovePx, maxHeightPx ?? 0) : maxHeightPx) !==
+        undefined
+          ? 'auto'
+          : 'visible',
+    }),
+    [showAbove, maxHeightPx, minAbovePx]
+  );
 
   return { showAbove, style, handleToggle };
 }

@@ -35,19 +35,7 @@ const Tooltip = ({
             data-tooltip-content
             ref={tooltipRef}
             onClick={e => e.stopPropagation()}
-            style={{
-              backgroundColor: 'hsl(var(--card))',
-              border: '1px solid hsl(var(--border))',
-              borderRadius: '8px',
-              padding: '16px',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-              color: 'hsl(var(--foreground))',
-              fontSize: '14px',
-              lineHeight: '1.5',
-              wordWrap: 'break-word',
-              whiteSpace: 'pre-wrap',
-              ...style,
-            }}
+            style={{ ...style }}
           >
             {description}
           </div>

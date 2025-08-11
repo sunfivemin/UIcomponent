@@ -3,15 +3,17 @@ import data from './data';
 import * as styles from './tooltip.css';
 
 // 조건부 렌더링에 특화된 간결한 툴팁 컴포넌트
+interface ConditionalTooltipProps {
+  id: string;
+  title: string;
+  description: string;
+}
+
 const ConditionalTooltip = ({
   id,
   title,
   description,
-}: {
-  id: string;
-  title: string;
-  description: string;
-}) => {
+}: ConditionalTooltipProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const handleClick = (e: React.MouseEvent) => {

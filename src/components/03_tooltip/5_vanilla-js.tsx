@@ -31,8 +31,9 @@ const initiator = (wrapper: HTMLDivElement) => {
 
   const closeAllTooltip = (e: Event) => {
     const target = e.target as HTMLElement;
+    const clickedDetails = target.closest('details[data-tooltip]');
     document.querySelectorAll('[data-tooltip]').forEach(elem => {
-      if (elem !== target.parentElement) elem.removeAttribute('open');
+      if (elem !== clickedDetails) elem.removeAttribute('open');
     });
   };
   window.addEventListener('click', closeAllTooltip);
