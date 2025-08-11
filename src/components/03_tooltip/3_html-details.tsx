@@ -23,7 +23,6 @@ const Tooltip = ({
             </div>
           </span>
         </summary>
-        {/* summary 내부 앵커 기준으로 배치되므로 별도 바깥 툴팁은 제거 */}
       </details>
     </div>
   );
@@ -33,10 +32,12 @@ const Tooltip3 = () => {
   useEffect(() => {
     const closeAllTooltip = (e: Event) => {
       const target = e.target as HTMLElement;
-      const isSummary = !!target.dataset.tooltipSummary;
-      document.querySelectorAll('[data-tooltip]').forEach(elem => {
-        if (isSummary || elem !== target.parentElement)
+      const clickedDetails = target.closest('details[data-tooltip]');
+
+      document.querySelectorAll('details[data-tooltip]').forEach(elem => {
+        if (elem !== clickedDetails) {
           elem.removeAttribute('open');
+        }
       });
     };
     window.addEventListener('click', closeAllTooltip);

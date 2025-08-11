@@ -370,6 +370,31 @@ export const portalTooltip = style({
   ...componentTokens.themeTransition,
 });
 
+// 포털 컨텐츠 내부 여백/정렬
+export const portalInner = style({
+  padding: vars.space.md,
+});
+
+export const portalTitle = style({
+  color: 'hsl(var(--foreground))',
+  fontWeight: vars.typography.fontWeight.bold,
+});
+
+export const portalBody = style({
+  marginTop: vars.space.sm,
+  marginBottom: vars.space.md,
+});
+
+export const portalCloseButton = style({
+  padding: `${vars.space.sm} ${vars.space.md}`,
+  cursor: 'pointer',
+  backgroundColor: 'hsl(var(--primary))',
+  color: 'hsl(var(--primary-foreground))',
+  border: 'none',
+  borderRadius: vars.radius.sm,
+  fontSize: vars.typography.fontSize.sm,
+});
+
 // 🎯 툴팁 메뉴 컨테이너 (VanillaWrapper용 간격)
 export const tooltipMenu = style({
   margin: `${vars.space.xl} 0`,
