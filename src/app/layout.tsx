@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang="ko" suppressHydrationWarning>
+    <html lang="ko" className={themeClass} suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -40,7 +40,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           }}
         />
       </head>
-      <body className={themeClass} suppressHydrationWarning>
+      <body suppressHydrationWarning>
         <Gnb />
         <ThemeToggle />
         <main>{children}</main>
