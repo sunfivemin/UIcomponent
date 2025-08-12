@@ -20,8 +20,16 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json
       - run: npm ci
-      - name: Run tests (verbose)
-        run: npm run test -- --reporter=verbose --logHeapUsage
+      - name: Print tool versions
+        run: |
+          node -v
+          npm -v
+          npx vitest --version || true
+      - name: Run tests (verbose, single-thread)
+        shell: bash
+        run: |
+          set -o pipefail
+          npx vitest run --coverage --reporter=verbose --logHeapUsage --no-threads | tee test-log.txt
         env:
           CI: 'true'
       - name: Upload coverage artifact
@@ -30,6 +38,12 @@ jobs:
         with:
           name: coverage
           path: coverage
+      - name: Upload test log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-log
+          path: test-log.txt
 
   build:
     runs-on: ubuntu-latest
