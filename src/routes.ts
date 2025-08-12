@@ -2,6 +2,7 @@ import * as React from 'react';
 import AccordionCollection from './components/01_accordion/index';
 import TabMenuCollection from './components/02_tabMenu/index';
 import Placeholder from './components/08_scrollBox/Placeholder';
+import TextBoxes from './components/04_textBox/index';
 import ChartExamplesPage from './components/10_chart/Chart';
 
 export const routePaths = [
@@ -91,8 +92,7 @@ export const routes: Record<ROUTE_PATH, ROUTE> = {
     key: '/textBox',
     link: '/textBox',
     name: '04. 반응형 텍스트박스',
-    children: () =>
-      React.createElement(Placeholder, { name: '04. 반응형 텍스트박스' }),
+    children: TextBoxes,
   },
   '/lineClamp': {
     key: '/lineClamp',
