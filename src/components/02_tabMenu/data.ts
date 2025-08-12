@@ -1,4 +1,8 @@
-import { TabData } from './types';
+type TabData = {
+  id: string;
+  title: string;
+  description: string;
+};
 
 export const tabData: TabData[] = [
   {
