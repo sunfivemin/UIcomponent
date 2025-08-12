@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest run --coverage"
   },
   "dependencies": {
     "@vanilla-extract/css": "^1.17.4",
@@ -21,21 +22,27 @@
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^18",
     "react-markdown": "^9.0.1",
-    "tailwind-merge": "^3.3.1",
-    "vite": "^4.5.0"
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^14.3.1",
+    "@types/jsdom": "^21.1.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@vanilla-extract/vite-plugin": "^4.0.20",
     "@vitejs/plugin-react": "^4.6.0",
+    "@vitest/coverage-v8": "^1.6.1",
     "autoprefixer": "^10.4.21",
     "eslint": "^8",
     "eslint-config-next": "14.0.3",
+    "jsdom": "^24.1.0",
     "postcss": "^8.5.6",
     "sass": "^1.69.5",
     "tailwindcss": "^3.4.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite": "^5.2.0",
+    "vitest": "^1.6.0"
   }
 }

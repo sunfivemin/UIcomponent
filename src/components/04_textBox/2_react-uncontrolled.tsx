@@ -37,6 +37,10 @@ const TextBox2 = () => {
             <strong>💡 사용 시나리오:</strong> 단순 입력, 성능 우선, 로컬 DOM
             제어
           </p>
+          <p>
+            <strong>요약:</strong> 성능이 최우선이거나 단순 입력/로컬 DOM 제어가
+            목적이면 이 방식이 적합합니다.
+          </p>
         </div>
       </div>
       <div className={styles.container}>

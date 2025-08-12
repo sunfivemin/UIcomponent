@@ -14,6 +14,7 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
       exclude: [
+        '.next/**',
         'node_modules/',
         'src/**/*.d.ts',
         'src/**/*.stories.{js,jsx,ts,tsx}',

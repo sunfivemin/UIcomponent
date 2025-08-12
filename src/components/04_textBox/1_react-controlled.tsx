@@ -41,6 +41,10 @@ const TextBox1 = () => {
             <strong>💡 사용 시나리오:</strong> 폼 검증, 외부 상태와 동기화가
             필요한 경우
           </p>
+          <p>
+            <strong>요약:</strong> 폼 검증·외부 상태 연동, 테스트가 중요하면 이
+            방식이 적합합니다.
+          </p>
         </div>
       </div>
       <div className={styles.container}>

@@ -88,10 +88,16 @@ const TextBox5 = () => {
         </div>
       </div>
       <TextBox minRow={4} maxRow={10} ref={ref} />
-      <button type="button" onClick={handleClickSubmit}>
-        제출
-      </button>
-      <p>{text}</p>
+      <div className={styles.actions}>
+        <button
+          className={styles.submitButton}
+          type="button"
+          onClick={handleClickSubmit}
+        >
+          제출
+        </button>
+      </div>
+      <p className={styles.resultText}>{text}</p>
     </div>
   );
 };

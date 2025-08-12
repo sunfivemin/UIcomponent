@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import '@testing-library/jest-dom';
 
 // 필수 모크만 유지

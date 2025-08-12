@@ -7,13 +7,21 @@ import * as styles from './textBox.css';
 
 const TextBoxes = () => {
   return (
-    <div className={styles.section}>
-      <h2 className={styles.sectionTitle}>반응형 텍스트박스</h2>
-      <TextBox1 />
-      <TextBox2 />
-      <TextBox3 />
-      <TextBox4V />
-      <TextBox5 />
+    <div className={styles.pageContainer}>
+      <header className={styles.pageHeader}>
+        <h1 className={styles.pageTitle}>반응형 텍스트박스</h1>
+        <p className={styles.pageSubtitle}>
+          5가지 방식으로 구현한 자동 줄바꿈 텍스트영역
+        </p>
+      </header>
+
+      <main>
+        <TextBox1 />
+        <TextBox2 />
+        <TextBox3 />
+        <TextBox4V />
+        <TextBox5 />
+      </main>
     </div>
   );
 };

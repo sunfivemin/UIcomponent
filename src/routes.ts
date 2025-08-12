@@ -2,6 +2,7 @@ import * as React from 'react';
 import AccordionCollection from './components/01_accordion/index';
 import TabMenuCollection from './components/02_tabMenu/index';
 import Placeholder from './components/08_scrollBox/Placeholder';
+import TooltipCollection from './components/03_tooltip/index';
 import TextBoxes from './components/04_textBox/index';
 import ChartExamplesPage from './components/10_chart/Chart';
 
@@ -86,7 +87,7 @@ export const routes: Record<ROUTE_PATH, ROUTE> = {
     key: '/tooltip',
     link: '/tooltip',
     name: '03. 툴팁',
-    children: () => React.createElement(Placeholder, { name: '03. 툴팁' }),
+    children: TooltipCollection,
   },
   '/textBox': {
     key: '/textBox',
