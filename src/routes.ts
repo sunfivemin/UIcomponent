@@ -3,7 +3,6 @@ import AccordionCollection from './components/01_accordion/index';
 import TabMenuCollection from './components/02_tabMenu/index';
 import TooltipCollection from './components/03_tooltip/index';
 import Placeholder from './components/08_scrollBox/Placeholder';
-import TooltipCollection from './components/03_tooltip/index';
 import TextBoxes from './components/04_textBox/index';
 import ChartExamplesPage from './components/10_chart/Chart';
 
