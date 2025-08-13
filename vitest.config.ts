@@ -10,6 +10,17 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
     css: true,
+    // CI 환경에서 테스트 안정성 향상
+    pool: 'forks',
+    poolOptions: {
+      forks: {
+        singleFork: true,
+      },
+    },
+    // 메모리 사용량 최적화
+    maxConcurrency: 1,
+    // 타임아웃 설정 (30초)
+    testTimeout: 30000,
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
