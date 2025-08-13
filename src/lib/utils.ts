@@ -104,3 +104,45 @@ export const formatDate = (
     .replace('mm', minutes)
     .replace('ss', seconds);
 };
+
+// textarea 줄 수 측정 유틸
+export const measureLines = (
+  textarea: HTMLTextAreaElement,
+  value: string
+): number => {
+  const clone = document.createElement('textarea');
+  const cs = getComputedStyle(textarea);
+
+  Object.assign(clone.style, {
+    position: 'absolute',
+    left: '-9999px',
+    top: '0',
+    height: 'auto',
+    visibility: 'hidden',
+    whiteSpace: 'pre-wrap',
+    overflow: 'auto',
+    width: `${textarea.clientWidth}px`,
+  } as CSSStyleDeclaration);
+
+  // 핵심 폰트/간격 스타일 복제
+  clone.style.fontFamily = cs.fontFamily;
+  clone.style.fontSize = cs.fontSize;
+  clone.style.lineHeight = cs.lineHeight;
+  clone.style.letterSpacing = cs.letterSpacing;
+  clone.style.padding = cs.padding;
+  clone.style.border = cs.border;
+
+  clone.rows = 1;
+  clone.value = value;
+  document.body.appendChild(clone);
+
+  let lineHeightPx = parseFloat(cs.lineHeight);
+  if (!lineHeightPx || Number.isNaN(lineHeightPx)) {
+    const fontSize = parseFloat(cs.fontSize) || 16;
+    lineHeightPx = fontSize * 1.2;
+  }
+
+  const lines = Math.max(1, Math.ceil(clone.scrollHeight / lineHeightPx));
+  document.body.removeChild(clone);
+  return lines;
+};

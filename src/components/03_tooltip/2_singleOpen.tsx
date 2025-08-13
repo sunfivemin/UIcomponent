@@ -3,16 +3,15 @@ import data from './data';
 import { SingleOpenProvider, useSingleOpen } from './context/singleOpenContext';
 import * as styles from './tooltip.css';
 
-// Context 기반 단일 툴팁 관리 컴포넌트
-const SingleOpenTooltip = ({
-  id,
-  title,
-  description,
-}: {
+// Props 인터페이스 분리
+interface SingleOpenTooltipProps {
   id: string;
   title: string;
   description: string;
-}) => {
+}
+
+// Context 기반 단일 툴팁 관리 컴포넌트
+const SingleOpenTooltip = ({ id, title, description }: SingleOpenTooltipProps) => {
   const { openTooltipId, setOpenTooltipId } = useSingleOpen();
   const isOpen = openTooltipId === id;
 
