@@ -1,4 +1,24 @@
+/// <reference types="vitest" />
 import '@testing-library/jest-dom';
+
+// CI 환경에서의 안정성 향상을 위한 설정
+const originalError = console.error;
+beforeAll(() => {
+  // React 18의 StrictMode 경고를 CI에서 무시
+  console.error = (...args: any[]) => {
+    if (
+      typeof args[0] === 'string' &&
+      args[0].includes('Warning: ReactDOM.render is no longer supported')
+    ) {
+      return;
+    }
+    originalError.call(console, ...args);
+  };
+});
+
+afterAll(() => {
+  console.error = originalError;
+});
 
 // 필수 모크만 유지
 
@@ -57,4 +77,10 @@ vi.mock('react-dom', async () => {
     ...actual,
     createPortal: (children: any) => children,
   } as typeof import('react-dom');
+});
+
+// CI 환경에서 메모리 누수 방지
+afterEach(() => {
+  vi.clearAllMocks();
+  vi.clearAllTimers();
 });

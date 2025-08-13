@@ -1,15 +1,13 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup } from '@testing-library/react';
+import { vi } from 'vitest';
 import VanillaWrapper from '../vanillaWrapper';
 import ThemeToggle from '../../ThemeToggle';
 
-// Mock Next.js router
+// Next.js router 모킹
 vi.mock('next/navigation', () => ({
   useRouter() {
     return {
       push: vi.fn(),
-      replace: vi.fn(),
-      prefetch: vi.fn(),
       back: vi.fn(),
       forward: vi.fn(),
       refresh: vi.fn(),
@@ -21,6 +19,10 @@ vi.mock('next/navigation', () => ({
 }));
 
 describe('Common Components', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   describe('VanillaWrapper', () => {
     it('기본 렌더링이 올바르게 되어야 함', () => {
       const mockInitiator = vi.fn();
@@ -86,19 +88,19 @@ describe('Common Components', () => {
 
     it('테마 토글 버튼이 렌더링되어야 함', () => {
       render(<ThemeToggle />);
-      const button = screen.getByRole('button');
+      const button = screen.getByLabelText('Switch to light theme');
       expect(button).toBeInTheDocument();
     });
 
     it('현재 테마에 따라 올바른 아이콘이 표시되어야 함', () => {
       render(<ThemeToggle />);
-      const button = screen.getByRole('button');
+      const button = screen.getByLabelText('Switch to light theme');
       expect(button).toHaveTextContent('☀️'); // dark 테마일 때는 ☀️ (light로 변경)
     });
 
     it('테마 변경 시 아이콘이 변경되어야 함', async () => {
       render(<ThemeToggle />);
-      const button = screen.getByRole('button');
+      const button = screen.getByLabelText('Switch to light theme');
 
       // 초기에는 dark 테마 (☀️ 아이콘)
       expect(button).toHaveTextContent('☀️');
