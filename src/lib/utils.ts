@@ -105,13 +105,14 @@ export const formatDate = (
     .replace('ss', seconds);
 };
 
-// textarea 줄 수 측정 유틸
+// textarea/div 줄 수 측정 유틸
 export const measureLines = (
-  textarea: HTMLTextAreaElement,
+  element: HTMLTextAreaElement | HTMLDivElement,
   value: string
 ): number => {
-  const clone = document.createElement('textarea');
-  const cs = getComputedStyle(textarea);
+  const isTextArea = element instanceof HTMLTextAreaElement;
+  const clone = document.createElement(isTextArea ? 'textarea' : 'div');
+  const cs = getComputedStyle(element);
 
   Object.assign(clone.style, {
     position: 'absolute',
@@ -119,9 +120,9 @@ export const measureLines = (
     top: '0',
     height: 'auto',
     visibility: 'hidden',
-    whiteSpace: 'pre-wrap',
+    whiteSpace: isTextArea ? 'pre-wrap' : 'pre-line',
     overflow: 'auto',
-    width: `${textarea.clientWidth}px`,
+    width: `${element.clientWidth}px`,
   } as CSSStyleDeclaration);
 
   // 핵심 폰트/간격 스타일 복제
@@ -132,8 +133,13 @@ export const measureLines = (
   clone.style.padding = cs.padding;
   clone.style.border = cs.border;
 
-  clone.rows = 1;
-  clone.value = value;
+  if (isTextArea) {
+    (clone as HTMLTextAreaElement).rows = 1;
+    (clone as HTMLTextAreaElement).value = value;
+  } else {
+    (clone as HTMLDivElement).textContent = value;
+  }
+
   document.body.appendChild(clone);
 
   let lineHeightPx = parseFloat(cs.lineHeight);

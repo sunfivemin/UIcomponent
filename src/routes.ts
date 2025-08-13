@@ -4,6 +4,7 @@ import TabMenuCollection from './components/02_tabMenu/index';
 import TooltipCollection from './components/03_tooltip/index';
 import Placeholder from './components/08_scrollBox/Placeholder';
 import TextBoxes from './components/04_textBox/index';
+import LineClamps from './components/05_lineClamp/index';
 import ChartExamplesPage from './components/10_chart/Chart';
 
 export const routePaths = [
@@ -99,8 +100,7 @@ export const routes: Record<ROUTE_PATH, ROUTE> = {
     key: '/lineClamp',
     link: '/lineClamp',
     name: '05. 여러줄 말줄임',
-    children: () =>
-      React.createElement(Placeholder, { name: '05. 여러줄 말줄임' }),
+    children: LineClamps,
   },
   '/lazyLoading': {
     key: '/lazyLoading',

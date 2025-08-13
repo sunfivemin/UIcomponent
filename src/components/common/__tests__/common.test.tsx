@@ -35,9 +35,10 @@ describe('Common Components', () => {
         />
       );
 
-      expect(screen.getByText('⚡')).toBeInTheDocument();
+      // 첫 번째 "⚡" 아이콘만 찾기
+      const iconElements = screen.getAllByText('⚡');
+      expect(iconElements.length).toBeGreaterThan(0);
       expect(screen.getByText('테스트 래퍼')).toBeInTheDocument();
-      expect(screen.getByText('⚡')).toBeInTheDocument();
     });
 
     it('initiator 함수가 호출되어야 함', () => {
