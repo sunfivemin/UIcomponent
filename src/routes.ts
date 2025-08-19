@@ -5,6 +5,9 @@ import TooltipCollection from './components/03_tooltip/index';
 import Placeholder from './components/08_scrollBox/Placeholder';
 import TextBoxes from './components/04_textBox/index';
 import LineClamps from './components/05_lineClamp/index';
+import LazyLoadings from './components/06_lazyLoading/index';
+import ReactIntersectionPage from './components/06_lazyLoading/1_react-intersection';
+import VanillaJSPage from './components/06_lazyLoading/2_vanilla';
 import ChartExamplesPage from './components/10_chart/Chart';
 
 export const routePaths = [
@@ -15,6 +18,8 @@ export const routePaths = [
   '/textBox',
   '/lineClamp',
   '/lazyLoading',
+  '/lazyLoading/react-intersection',
+  '/lazyLoading/vanilla-js',
   '/infiniteScroll',
   '/scrollBox',
   '/scrollSpy',
@@ -106,8 +111,21 @@ export const routes: Record<ROUTE_PATH, ROUTE> = {
     key: '/lazyLoading',
     link: '/lazyLoading',
     name: '06. 지연 로딩',
-    children: () => React.createElement(Placeholder, { name: '06. 지연 로딩' }),
+    children: ['/lazyLoading/react-intersection', '/lazyLoading/vanilla-js'],
   },
+  '/lazyLoading/react-intersection': {
+    key: '/lazyLoading/react-intersection',
+    link: '/lazyLoading/react-intersection',
+    name: '06-1. React',
+    children: ReactIntersectionPage,
+  },
+  '/lazyLoading/vanilla-js': {
+    key: '/lazyLoading/vanilla-js',
+    link: '/lazyLoading/vanilla-js',
+    name: '06-2. Vanilla',
+    children: VanillaJSPage,
+  },
+
   '/infiniteScroll': {
     key: '/infiniteScroll',
     link: '/infiniteScroll',
