@@ -7,6 +7,12 @@ const loadingSpin = keyframes({
   '100%': { transform: 'rotate(360deg)' },
 });
 
+// 스핀 애니메이션 keyframes 정의
+const spin = keyframes({
+  '0%': { transform: 'rotate(0deg)' },
+  '100%': { transform: 'rotate(360deg)' },
+});
+
 // Global styles
 globalStyle('html, body', {
   height: '100%',
@@ -58,7 +64,7 @@ globalStyle('aside button', {
   border: 0,
   backgroundColor: 'inherit',
   color: 'inherit',
-  fontSize: 'inherit',
+  fontSize: '13px',
   margin: 0,
   textAlign: 'left',
   padding: '10px 20px',
@@ -70,6 +76,7 @@ globalStyle('aside h1', {
   margin: 0,
   padding: '20px',
   overflow: 'hidden',
+  fontSize: '16px',
 });
 
 globalStyle('aside h1 sub', {
@@ -128,6 +135,7 @@ globalStyle('.vanilla-wrapper-icon', {
 globalStyle('aside li a', {
   display: 'block',
   padding: '10px 20px 10px 25px',
+  fontSize: '13px',
 });
 
 globalStyle('aside li.disabled', {
@@ -136,6 +144,7 @@ globalStyle('aside li.disabled', {
   color: 'var(--sidebar-disabled)',
   backgroundColor: 'var(--bg-list-disabled)',
   cursor: 'not-allowed',
+  fontSize: '13px',
 });
 
 globalStyle('aside .subRoutes', {
