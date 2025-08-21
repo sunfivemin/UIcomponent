@@ -5,9 +5,12 @@ import TooltipCollection from './components/03_tooltip/index';
 import Placeholder from './components/08_scrollBox/Placeholder';
 import TextBoxes from './components/04_textBox/index';
 import LineClamps from './components/05_lineClamp/index';
-import LazyLoadings from './components/06_lazyLoading/index';
+
 import ReactIntersectionPage from './components/06_lazyLoading/1_react-intersection';
 import VanillaJSPage from './components/06_lazyLoading/2_vanilla';
+import InfiniteScrollIndex from './components/07_infiniteScroll/index';
+import ReactInfiniteScrollPage from './components/07_infiniteScroll/1_react';
+import VanillaInfiniteScrollPage from './components/07_infiniteScroll/2_vanilla';
 import ChartExamplesPage from './components/10_chart/Chart';
 
 export const routePaths = [
@@ -21,6 +24,8 @@ export const routePaths = [
   '/lazyLoading/react-intersection',
   '/lazyLoading/vanilla-js',
   '/infiniteScroll',
+  '/infiniteScroll/react',
+  '/infiniteScroll/vanilla',
   '/scrollBox',
   '/scrollSpy',
   '/snackbar',
@@ -130,8 +135,19 @@ export const routes: Record<ROUTE_PATH, ROUTE> = {
     key: '/infiniteScroll',
     link: '/infiniteScroll',
     name: '07. 무한 스크롤',
-    children: () =>
-      React.createElement(Placeholder, { name: '07. 무한 스크롤' }),
+    children: ['/infiniteScroll/react', '/infiniteScroll/vanilla'],
+  },
+  '/infiniteScroll/react': {
+    key: '/infiniteScroll/react',
+    link: '/infiniteScroll/react',
+    name: '07-1. React',
+    children: ReactInfiniteScrollPage,
+  },
+  '/infiniteScroll/vanilla': {
+    key: '/infiniteScroll/vanilla',
+    link: '/infiniteScroll/vanilla',
+    name: '07-2. Vanilla',
+    children: VanillaInfiniteScrollPage,
   },
   '/scrollBox': {
     key: '/scrollBox',

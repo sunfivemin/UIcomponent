@@ -13,15 +13,18 @@ const spin = keyframes({
   '100%': { transform: 'rotate(360deg)' },
 });
 
-// Global styles
+// Global styles - 고정 높이 레이아웃
 globalStyle('html, body', {
-  height: '100%',
+  height: '100vh', // 뷰포트 높이로 고정
   margin: 0,
+  overflow: 'hidden', // 전체 페이지 스크롤 방지
 });
 
 globalStyle('body', {
-  overflowY: 'scroll',
   paddingLeft: '200px',
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100vh',
 });
 
 globalStyle('body.no-scroll', {
@@ -33,15 +36,20 @@ globalStyle('aside', {
   position: 'fixed',
   left: 0,
   top: 0,
-  bottom: 0,
+  bottom: 0, // 중요: 하단까지 확장
   margin: 0,
   padding: 0,
   width: '199px',
+  height: '100vh', // 전체 화면 높이
   borderRight: `1px solid var(--sidebar-border)`,
   backgroundColor: 'var(--sidebar-bg)',
   color: 'var(--sidebar-color)',
   transition:
     'background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease',
+  display: 'flex',
+  flexDirection: 'column',
+  overflow: 'hidden', // 사이드바 자체는 스크롤 안됨
+  zIndex: 1000, // 다른 요소 위에 표시
 });
 
 // CSS Variables for aside - 다크테마 변수 사용
@@ -77,6 +85,7 @@ globalStyle('aside h1', {
   padding: '20px',
   overflow: 'hidden',
   fontSize: '16px',
+  flexShrink: 0, // 헤더는 고정 크기
 });
 
 globalStyle('aside h1 sub', {
@@ -147,6 +156,12 @@ globalStyle('aside li.disabled', {
   fontSize: '13px',
 });
 
+globalStyle('aside li.disabled .disabled-text', {
+  fontSize: '11px',
+  marginLeft: '8px',
+  opacity: 0.6,
+});
+
 globalStyle('aside .subRoutes', {
   height: 0,
   overflow: 'hidden',
@@ -202,12 +217,14 @@ globalStyle('aside li.open.parent > a::before', {
 // Main content styles - 다크테마 적용
 globalStyle('main', {
   boxSizing: 'border-box',
-  minHeight: '100%',
+  flex: 1, // 남은 공간 모두 차지
   width: '100%',
   padding: '20px',
   backgroundColor: 'hsl(var(--background))',
   color: 'hsl(var(--foreground))',
   transition: 'background-color 0.3s ease, color 0.3s ease',
+  overflowY: 'auto', // 메인 콘텐츠만 스크롤
+  height: '100vh', // 전체 화면 높이
 });
 
 globalStyle('main h3 > sub:before', {
@@ -548,9 +565,38 @@ globalStyle('aside .toggle-button', {
   backgroundColor: 'transparent',
   border: 'none',
   cursor: 'pointer',
-  color: '#fff',
+  color: 'inherit',
   fontSize: '12px',
   transition: 'all 0.2s ease',
+});
+
+// 네비게이션 컨테이너 스타일
+globalStyle('aside nav', {
+  flex: 1,
+  overflowY: 'auto',
+  display: 'flex',
+  flexDirection: 'column',
+});
+
+// 토글 버튼이 포함된 부모 div 스타일
+globalStyle('aside .parent-link-container', {
+  position: 'relative',
+});
+
+// 부모 링크 스타일
+globalStyle('aside .parent-link', {
+  display: 'block',
+  padding: '10px 20px',
+  color: 'var(--sidebar-color)',
+  textDecoration: 'none',
+  fontSize: '13px',
+  fontWeight: 'bold',
+  transition: 'all 0.2s ease',
+  userSelect: 'none',
+});
+
+globalStyle('aside .parent-link:hover', {
+  backgroundColor: 'var(--bg-list-hover)',
 });
 
 globalStyle('aside .toggle-button:hover', {
@@ -675,15 +721,13 @@ globalStyle('aside .badge.hot', {
 
 // 현재 경로 표시 푸터
 globalStyle('aside .footer', {
-  position: 'absolute',
-  bottom: 0,
-  left: 0,
-  right: 0,
   padding: '15px',
   borderTop: '1px solid var(--bg-list)',
   backgroundColor: 'rgba(0, 0, 0, 0.2)',
   fontSize: '11px',
   color: '#ccc',
+  flexShrink: 0, // 푸터는 고정 크기
+  marginTop: 'auto', // 푸터를 하단으로 밀어내기
 });
 
 globalStyle('aside .footer .current-path', {
@@ -691,6 +735,11 @@ globalStyle('aside .footer .current-path', {
   fontFamily: 'monospace',
   color: 'var(--bg-list-active)',
   wordBreak: 'break-all',
+});
+
+globalStyle('aside .footer .path-label', {
+  fontSize: '11px',
+  color: '#999',
 });
 
 // 스크롤바 스타일
