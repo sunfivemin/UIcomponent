@@ -583,6 +583,22 @@ globalStyle('aside .parent-link-container', {
   position: 'relative',
 });
 
+// 부모 링크 스타일
+globalStyle('aside .parent-link', {
+  display: 'block',
+  padding: '10px 20px',
+  color: 'var(--sidebar-color)',
+  textDecoration: 'none',
+  fontSize: '13px',
+  fontWeight: 'bold',
+  transition: 'all 0.2s ease',
+  userSelect: 'none',
+});
+
+globalStyle('aside .parent-link:hover', {
+  backgroundColor: 'var(--bg-list-hover)',
+});
+
 globalStyle('aside .toggle-button:hover', {
   backgroundColor: 'rgba(255, 255, 255, 0.1)',
 });

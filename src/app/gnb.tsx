@@ -36,9 +36,14 @@ const useGnbState = () => {
   }, [pathname]);
 
   const toggleItem = (path: ROUTE_PATH) => {
-    setOpenItems(prev =>
-      prev.includes(path) ? prev.filter(item => item !== path) : [...prev, path]
-    );
+    setOpenItems(prev => {
+      // 이미 열린 메뉴를 클릭한 경우: 닫기
+      if (prev.includes(path)) {
+        return prev.filter(item => item !== path);
+      }
+      // 새로운 메뉴를 클릭한 경우: 기존 메뉴들 닫고 새 메뉴만 열기
+      return [path];
+    });
   };
 
   return { openItems, toggleItem };
@@ -66,7 +71,13 @@ const ParentGnbItem = ({
       })}
     >
       <div className="parent-link-container">
-        <Link href={link}>{name}</Link>
+        <span
+          className="parent-link"
+          onClick={onToggle}
+          style={{ cursor: 'pointer' }}
+        >
+          {name}
+        </span>
         <button
           className="toggle-button"
           onClick={e => {
