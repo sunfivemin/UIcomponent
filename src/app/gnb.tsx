@@ -65,8 +65,7 @@ const ParentGnbItem = ({
         'has-active': hasActivePage,
       })}
     >
-      {/* 기존 스타일 구조 유지하면서 개선 */}
-      <div style={{ position: 'relative' }}>
+      <div className="parent-link-container">
         <Link href={link}>{name}</Link>
         <button
           className="toggle-button"
@@ -77,17 +76,6 @@ const ParentGnbItem = ({
           }}
           aria-expanded={isOpen}
           aria-label={`${name} 메뉴 ${isOpen ? '접기' : '펼치기'}`}
-          style={{
-            position: 'absolute',
-            right: '10px',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            background: 'none',
-            border: 'none',
-            color: 'inherit',
-            cursor: 'pointer',
-            padding: '2px',
-          }}
         >
           <ChevronRight className={isOpen ? 'open' : ''} />
         </button>
@@ -129,9 +117,7 @@ const ChildGnbItem = ({
       <li className="disabled">
         <span className={`level-${level}`}>
           {name}
-          <span style={{ fontSize: '11px', marginLeft: '8px', opacity: 0.6 }}>
-            (준비중)
-          </span>
+          <span className="disabled-text">(준비중)</span>
         </span>
       </li>
     );
@@ -187,7 +173,7 @@ const Gnb = () => {
 
   return (
     <aside>
-      {/* 헤더 */}
+      {/* 헤더 - 고정 크기 */}
       <h1>
         <Link href="/">
           UI 요소 모음
@@ -195,8 +181,8 @@ const Gnb = () => {
         </Link>
       </h1>
 
-      {/* 네비게이션 - 기존 구조 유지 */}
-      <nav style={{ height: 'calc(100vh - 120px)', overflowY: 'auto' }}>
+      {/* 네비게이션 - 유연한 크기, 스크롤 가능 */}
+      <nav>
         <ul className="mainRoutes">
           {gnbRootList.map(r => (
             <GnbItem
@@ -210,9 +196,9 @@ const Gnb = () => {
         </ul>
       </nav>
 
-      {/* 현재 경로 표시 푸터 */}
+      {/* 현재 경로 표시 푸터 - 고정 크기 */}
       <div className="footer">
-        <div style={{ fontSize: '11px', color: '#999' }}>현재 경로:</div>
+        <div className="path-label">현재 경로:</div>
         <div className="current-path">{currentPath || '/'}</div>
       </div>
     </aside>
