@@ -65,6 +65,7 @@ export const sectionTitle = style({
 
 export const summary = style({
   marginTop: vars.space['2xl'],
+  marginBottom: vars.space['md'],
   padding: `${vars.space.xl} ${vars.space.lg}`,
   background: 'hsl(var(--muted))',
   borderRadius: vars.radius.xl,
