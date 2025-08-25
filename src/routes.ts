@@ -2,13 +2,13 @@ import * as React from 'react';
 import AccordionCollection from './components/01_accordion/index';
 import TabMenuCollection from './components/02_tabMenu/index';
 import TooltipCollection from './components/03_tooltip/index';
-import Placeholder from './components/08_scrollBox/Placeholder';
+import ScrollBox from './components/08_scrollBox/index';
 import TextBoxes from './components/04_textBox/index';
 import LineClamps from './components/05_lineClamp/index';
+import Placeholder from './components/common/Placeholder';
 
 import ReactIntersectionPage from './components/06_lazyLoading/1_react-intersection';
 import VanillaJSPage from './components/06_lazyLoading/2_vanilla';
-import InfiniteScrollIndex from './components/07_infiniteScroll/index';
 import ReactInfiniteScrollPage from './components/07_infiniteScroll/1_react';
 import VanillaInfiniteScrollPage from './components/07_infiniteScroll/2_vanilla';
 import ChartExamplesPage from './components/10_chart/Chart';
@@ -153,8 +153,7 @@ export const routes: Record<ROUTE_PATH, ROUTE> = {
     key: '/scrollBox',
     link: '/scrollBox',
     name: '08. 횡 스크롤 박스',
-    children: () =>
-      React.createElement(Placeholder, { name: '08. 횡 스크롤 박스' }),
+    children: ScrollBox,
   },
   '/scrollSpy': {
     key: '/scrollSpy',

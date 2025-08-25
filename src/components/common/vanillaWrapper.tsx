@@ -30,7 +30,7 @@ const VanillaWrapper = ({
         <span className="vanilla-wrapper-icon">⚡</span>
         {title}
       </div>
-      <div ref={wrapperRef} />
+      <div className="vanilla-wrapper-container" ref={wrapperRef} />
     </div>
   );
 };

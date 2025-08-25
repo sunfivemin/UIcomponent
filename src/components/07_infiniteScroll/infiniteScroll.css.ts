@@ -65,6 +65,7 @@ export const sectionTitle = style({
 
 export const summary = style({
   marginTop: vars.space['2xl'],
+  marginBottom: vars.space['md'],
   padding: `${vars.space.xl} ${vars.space.lg}`,
   background: 'hsl(var(--muted))',
   borderRadius: vars.radius.xl,
@@ -164,4 +165,47 @@ export const spinner = style({
 export const moreTrigger = style({
   height: '20px',
   margin: '1rem 0',
+});
+
+export const codeExample = style({
+  marginTop: vars.space.xl,
+  marginBottom: vars.space.xl,
+  border: `1px solid hsl(var(--border))`,
+  borderRadius: vars.radius.lg,
+  overflow: 'hidden',
+  backgroundColor: 'hsl(var(--card))',
+  boxShadow: vars.shadow.md,
+});
+
+export const codeHeader = style({
+  padding: `${vars.space.md} ${vars.space.lg}`,
+  backgroundColor: 'hsl(var(--muted))',
+  borderBottom: `1px solid hsl(var(--border))`,
+});
+
+export const codeTitle = style({
+  fontSize: vars.typography.fontSize.base,
+  fontWeight: vars.typography.fontWeight.semibold,
+  color: 'hsl(var(--foreground))',
+  display: 'flex',
+  alignItems: 'center',
+  gap: vars.space.sm,
+});
+
+export const codeContent = style({
+  padding: vars.space.lg,
+  backgroundColor: 'hsl(var(--background))',
+});
+
+export const codePre = style({
+  margin: 0,
+  overflow: 'auto',
+});
+
+export const codeCode = style({
+  fontSize: vars.typography.fontSize.sm,
+  fontFamily:
+    'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace',
+  lineHeight: vars.typography.lineHeight.relaxed,
+  color: 'hsl(var(--foreground))',
 });
