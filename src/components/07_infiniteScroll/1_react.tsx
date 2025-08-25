@@ -131,7 +131,7 @@ const ReactInfiniteScroll = () => {
             </p>
             <p>
               <strong>🔧 동작 방식:</strong>
-              <code>useIntersectionObserver</code> 훅으로 스크롤 감지,{' '}
+              <code>useIntersectionObserver</code> 훅으로 스크롤 감지,
               <code>useInfiniteFetcher</code> 훅으로 데이터 페칭 관리
             </p>
           </div>

@@ -121,7 +121,9 @@ globalStyle('.vanilla-wrapper', {
   borderRadius: '8px',
   overflow: 'hidden',
   backgroundColor: 'hsl(var(--background))',
-  // margin 제거 (아코디언 컨테이너에 마진이 있으므로)
+});
+globalStyle('.vanilla-wrapper-container', {
+  padding: '0 16px 16px 16px',
 });
 
 globalStyle('.vanilla-wrapper-header', {

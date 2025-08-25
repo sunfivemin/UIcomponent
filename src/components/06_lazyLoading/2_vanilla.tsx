@@ -65,7 +65,7 @@ const VanillaJSPage = () => {
         </h3>
         <div className={styles.summary}>
           <p>
-            <strong>핵심:</strong>{' '}
+            <strong>핵심:</strong>
             <code>Vanilla JS + Intersection Observer</code> - 순수 JavaScript로
             직접 DOM 요소에 lazy loading 적용, <code>rootMargin: '50px'</code>로
             뷰포트 50px 전에 미리 로딩 시작
